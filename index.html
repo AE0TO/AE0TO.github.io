@@ -551,3 +551,91 @@
     <small>Tiles are modular. Replace links and iframe src attributes with free resources and embeds that permit embedding.</small>
   </div>
 </section>
+
+<!-- ID: section-jukebox -->
+<section id="section-jukebox" class="jukebox" aria-labelledby="jukebox-title">
+  <h2 id="jukebox-title">Jukebox</h2>
+  <p class="lead">Retro‑futuristic jukebox blending neon, chrome, and holographic equalizer bars.</p>
+
+  <div class="jukebox-inner">
+    <!-- Player area -->
+    <div class="player" role="region" aria-label="Audio player">
+      <div class="player-meta">
+        <div class="track-info">
+          <div id="track-title" class="track-title">—</div>
+          <div id="track-desc" class="track-desc">Select a track to play</div>
+        </div>
+
+        <div class="player-controls" role="group" aria-label="Playback controls">
+          <button id="prev-btn" class="btn large" aria-label="Previous track">⟨</button>
+          <button id="play-btn" class="btn play large" aria-label="Play" aria-pressed="false">▶</button>
+          <button id="next-btn" class="btn large" aria-label="Next track">⟩</button>
+        </div>
+      </div>
+
+      <!-- Native audio element (hidden) -->
+      <audio id="audio" preload="none" crossorigin="anonymous"></audio>
+
+      <!-- Visual equalizer -->
+      <div class="equalizer" aria-hidden="true">
+        <div class="bar b1"></div>
+        <div class="bar b2"></div>
+        <div class="bar b3"></div>
+        <div class="bar b4"></div>
+        <div class="bar b5"></div>
+      </div>
+
+      <!-- Progress and volume -->
+      <div class="player-footer">
+        <div class="progress-wrap" aria-hidden="false">
+          <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
+          <div class="time">
+            <span id="cur-time">0:00</span> / <span id="dur-time">0:00</span>
+          </div>
+        </div>
+
+        <div class="volume-wrap">
+          <label for="volume" class="visually-hidden">Volume</label>
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Playlist -->
+    <aside class="playlist" aria-label="Playlist">
+      <h3 class="playlist-title">Playlist</h3>
+      <ul id="playlist" class="playlist-list" role="list">
+        <!-- Example track items. Replace data-src with jukehost URLs -->
+        <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track1.mp3" data-title="Field Ops Mix" data-desc="Portable ops, sunset shift">
+          <div class="track-left">
+            <div class="track-name">Field Ops Mix</div>
+            <div class="track-sub">Portable ops, sunset shift</div>
+          </div>
+          <div class="track-right">3:42</div>
+        </li>
+
+        <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track2.mp3" data-title="Late Night DXing" data-desc="Long-haul listening session">
+          <div class="track-left">
+            <div class="track-name">Late Night DXing</div>
+            <div class="track-sub">Long-haul listening session</div>
+          </div>
+          <div class="track-right">4:10</div>
+        </li>
+
+        <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track3.mp3" data-title="Aurora Watch Session" data-desc="Ambient aurora tones">
+          <div class="track-left">
+            <div class="track-name">Aurora Watch Session</div>
+            <div class="track-sub">Ambient aurora tones</div>
+          </div>
+          <div class="track-right">5:05</div>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- Shortcode examples for WordPress (placeholders) -->
+  <!--
+    [audio src="https://jukehost.co.uk/files/track1.mp3" preload="none"]
+    Use the native WordPress audio shortcode or a free audio block.
+  -->
+</section>
