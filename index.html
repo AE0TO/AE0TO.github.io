@@ -212,3 +212,154 @@
   <script src="scripts.js" defer></script>
 </body>
 </html>
+<!-- Add this inside your existing index.html main container -->
+<!-- ID: section-global-propagation -->
+<section id="section-global-propagation" class="global-prop" aria-labelledby="global-prop-title">
+  <h2 id="global-prop-title">Global Propagation Maps by Band</h2>
+  <p class="lead">Per-band propagation overview. Each card is independent and ready for map/heatmap injection.</p>
+
+  <div class="bands-grid" role="list" aria-label="Propagation bands">
+    <!-- Example band card template. Duplicate for each band with unique IDs -->
+    <article id="band-6m" class="band-card" role="listitem" aria-labelledby="band-6m-title">
+      <h3 id="band-6m-title" class="band-name">6m</h3>
+      <div class="band-body">
+        <!-- Map placeholder -->
+        <div class="band-map" id="band-6m-map" aria-hidden="true">
+          <!-- Replace with <img> or JS map later -->
+          <div class="map-placeholder">Global propagation map placeholder</div>
+        </div>
+
+        <!-- Condition indicator -->
+        <div class="band-meta">
+          <div class="band-condition" data-condition="marginal" aria-live="polite">
+            <span class="cond-dot" aria-hidden="true"></span>
+            <strong class="cond-text">Marginal</strong>
+          </div>
+          <div class="band-paths">Best paths: Coastal openings to Europe; Sporadic E possible</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Duplicate the above article for each band with matching IDs -->
+    <article id="band-10m" class="band-card" aria-labelledby="band-10m-title">
+      <h3 id="band-10m-title" class="band-name">10m</h3>
+      <div class="band-body">
+        <div class="band-map" id="band-10m-map"><div class="map-placeholder">10m map placeholder</div></div>
+        <div class="band-meta">
+          <div class="band-condition" data-condition="open"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+          <div class="band-paths">Best paths: Long-haul daytime; skip to Asia</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Continue for 12m, 15m, 17m, 20m, 30m, 40m, 60m, 80m, 160m -->
+    <!-- Example for 20m -->
+    <article id="band-20m" class="band-card" aria-labelledby="band-20m-title">
+      <h3 id="band-20m-title" class="band-name">20m</h3>
+      <div class="band-body">
+        <div class="band-map" id="band-20m-map"><div class="map-placeholder">20m map placeholder</div></div>
+        <div class="band-meta">
+          <div class="band-condition" data-condition="good"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+          <div class="band-paths">Best paths: Reliable DX day/night; transatlantic</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Add remaining band cards here with ids band-12m, band-15m, band-17m, band-30m, band-40m, band-60m, band-80m, band-160m -->
+  </div>
+
+  <div class="global-prop-footer">
+    <small>Each band card is modular. Replace .map-placeholder with an image, canvas, or JS map widget from free sources.</small>
+  </div>
+</section>
+
+<!-- ID: section-field-ops -->
+<section id="section-field-ops" class="field-ops" aria-labelledby="field-ops-title">
+  <h2 id="field-ops-title">POTA SOTA Field Operations Best of Field</h2>
+  <p class="lead">Tactical field notebook meets holographic mission planner. Focused on POTA and SOTA activations.</p>
+
+  <div class="field-grid">
+    <!-- Field Loadout -->
+    <article id="field-loadout" class="field-panel" aria-labelledby="field-loadout-title">
+      <h3 id="field-loadout-title">Field Loadout</h3>
+      <ul class="loadout-list">
+        <li><strong>Radios</strong>: QRP transceivers, dual-band HT, SDR receiver</li>
+        <li><strong>Antennas</strong>: End-fed, linked dipole, portable vertical, magnetic loop</li>
+        <li><strong>Power</strong>: LiFePO4 packs, solar panel, power bank, inline fuse</li>
+        <li><strong>Logging</strong>: N3FJP, HamLog, paper backup, pencil</li>
+        <li><strong>Deployment</strong>: Mast, guying kit, stakes, multi-tool</li>
+      </ul>
+    </article>
+
+    <!-- Fieldcraft & Tactics -->
+    <article id="field-tactics" class="field-panel" aria-labelledby="field-tactics-title">
+      <h3 id="field-tactics-title">Fieldcraft and Tactics</h3>
+      <ol class="tactics-list">
+        <li>Site selection: elevation, RF noise survey, access, safety</li>
+        <li>Setup: low-noise grounding, antenna orientation, quick-deploy knots</li>
+        <li>Weather: micro-forecast checks, shelter, lightning safety</li>
+        <li>Operational: band plan, split operation, logging discipline</li>
+        <li>Safety: comms plan, buddy system, medical kit</li>
+      </ol>
+    </article>
+
+    <!-- Mission Log -->
+    <article id="field-mission-log" class="field-panel" aria-labelledby="field-mission-log-title">
+      <h3 id="field-mission-log-title">Mission Log</h3>
+      <table class="mission-log" role="table" aria-label="Mission log table">
+        <thead><tr><th>Date</th><th>Site</th><th>Bands</th><th>Contacts</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>2025-09-12</td><td>State Park A</td><td>20m, 40m</td><td>34</td><td>Strong takeoff to EU; light QRN</td></tr>
+          <tr><td>2025-06-03</td><td>Summit B</td><td>6m, 10m</td><td>12</td><td>Sporadic E opening; short activation</td></tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+
+  <!-- Galleries -->
+  <div class="galleries">
+    <h3>Field Galleries</h3>
+
+    <!-- POTA gallery -->
+    <div id="pota-gallery" class="gallery" aria-label="POTA gallery">
+      <div class="gallery-track" role="list">
+        <figure class="gallery-item" role="listitem"><img src="assets/pota1.jpg" alt="POTA setup 1"><figcaption>State Park A - 20m</figcaption></figure>
+        <figure class="gallery-item" role="listitem"><img src="assets/pota2.jpg" alt="POTA setup 2"><figcaption>Portable vertical</figcaption></figure>
+        <figure class="gallery-item" role="listitem"><img src="assets/pota3.jpg" alt="POTA setup 3"><figcaption>Solar charging</figcaption></figure>
+      </div>
+      <div class="gallery-controls">
+        <button class="g-prev" aria-label="Previous POTA image">‹</button>
+        <button class="g-next" aria-label="Next POTA image">›</button>
+      </div>
+    </div>
+
+    <!-- SOTA gallery -->
+    <div id="sota-gallery" class="gallery" aria-label="SOTA gallery">
+      <div class="gallery-track" role="list">
+        <figure class="gallery-item" role="listitem"><img src="assets/sota1.jpg" alt="SOTA summit 1"><figcaption>Summit B - sunrise</figcaption></figure>
+        <figure class="gallery-item" role="listitem"><img src="assets/sota2.jpg" alt="SOTA summit 2"><figcaption>Lightweight pack</figcaption></figure>
+        <figure class="gallery-item" role="listitem"><img src="assets/sota3.jpg" alt="SOTA summit 3"><figcaption>Summit antenna</figcaption></figure>
+      </div>
+      <div class="gallery-controls">
+        <button class="g-prev" aria-label="Previous SOTA image">‹</button>
+        <button class="g-next" aria-label="Next SOTA image">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map placeholders -->
+  <div class="maps-row">
+    <div class="map-card">
+      <div class="map-placeholder" id="pota-map">POTA map placeholder</div>
+      <div class="map-note">Replace with embedded map or screenshot</div>
+    </div>
+    <div class="map-card">
+      <div class="map-placeholder" id="sota-map">SOTA map placeholder</div>
+      <div class="map-note">Replace with embedded map or screenshot</div>
+    </div>
+  </div>
+
+  <div class="field-footer">
+    <small>Galleries use CSS scroll-snap and lightweight JS for swipe and button controls. All assets are optional and can be replaced with free-hosted images.</small>
+  </div>
+</section>
