@@ -3,143 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AE0TO Mission Control</title>
+  <title>AE0TO Tactical Operations Center</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <!-- =========================
-  SECTION 1 — NSA/SIGINT HERO TERMINAL
+  TACTICAL NAV BAR (COLLAPSIBLE)
   ========================== -->
-<section id="section-hero-console" class="console-section console-hero console-width-full">
-  <div class="console-hero-inner">
-    <div class="console-hero-left">
-      <div class="console-badge">
-        <span class="console-badge-label">Primary Callsign</span>
-        <span class="console-badge-call">AE0TO</span>
-      </div>
-
-      <h1 class="console-title">
-        AE0TO MISSION CONTROL
-      </h1>
-
-      <p class="console-operator">
-        Operator: <span class="console-operator-name">Ryan "Sheepdog" Tanner</span><br>
-        QTH / Grid: <span class="console-operator-qth">EM36VJ</span>
-      </p>
-
-      <p class="console-tagline">
-        Portable operations • POTA / SOTA • Field craft • High‑reliability comms • U.S. Air Force Security Forces SNCO
-      </p>
-
-      <div class="console-mission">
-        <div class="console-mission-label">Mission Profile</div>
-        <div class="console-mission-body">
-          Field‑ready comms, rapid deployment, and disciplined signal intelligence—wrapped in a holographic, evolving console built to work as hard as the operator.
-        </div>
-      </div>
+<header class="toc-nav" id="toc-nav">
+  <div class="toc-nav-inner">
+    <div class="toc-nav-left">
+      <span class="toc-nav-callsign">AE0TO</span>
+      <span class="toc-nav-label">TACTICAL OPERATIONS CENTER</span>
     </div>
-
-    <div class="console-hero-right">
-      <div class="status-grid">
-        <div class="status-tile">
-          <div class="status-label">Current Band Focus</div>
-          <div class="status-value">HF / 20m</div>
-          <div class="status-meta">Configurable • Placeholder</div>
-        </div>
-
-        <div class="status-tile">
-          <div class="status-label">Local Time</div>
-          <div class="status-value" id="local-time">--:--</div>
-          <div class="status-meta">Local ops clock</div>
-        </div>
-
-        <div class="status-tile">
-          <div class="status-label">UTC Time</div>
-          <div class="status-value" id="utc-time">--:--</div>
-          <div class="status-meta">Global coordination</div>
-        </div>
-
-        <div class="status-tile">
-          <div class="status-label">QTH Grid Locator</div>
-          <div class="status-value">EM36VJ</div>
-          <div class="status-meta">Fixed reference</div>
-        </div>
-
-        <div class="status-tile status-wide">
-          <div class="status-label">HF / VHF Conditions Snapshot</div>
-          <div class="status-value status-conditions">
-            Conditions: <span class="status-pill status-pill-good">GOOD</span>
-          </div>
-          <div class="status-meta">
-            Placeholder for AI‑generated summary: “Daytime 20m/17m strong, 40m improves after local sunset, VHF marginal tropo…”
-          </div>
-        </div>
-      </div>
-    </div>
+    <nav class="toc-nav-links">
+      <a href="#section-hero">Overview</a>
+      <a href="#section-solar">Solar</a>
+      <a href="#section-hf">HF</a>
+      <a href="#section-vhf">VHF/UHF</a>
+      <a href="#section-dx">DX</a>
+      <a href="#section-weather">Weather</a>
+      <a href="#section-footer">Brief</a>
+    </nav>
   </div>
+</header>
 
-  <div class="console-hero-overlay">
-    <div class="scanline"></div>
-    <div class="radar-sweep"></div>
-    <div class="starfield"></div>
+<!-- =========================
+  SECTION 1 — NORAD / CHEYENNE MOUNTAIN HERO
+  ========================== -->
+<section id="section-hero" class="console-section console-width-adaptive hero-norad">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="hero-badge-label">Primary Callsign</span>
+        <span class="hero-badge-call">AE0TO</span>
+      </div>
+
+      <h1 class="hero-title">AE0TO // COMBAT TACTICAL OPERATIONS CENTER</h1>
+
+      <p class="hero-operator">
+        Operator: <span class="hero-highlight">Ryan "Sheepdog" Tanner</span><br>
+        QTH Grid: <span class="hero-highlight">EM36VJ</span>
+      </p>
+
+      <p class="hero-mission">
+        Field‑deployable, high‑reliability comms with a fusion of SIGINT, propagation intel, and real‑time risk awareness.
+        Built like a bunker console, not a blog.
+      </p>
+
+      <div class="hero-status-row">
+        <div class="hero-status-tile">
+          <div class="hero-status-label">Local Time</div>
+          <div class="hero-status-value" id="local-time">--:--</div>
+          <div class="hero-status-meta">Ops clock</div>
+        </div>
+        <div class="hero-status-tile">
+          <div class="hero-status-label">UTC Time</div>
+          <div class="hero-status-value" id="utc-time">--:--</div>
+          <div class="hero-status-meta">Global sync</div>
+        </div>
+        <div class="hero-status-tile">
+          <div class="hero-status-label">Current Focus</div>
+          <div class="hero-status-value">HF / 20m</div>
+          <div class="hero-status-meta">Configurable</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-panel">
+        <div class="hero-panel-header">
+          <span class="hero-panel-title">OPS SNAPSHOT</span>
+          <span class="hero-panel-state hero-panel-state-good">GREEN</span>
+        </div>
+        <div class="hero-panel-body">
+          <p>
+            HF conditions generally favorable; daytime 20m/17m strong, 40m improves after local sunset.
+            VHF tropo marginal; monitor lightning and severe weather for field deployments.
+          </p>
+        </div>
+      </div>
+      <div class="hero-radar-overlay">
+        <div class="hero-radar-sweep"></div>
+        <div class="hero-scanlines"></div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- =========================
-  SECTION 2 — SOLAR & GEOMAGNETIC (EOC / MEDIUM WIDTH)
+  SECTION 2 — USAF AOC: SOLAR & GEOMAGNETIC
   ========================== -->
-<section id="section-solar-geomag" class="console-section console-width-medium console-eoc">
+<section id="section-solar" class="console-section console-width-medium section-aoc">
   <header class="section-header">
-    <h2>SOLAR &amp; GEOMAGNETIC INTEL</h2>
-    <p>High‑level situational awareness for HF reliability, storm risk, and overall band stability.</p>
+    <h2>SOLAR &amp; GEOMAGNETIC // AOC DESK</h2>
+    <p>Air Operations Center view of solar flux, Kp, and geomagnetic stability for HF reliability.</p>
   </header>
 
-  <div class="intel-layout">
-    <article class="intel-panel">
-      <h3 class="intel-title">Live Solar Overview</h3>
-      <p class-name="intel-desc">
-        Primary reference for solar flux, Kp index, and geomagnetic disturbances.
-      </p>
+  <article class="intel-panel">
+    <div class="intel-header">
+      <span class="intel-title">SpaceWeatherLive Auroral / Solar Overview</span>
+      <span class="intel-tag intel-tag-aoc">PRIMARY FEED</span>
+    </div>
 
-      <div class="iframe-frame iframe-theme-eoc">
-        <iframe
-          src="https://www.spaceweatherlive.com/en/auroral-activity/auroral-oval"
-          loading="lazy"
-          title="SpaceWeatherLive Auroral Oval">
-        </iframe>
-      </div>
+    <div class="iframe-frame iframe-aoc">
+      <iframe
+        src="https://www.spaceweatherlive.com/en/auroral-activity/auroral-oval"
+        loading="lazy"
+        title="SpaceWeatherLive Auroral Oval">
+      </iframe>
+    </div>
 
-      <div class="intel-actions">
-        <a href="https://www.swpc.noaa.gov/" target="_blank" class="btn-link">SWPC NOAA — Space Weather Center</a>
-        <a href="https://www.spaceweatherlive.com/" target="_blank" class="btn-link">SpaceWeatherLive — Detailed Solar Data</a>
-        <a href="https://www.spaceweather.com/" target="_blank" class="btn-link">SpaceWeather.com — Daily Solar Briefing</a>
-      </div>
-    </article>
+    <div class="intel-actions">
+      <a href="https://www.swpc.noaa.gov/" target="_blank" class="btn-link">SWPC NOAA</a>
+      <a href="https://www.spaceweatherlive.com/" target="_blank" class="btn-link">SpaceWeatherLive</a>
+      <a href="https://www.spaceweather.com/" target="_blank" class="btn-link">SpaceWeather.com</a>
+    </div>
 
-    <aside class="intel-summary">
-      <h4>Ops Summary (Placeholder)</h4>
-      <p><strong>24h:</strong> Quiet to unsettled geomagnetic field, low Kp, HF reliability generally stable.</p>
-      <p><strong>48h:</strong> Watch for minor disturbances; monitor Kp and solar wind speed.</p>
-      <p><strong>72h:</strong> Placeholder for AI‑generated forecast once integrated.</p>
-    </aside>
-  </div>
+    <div class="intel-brief">
+      <h3>Ops Brief (Placeholder)</h3>
+      <p><strong>24h:</strong> Quiet to unsettled geomagnetic field; HF generally stable.</p>
+      <p><strong>48h:</strong> Monitor Kp and solar wind for minor disturbances.</p>
+      <p><strong>72h:</strong> Future AI summary hook for automated mission briefs.</p>
+    </div>
+  </article>
 </section>
 
 <!-- =========================
-  SECTION 3 — HF PROPAGATION (UFO COCKPIT / FULL WIDTH)
+  SECTION 3 — JSOC FUSION CELL: HF PROPAGATION
   ========================== -->
-<section id="section-hf-prop" class="console-section console-width-full console-ufo">
+<section id="section-hf" class="console-section console-width-adaptive section-jsoc">
   <header class="section-header">
-    <h2>HF PROPAGATION &amp; MUF MAPS</h2>
-    <p>Global HF openings, MUF trends, and long‑path opportunities rendered as a holographic cockpit view.</p>
+    <h2>HF PROPAGATION // JSOC FUSION CELL</h2>
+    <p>Global HF openings and MUF trends rendered as a mission‑critical intel wall.</p>
   </header>
 
   <div class="iframe-stack">
     <article class="iframe-block">
-      <h3 class="intel-title">KC2G MUF / Propagation Map</h3>
-      <div class="iframe-frame iframe-theme-ufo">
+      <div class="intel-header">
+        <span class="intel-title">KC2G MUF / Propagation Map</span>
+        <span class="intel-tag intel-tag-jsoc">REAL‑TIME</span>
+      </div>
+      <div class="iframe-frame iframe-jsoc">
         <iframe
           src="https://prop.kc2g.com/"
           loading="lazy"
@@ -147,13 +154,16 @@
         </iframe>
       </div>
       <div class="intel-actions">
-        <a href="https://prop.kc2g.com/" target="_blank" class="btn-link">Open KC2G Propagation Map</a>
+        <a href="https://prop.kc2g.com/" target="_blank" class="btn-link">Open KC2G</a>
       </div>
     </article>
 
     <article class="iframe-block">
-      <h3 class="intel-title">VOACAP Online HF Prediction</h3>
-      <div class="iframe-frame iframe-theme-ufo">
+      <div class="intel-header">
+        <span class="intel-title">VOACAP Online HF Prediction</span>
+        <span class="intel-tag intel-tag-jsoc">PLANNING</span>
+      </div>
+      <div class="iframe-frame iframe-jsoc">
         <iframe
           src="https://www.voacap.com/hf/"
           loading="lazy"
@@ -161,25 +171,28 @@
         </iframe>
       </div>
       <div class="intel-actions">
-        <a href="https://www.voacap.com/hf/" target="_blank" class="btn-link">Open VOACAP HF Tool</a>
+        <a href="https://www.voacap.com/hf/" target="_blank" class="btn-link">Open VOACAP</a>
       </div>
     </article>
   </div>
 </section>
 
 <!-- =========================
-  SECTION 4 — VHF / UHF & TROPO (UFO / FULL WIDTH)
+  SECTION 4 — UFO COCKPIT: VHF / UHF & TROPO
   ========================== -->
-<section id="section-vhf-uhf" class="console-section console-width-full console-ufo">
+<section id="section-vhf" class="console-section console-width-adaptive section-ufo">
   <header class="section-header">
-    <h2>VHF / UHF &amp; TROPO WINDOWS</h2>
-    <p>Line‑of‑sight, tropo, and Es‑driven opportunities for higher bands and regional work.</p>
+    <h2>VHF / UHF &amp; TROPO // FLIGHT DECK</h2>
+    <p>Line‑of‑sight, tropo, and Es‑driven opportunities visualized as holographic cockpit windows.</p>
   </header>
 
   <div class="iframe-stack">
     <article class="iframe-block">
-      <h3 class="intel-title">VHF DX View</h3>
-      <div class="iframe-frame iframe-theme-ufo">
+      <div class="intel-header">
+        <span class="intel-title">VHF DX View</span>
+        <span class="intel-tag intel-tag-ufo">ACTIVITY</span>
+      </div>
+      <div class="iframe-frame iframe-ufo">
         <iframe
           src="https://vhf.dxview.org/"
           loading="lazy"
@@ -192,8 +205,11 @@
     </article>
 
     <article class="iframe-block">
-      <h3 class="intel-title">APRS.fi Activity</h3>
-      <div class="iframe-frame iframe-theme-ufo">
+      <div class="intel-header">
+        <span class="intel-title">APRS.fi Activity</span>
+        <span class="intel-tag intel-tag-ufo">POSITIONAL</span>
+      </div>
+      <div class="iframe-frame iframe-ufo">
         <iframe
           src="https://aprs.fi"
           loading="lazy"
@@ -208,18 +224,21 @@
 </section>
 
 <!-- =========================
-  SECTION 5 — DX CLUSTERS & SIGINT (HYBRID / MEDIUM WIDTH)
+  SECTION 5 — SIGINT TERMINAL: DX CLUSTERS
   ========================== -->
-<section id="section-dx-clusters" class="console-section console-width-medium console-sigint">
+<section id="section-dx" class="console-section console-width-medium section-sigint">
   <header class="section-header">
-    <h2>DX CLUSTERS &amp; SIGNAL INTELLIGENCE</h2>
-    <p>Real‑time HF/VHF activity, spots, and skimmer data—treated like a live SIGINT feed.</p>
+    <h2>DX CLUSTERS // SIGINT TERMINAL</h2>
+    <p>Real‑time HF/VHF activity, skimmer data, and DX spots treated as a live SIGINT feed.</p>
   </header>
 
   <div class="iframe-stack">
     <article class="iframe-block">
-      <h3 class="intel-title">DX Summit</h3>
-      <div class="iframe-frame iframe-theme-sigint">
+      <div class="intel-header">
+        <span class="intel-title">DX Summit</span>
+        <span class="intel-tag intel-tag-sigint">CLUSTER</span>
+      </div>
+      <div class="iframe-frame iframe-sigint">
         <iframe
           src="https://www.dxsummit.fi/#/"
           loading="lazy"
@@ -232,8 +251,11 @@
     </article>
 
     <article class="iframe-block">
-      <h3 class="intel-title">Reverse Beacon Network</h3>
-      <div class="iframe-frame iframe-theme-sigint">
+      <div class="intel-header">
+        <span class="intel-title">Reverse Beacon Network</span>
+        <span class="intel-tag intel-tag-sigint">SKIMMER</span>
+      </div>
+      <div class="iframe-frame iframe-sigint">
         <iframe
           src="https://www.reversebeacon.net/main.php"
           loading="lazy"
@@ -246,8 +268,11 @@
     </article>
 
     <article class="iframe-block">
-      <h3 class="intel-title">DXHeat Activity</h3>
-      <div class="iframe-frame iframe-theme-sigint">
+      <div class="intel-header">
+        <span class="intel-title">DXHeat Activity</span>
+        <span class="intel-tag intel-tag-sigint">HEATMAP</span>
+      </div>
+      <div class="iframe-frame iframe-sigint">
         <iframe
           src="https://dxheat.com/dxc/"
           loading="lazy"
@@ -262,18 +287,21 @@
 </section>
 
 <!-- =========================
-  SECTION 6 — WEATHER, LIGHTNING & ATOMIC-ERA PSYCHEDELIA (FULL WIDTH)
+  SECTION 6 — EOC / ATOMIC PSY: WEATHER & LIGHTNING
   ========================== -->
-<section id="section-weather" class="console-section console-width-full console-psy">
+<section id="section-weather" class="console-section console-width-adaptive section-eoc-psy">
   <header class="section-header">
-    <h2>LIGHTNING, WEATHER &amp; OPERATIONAL RISK</h2>
-    <p>Field‑craft critical: lightning risk, severe weather, and atmospheric chaos rendered in atomic‑era neon.</p>
+    <h2>WEATHER &amp; LIGHTNING // EOC FLOOR</h2>
+    <p>Lightning risk and severe weather rendered as an atomic‑era, neon‑lit emergency ops wall.</p>
   </header>
 
   <div class="iframe-stack">
     <article class="iframe-block">
-      <h3 class="intel-title">LightningMaps.org</h3>
-      <div class="iframe-frame iframe-theme-psy">
+      <div class="intel-header">
+        <span class="intel-title">LightningMaps.org</span>
+        <span class="intel-tag intel-tag-eoc">STRIKE RISK</span>
+      </div>
+      <div class="iframe-frame iframe-eoc">
         <iframe
           src="https://www.lightningmaps.org/"
           loading="lazy"
@@ -286,8 +314,11 @@
     </article>
 
     <article class="iframe-block">
-      <h3 class="intel-title">MeteoAgent / Severe Weather</h3>
-      <div class="iframe-frame iframe-theme-psy">
+      <div class="intel-header">
+        <span class="intel-title">MeteoAgent / Severe Weather</span>
+        <span class="intel-tag intel-tag-eoc">SEVERE WX</span>
+      </div>
+      <div class="iframe-frame iframe-eoc">
         <iframe
           src="https://meteoagent.com/"
           loading="lazy"
@@ -302,49 +333,49 @@
 </section>
 
 <!-- =========================
-  SECTION 7 — FOOTER / QRZ EXPORT
+  SECTION 7 — MILITARY BRIEF FOOTER / QRZ EXPORT
   ========================== -->
-<section id="section-footer" class="console-section console-width-narrow console-footer">
+<section id="section-footer" class="console-section console-width-narrow section-footer">
   <header class="section-header">
-    <h2>AE0TO // FIELD NOTES &amp; QRZ EXPORT</h2>
-    <p>These blocks are safe to copy into QRZ.com as pure HTML for a lightweight version of this console.</p>
+    <h2>AE0TO // BRIEFING BLOCK</h2>
+    <p>Lightweight, QRZ‑safe content blocks that mirror the intent of this full TOC interface.</p>
   </header>
 
-  <div class="qrz-block">
+  <div class="brief-block">
     <h3>Operator</h3>
     <p><strong>Callsign:</strong> AE0TO</p>
     <p><strong>Name:</strong> Ryan "Sheepdog" Tanner</p>
     <p><strong>QTH Grid:</strong> EM36VJ</p>
-    <p><strong>Focus:</strong> Portable ops, POTA/SOTA, disciplined field craft, and high‑reliability comms.</p>
+    <p><strong>Background:</strong> Retired U.S. Air Force Security Forces SNCO with a bias for disciplined, field‑ready comms.</p>
   </div>
 
-  <div class="qrz-block">
+  <div class="brief-block">
     <h3>Mission Concept</h3>
     <p>
-      This station profile is designed as a living console—part NSA terminal, part UFO cockpit, part EOC dashboard,
-      and part atomic‑era hallucination. Everything here is meant to be operational, not decorative.
+      This profile is built as a Combat Tactical Operations Center: NORAD bunker at the top, AOC solar desk,
+      JSOC HF fusion cell, UFO cockpit for VHF/UHF, SIGINT terminal for DX, and an EOC‑style severe weather wall.
+      Everything is designed to be operational, not ornamental.
     </p>
   </div>
 
-  <div class="qrz-block">
-    <h3>Quick Links</h3>
+  <div class="brief-block">
+    <h3>Quick Navigation</h3>
     <ul>
-      <li><a href="#section-solar-geomag">Solar &amp; Geomagnetic Intel</a></li>
-      <li><a href="#section-hf-prop">HF Propagation &amp; MUF Maps</a></li>
-      <li><a href="#section-vhf-uhf">VHF / UHF &amp; Tropo</a></li>
-      <li><a href="#section-dx-clusters">DX Clusters &amp; SIGINT</a></li>
-      <li><a href="#section-weather">Lightning &amp; Weather Risk</a></li>
+      <li><a href="#section-solar">Solar &amp; Geomagnetic</a></li>
+      <li><a href="#section-hf">HF Propagation</a></li>
+      <li><a href="#section-vhf">VHF / UHF &amp; Tropo</a></li>
+      <li><a href="#section-dx">DX Clusters</a></li>
+      <li><a href="#section-weather">Weather &amp; Lightning</a></li>
     </ul>
   </div>
 </section>
 
 <!-- =========================
-  CLOCK SCRIPT
+  CLOCK + NAV COLLAPSE SCRIPT
   ========================== -->
 <script>
   function updateClocks() {
     const now = new Date();
-
     const local = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const utcMatch = now.toUTCString().match(/\d{2}:\d{2}/);
     const utc = utcMatch ? utcMatch[0] : '--:--';
@@ -358,6 +389,19 @@
 
   updateClocks();
   setInterval(updateClocks, 30000);
+
+  let lastScrollY = window.scrollY;
+  const nav = document.getElementById('toc-nav');
+
+  window.addEventListener('scroll', () => {
+    const current = window.scrollY;
+    if (current > lastScrollY && current > 80) {
+      nav.classList.add('toc-nav-collapsed');
+    } else {
+      nav.classList.remove('toc-nav-collapsed');
+    }
+    lastScrollY = current;
+  });
 </script>
 
 </body>
