@@ -1,6 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AE0TO Mission Control</title>
+
+  <!-- Link to your CSS file -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
 <!-- =========================
   HERO CONSOLE — {{CALLSIGN}} MISSION CONTROL
-  ID: section-hero-console
   ========================== -->
 <section id="section-hero-console" class="console-section console-hero">
   <div class="console-hero-inner">
@@ -56,14 +68,13 @@
             Conditions: <span class="status-pill status-pill-good">GOOD</span>
           </div>
           <div class="status-meta">
-            Placeholder for AI‑generated summary: “Bands open to EU on 20m, improving 40m after local sunset…”
+            Placeholder for AI‑generated summary.
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Subtle animated background overlay -->
   <div class="console-hero-overlay">
     <div class="scanline"></div>
     <div class="radar-sweep"></div>
@@ -73,7 +84,6 @@
 
 <!-- =========================
   REAL-TIME RADIO INTEL DASHBOARD
-  ID: section-radio-intel
   ========================== -->
 <section id="section-radio-intel" class="console-section console-intel">
   <header class="section-header">
@@ -83,166 +93,65 @@
 
   <div class="intel-grid">
 
-    <!-- Solar & Geomagnetic -->
     <article class="intel-card">
       <h3>Solar &amp; Geomagnetic</h3>
-      <p class="intel-sources">
-        Sources: swpc.noaa.gov, spaceweatherlive.com, solarcdx.com, hfqso.com, spaceweather.com
-      </p>
+      <p class="intel-sources">Sources: swpc.noaa.gov, spaceweatherlive.com, solarcdx.com</p>
 
       <div class="intel-gauge intel-gauge-good">
         <span class="intel-gauge-label">Overall Conditions</span>
         <span class="intel-gauge-state">GOOD</span>
-        <div class="intel-gauge-bar">
-          <span class="intel-gauge-fill"></span>
-        </div>
+        <div class="intel-gauge-bar"><span class="intel-gauge-fill"></span></div>
       </div>
 
       <div class="intel-outlook">
         <h4>Outlook</h4>
-        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Quiet geomagnetic field, low Kp, stable MUF”).</p>
-        <p><strong>48h:</strong> Placeholder for AI summary.</p>
-        <p><strong>72h:</strong> Placeholder for AI summary.</p>
-      </div>
-
-      <div class="intel-embed">
-        <!-- Example iframe container -->
-        <div class="intel-iframe-shell">
-          <div class="intel-iframe-label">Example: SWPC Solar Data (future embed)</div>
-          <!--
-          <iframe src="https://www.swpc.noaa.gov/some-embed" loading="lazy"></iframe>
-          -->
-        </div>
+        <p><strong>24h:</strong> Placeholder.</p>
+        <p><strong>48h:</strong> Placeholder.</p>
+        <p><strong>72h:</strong> Placeholder.</p>
       </div>
     </article>
 
-    <!-- HF Propagation -->
     <article class="intel-card">
       <h3>HF Propagation</h3>
-      <p class="intel-sources">
-        Sources: voacap.com, prop.kc2g.com, hf.dxview.org, dxmaps.com, dxheat.com
-      </p>
+      <p class="intel-sources">Sources: voacap.com, prop.kc2g.com</p>
 
       <div class="intel-gauge intel-gauge-fair">
         <span class="intel-gauge-label">HF Openings</span>
         <span class="intel-gauge-state">FAIR</span>
-        <div class="intel-gauge-bar">
-          <span class="intel-gauge-fill"></span>
-        </div>
+        <div class="intel-gauge-bar"><span class="intel-gauge-fill"></span></div>
       </div>
 
       <div class="intel-outlook">
         <h4>Outlook</h4>
-        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Daytime 20m/17m, evening 40m favored”).</p>
-        <p><strong>48h:</strong> Placeholder for AI summary.</p>
-        <p><strong>72h:</strong> Placeholder for AI summary.</p>
-      </div>
-
-      <div class="intel-embed">
-        <div class="intel-iframe-shell">
-          <div class="intel-iframe-label">Example: VOACAP or KC2G MUF Map (future embed)</div>
-          <!--
-          <iframe src="https://prop.kc2g.com/" loading="lazy"></iframe>
-          -->
-        </div>
-      </div>
-    </article>
-
-    <!-- VHF/UHF & Tropo -->
-    <article class="intel-card">
-      <h3>VHF / UHF &amp; Tropo</h3>
-      <p class="intel-sources">
-        Sources: vhf.dxview.org, dxmap.f5uii.net, aprs.fi, lightningmaps.org
-      </p>
-
-      <div class="intel-gauge intel-gauge-poor">
-        <span class="intel-gauge-label">Tropo &amp; Es</span>
-        <span class="intel-gauge-state">POOR</span>
-        <div class="intel-gauge-bar">
-          <span class="intel-gauge-fill"></span>
-        </div>
-      </div>
-
-      <div class="intel-outlook">
-        <h4>Outlook</h4>
-        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Marginal tropo, watch for evening ducting”).</p>
-        <p><strong>48h:</strong> Placeholder for AI summary.</p>
-        <p><strong>72h:</strong> Placeholder for AI summary.</p>
-      </div>
-
-      <div class="intel-embed">
-        <div class="intel-iframe-shell">
-          <div class="intel-iframe-label">Example: VHF DX Map (future embed)</div>
-          <!--
-          <iframe src="https://vhf.dxview.org/" loading="lazy"></iframe>
-          -->
-        </div>
-      </div>
-    </article>
-
-    <!-- DX Clusters & Spots -->
-    <article class="intel-card">
-      <h3>DX Clusters &amp; Spots</h3>
-      <p class="intel-sources">
-        Sources: dxsummit.fi, reversebeacon.net, dxwatch.com, holycluster.iarc.org, dx.qsl.net, dxlook.com
-      </p>
-
-      <div class="intel-gauge intel-gauge-good">
-        <span class="intel-gauge-label">DX Activity</span>
-        <span class="intel-gauge-state">GOOD</span>
-        <div class="intel-gauge-bar">
-          <span class="intel-gauge-fill"></span>
-        </div>
-      </div>
-
-      <div class="intel-outlook">
-        <h4>Outlook</h4>
-        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “High cluster density on 20m/15m”).</p>
-        <p><strong>48h:</strong> Placeholder for AI summary.</p>
-        <p><strong>72h:</strong> Placeholder for AI summary.</p>
-      </div>
-
-      <div class="intel-embed">
-        <div class="intel-iframe-shell">
-          <div class="intel-iframe-label">Example: DX Cluster Web View (future embed)</div>
-          <!--
-          <iframe src="https://www.dxsummit.fi/" loading="lazy"></iframe>
-          -->
-        </div>
-      </div>
-    </article>
-
-    <!-- Lightning & Severe Weather -->
-    <article class="intel-card">
-      <h3>Lightning &amp; Severe Weather</h3>
-      <p class="intel-sources">
-        Sources: lightningmaps.org, weatherspotter.net, earthsky.org, meteoagent.com
-      </p>
-
-      <div class="intel-gauge intel-gauge-fair">
-        <span class="intel-gauge-label">Operational Risk</span>
-        <span class="intel-gauge-state">FAIR</span>
-        <div class="intel-gauge-bar">
-          <span class="intel-gauge-fill"></span>
-        </div>
-      </div>
-
-      <div class="intel-outlook">
-        <h4>Outlook</h4>
-        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Scattered thunderstorms, monitor for static crashes”).</p>
-        <p><strong>48h:</strong> Placeholder for AI summary.</p>
-        <p><strong>72h:</strong> Placeholder for AI summary.</p>
-      </div>
-
-      <div class="intel-embed">
-        <div class="intel-iframe-shell">
-          <div class="intel-iframe-label">Example: Lightning Map (future embed)</div>
-          <!--
-          <iframe src="https://www.lightningmaps.org/" loading="lazy"></iframe>
-          -->
-        </div>
+        <p><strong>24h:</strong> Placeholder.</p>
+        <p><strong>48h:</strong> Placeholder.</p>
+        <p><strong>72h:</strong> Placeholder.</p>
       </div>
     </article>
 
   </div>
 </section>
+
+<!-- =========================
+  CLOCK SCRIPT
+  ========================== -->
+<script>
+  function updateClocks() {
+    const now = new Date();
+
+    const local = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const utc = now.toUTCString().match(/\d{2}:\d{2}/)[0];
+
+    const localEl = document.getElementById('local-time');
+    const utcEl = document.getElementById('utc-time');
+
+    if (localEl) localEl.textContent = local;
+    if (utcEl) utcEl.textContent = utc + 'Z';
+  }
+
+  updateClocks();
+  setInterval(updateClocks, 30000);
+</script>
+
+</body>
+</html>
