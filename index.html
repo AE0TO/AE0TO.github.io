@@ -1,11 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>AE0TO Ham Radio Console</title>
-</head>
-<body>
-  <h1>AE0TO Online</h1>
-  <p>Static test page. More coming soon.</p>
-</body>
-</html>
+<!-- =========================
+  HERO CONSOLE — {{CALLSIGN}} MISSION CONTROL
+  ID: section-hero-console
+  ========================== -->
+<section id="section-hero-console" class="console-section console-hero">
+  <div class="console-hero-inner">
+    <div class="console-hero-left">
+      <div class="console-badge">
+        <span class="console-badge-label">Primary Callsign</span>
+        <span class="console-badge-call">{{CALLSIGN}}</span>
+      </div>
+
+      <h1 class="console-title">
+        {{CALLSIGN}} MISSION CONTROL
+      </h1>
+
+      <p class="console-operator">
+        Operator: <span class="console-operator-name">{{NAME}}</span><br>
+        QTH / Grid: <span class="console-operator-qth">{{QTH}}</span>
+      </p>
+
+      <p class="console-tagline">
+        Portable operations • POTA / SOTA • Field craft • High‑reliability comms
+      </p>
+    </div>
+
+    <div class="console-hero-right">
+      <div class="status-grid">
+        <div class="status-tile">
+          <div class="status-label">Current Band Focus</div>
+          <div class="status-value">HF / 20m</div>
+          <div class="status-meta">Configurable • Placeholder</div>
+        </div>
+
+        <div class="status-tile">
+          <div class="status-label">Local Time</div>
+          <div class="status-value" id="local-time">--:--</div>
+          <div class="status-meta">Auto-updating (browser)</div>
+        </div>
+
+        <div class="status-tile">
+          <div class="status-label">UTC Time</div>
+          <div class="status-value" id="utc-time">--:--</div>
+          <div class="status-meta">Reference clock</div>
+        </div>
+
+        <div class="status-tile">
+          <div class="status-label">QTH Grid Locator</div>
+          <div class="status-value">{{QTH}}</div>
+          <div class="status-meta">Manual or future auto‑lookup</div>
+        </div>
+
+        <div class="status-tile status-wide">
+          <div class="status-label">HF / VHF Conditions Snapshot</div>
+          <div class="status-value status-conditions">
+            Conditions: <span class="status-pill status-pill-good">GOOD</span>
+          </div>
+          <div class="status-meta">
+            Placeholder for AI‑generated summary: “Bands open to EU on 20m, improving 40m after local sunset…”
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subtle animated background overlay -->
+  <div class="console-hero-overlay">
+    <div class="scanline"></div>
+    <div class="radar-sweep"></div>
+    <div class="starfield"></div>
+  </div>
+</section>
+
+<!-- =========================
+  REAL-TIME RADIO INTEL DASHBOARD
+  ID: section-radio-intel
+  ========================== -->
+<section id="section-radio-intel" class="console-section console-intel">
+  <header class="section-header">
+    <h2>Real‑Time Radio Intel Dashboard</h2>
+    <p>Unified situational awareness across solar, geomagnetic, HF, VHF/UHF, DX, and severe weather domains.</p>
+  </header>
+
+  <div class="intel-grid">
+
+    <!-- Solar & Geomagnetic -->
+    <article class="intel-card">
+      <h3>Solar &amp; Geomagnetic</h3>
+      <p class="intel-sources">
+        Sources: swpc.noaa.gov, spaceweatherlive.com, solarcdx.com, hfqso.com, spaceweather.com
+      </p>
+
+      <div class="intel-gauge intel-gauge-good">
+        <span class="intel-gauge-label">Overall Conditions</span>
+        <span class="intel-gauge-state">GOOD</span>
+        <div class="intel-gauge-bar">
+          <span class="intel-gauge-fill"></span>
+        </div>
+      </div>
+
+      <div class="intel-outlook">
+        <h4>Outlook</h4>
+        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Quiet geomagnetic field, low Kp, stable MUF”).</p>
+        <p><strong>48h:</strong> Placeholder for AI summary.</p>
+        <p><strong>72h:</strong> Placeholder for AI summary.</p>
+      </div>
+
+      <div class="intel-embed">
+        <!-- Example iframe container -->
+        <div class="intel-iframe-shell">
+          <div class="intel-iframe-label">Example: SWPC Solar Data (future embed)</div>
+          <!--
+          <iframe src="https://www.swpc.noaa.gov/some-embed" loading="lazy"></iframe>
+          -->
+        </div>
+      </div>
+    </article>
+
+    <!-- HF Propagation -->
+    <article class="intel-card">
+      <h3>HF Propagation</h3>
+      <p class="intel-sources">
+        Sources: voacap.com, prop.kc2g.com, hf.dxview.org, dxmaps.com, dxheat.com
+      </p>
+
+      <div class="intel-gauge intel-gauge-fair">
+        <span class="intel-gauge-label">HF Openings</span>
+        <span class="intel-gauge-state">FAIR</span>
+        <div class="intel-gauge-bar">
+          <span class="intel-gauge-fill"></span>
+        </div>
+      </div>
+
+      <div class="intel-outlook">
+        <h4>Outlook</h4>
+        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Daytime 20m/17m, evening 40m favored”).</p>
+        <p><strong>48h:</strong> Placeholder for AI summary.</p>
+        <p><strong>72h:</strong> Placeholder for AI summary.</p>
+      </div>
+
+      <div class="intel-embed">
+        <div class="intel-iframe-shell">
+          <div class="intel-iframe-label">Example: VOACAP or KC2G MUF Map (future embed)</div>
+          <!--
+          <iframe src="https://prop.kc2g.com/" loading="lazy"></iframe>
+          -->
+        </div>
+      </div>
+    </article>
+
+    <!-- VHF/UHF & Tropo -->
+    <article class="intel-card">
+      <h3>VHF / UHF &amp; Tropo</h3>
+      <p class="intel-sources">
+        Sources: vhf.dxview.org, dxmap.f5uii.net, aprs.fi, lightningmaps.org
+      </p>
+
+      <div class="intel-gauge intel-gauge-poor">
+        <span class="intel-gauge-label">Tropo &amp; Es</span>
+        <span class="intel-gauge-state">POOR</span>
+        <div class="intel-gauge-bar">
+          <span class="intel-gauge-fill"></span>
+        </div>
+      </div>
+
+      <div class="intel-outlook">
+        <h4>Outlook</h4>
+        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Marginal tropo, watch for evening ducting”).</p>
+        <p><strong>48h:</strong> Placeholder for AI summary.</p>
+        <p><strong>72h:</strong> Placeholder for AI summary.</p>
+      </div>
+
+      <div class="intel-embed">
+        <div class="intel-iframe-shell">
+          <div class="intel-iframe-label">Example: VHF DX Map (future embed)</div>
+          <!--
+          <iframe src="https://vhf.dxview.org/" loading="lazy"></iframe>
+          -->
+        </div>
+      </div>
+    </article>
+
+    <!-- DX Clusters & Spots -->
+    <article class="intel-card">
+      <h3>DX Clusters &amp; Spots</h3>
+      <p class="intel-sources">
+        Sources: dxsummit.fi, reversebeacon.net, dxwatch.com, holycluster.iarc.org, dx.qsl.net, dxlook.com
+      </p>
+
+      <div class="intel-gauge intel-gauge-good">
+        <span class="intel-gauge-label">DX Activity</span>
+        <span class="intel-gauge-state">GOOD</span>
+        <div class="intel-gauge-bar">
+          <span class="intel-gauge-fill"></span>
+        </div>
+      </div>
+
+      <div class="intel-outlook">
+        <h4>Outlook</h4>
+        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “High cluster density on 20m/15m”).</p>
+        <p><strong>48h:</strong> Placeholder for AI summary.</p>
+        <p><strong>72h:</strong> Placeholder for AI summary.</p>
+      </div>
+
+      <div class="intel-embed">
+        <div class="intel-iframe-shell">
+          <div class="intel-iframe-label">Example: DX Cluster Web View (future embed)</div>
+          <!--
+          <iframe src="https://www.dxsummit.fi/" loading="lazy"></iframe>
+          -->
+        </div>
+      </div>
+    </article>
+
+    <!-- Lightning & Severe Weather -->
+    <article class="intel-card">
+      <h3>Lightning &amp; Severe Weather</h3>
+      <p class="intel-sources">
+        Sources: lightningmaps.org, weatherspotter.net, earthsky.org, meteoagent.com
+      </p>
+
+      <div class="intel-gauge intel-gauge-fair">
+        <span class="intel-gauge-label">Operational Risk</span>
+        <span class="intel-gauge-state">FAIR</span>
+        <div class="intel-gauge-bar">
+          <span class="intel-gauge-fill"></span>
+        </div>
+      </div>
+
+      <div class="intel-outlook">
+        <h4>Outlook</h4>
+        <p><strong>24h:</strong> Placeholder for AI summary (e.g., “Scattered thunderstorms, monitor for static crashes”).</p>
+        <p><strong>48h:</strong> Placeholder for AI summary.</p>
+        <p><strong>72h:</strong> Placeholder for AI summary.</p>
+      </div>
+
+      <div class="intel-embed">
+        <div class="intel-iframe-shell">
+          <div class="intel-iframe-label">Example: Lightning Map (future embed)</div>
+          <!--
+          <iframe src="https://www.lightningmaps.org/" loading="lazy"></iframe>
+          -->
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
