@@ -1,408 +1,214 @@
-<!DOCTYPE html>
+<!-- index.html -->
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AE0TO Tactical Operations Center</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{CALLSIGN}} Mission Control</title>
+  <!-- Minimal meta for accessibility and mobile -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <!-- Main container -->
+  <main id="main" class="site-root">
 
-<!-- =========================
-  TACTICAL NAV BAR (COLLAPSIBLE)
-  ========================== -->
-<header class="toc-nav" id="toc-nav">
-  <div class="toc-nav-inner">
-    <div class="toc-nav-left">
-      <span class="toc-nav-callsign">AE0TO</span>
-      <span class="toc-nav-label">TACTICAL OPERATIONS CENTER</span>
-    </div>
-    <nav class="toc-nav-links">
-      <a href="#section-hero">Overview</a>
-      <a href="#section-solar">Solar</a>
-      <a href="#section-hf">HF</a>
-      <a href="#section-vhf">VHF/UHF</a>
-      <a href="#section-dx">DX</a>
-      <a href="#section-weather">Weather</a>
-      <a href="#section-footer">Brief</a>
-    </nav>
-  </div>
-</header>
+    <!-- HERO CONSOLE -->
+    <!-- ID: section-hero-console -->
+    <section id="section-hero-console" class="hero-console" aria-labelledby="hero-title">
+      <!-- Visual layers: holographic glass, scanlines, animated background -->
+      <div class="hero-bg" aria-hidden="true"></div>
 
-<!-- =========================
-  SECTION 1 — NORAD / CHEYENNE MOUNTAIN HERO
-  ========================== -->
-<section id="section-hero" class="console-section console-width-adaptive hero-norad">
-  <div class="hero-grid">
-    <div class="hero-left">
-      <div class="hero-badge">
-        <span class="hero-badge-label">Primary Callsign</span>
-        <span class="hero-badge-call">AE0TO</span>
-      </div>
+      <div class="hero-inner">
+        <header class="hero-header">
+          <h1 id="hero-title" class="callsign">{{CALLSIGN}} <span class="muted">MISSION CONTROL</span></h1>
+          <p class="operator">Operator: <strong>{{NAME}}</strong> • QTH: <strong>{{QTH}}</strong></p>
+        </header>
 
-      <h1 class="hero-title">AE0TO // COMBAT TACTICAL OPERATIONS CENTER</h1>
+        <!-- Status tiles row -->
+        <div class="status-tiles" role="list" aria-label="Mission status tiles">
+          <!-- Tile: Current band focus -->
+          <article class="tile" role="listitem" aria-label="Current band focus">
+            <div class="tile-title">Band Focus</div>
+            <div class="tile-value" id="tile-band">HF 20m</div>
+            <div class="tile-sub">Primary: DX / Portable</div>
+          </article>
 
-      <p class="hero-operator">
-        Operator: <span class="hero-highlight">Ryan "Sheepdog" Tanner</span><br>
-        QTH Grid: <span class="hero-highlight">EM36VJ</span>
-      </p>
+          <!-- Tile: Local and UTC time -->
+          <article class="tile" role="listitem" aria-label="Local and UTC time">
+            <div class="tile-title">Local / UTC</div>
+            <div class="tile-value">
+              <time id="local-time" datetime="">--:--</time> /
+              <time id="utc-time" datetime="">--:-- UTC</time>
+            </div>
+            <div class="tile-sub">Auto-updating via JS</div>
+          </article>
 
-      <p class="hero-mission">
-        Field‑deployable, high‑reliability comms with a fusion of SIGINT, propagation intel, and real‑time risk awareness.
-        Built like a bunker console, not a blog.
-      </p>
+          <!-- Tile: Grid locator -->
+          <article class="tile" role="listitem" aria-label="Grid locator">
+            <div class="tile-title">Grid</div>
+            <div class="tile-value" id="tile-grid">EM##xx</div>
+            <div class="tile-sub">QTH Grid Locator</div>
+          </article>
 
-      <div class="hero-status-row">
-        <div class="hero-status-tile">
-          <div class="hero-status-label">Local Time</div>
-          <div class="hero-status-value" id="local-time">--:--</div>
-          <div class="hero-status-meta">Ops clock</div>
+          <!-- Tile: HF/VHF conditions summary -->
+          <article class="tile tile-wide" role="listitem" aria-label="HF and VHF conditions">
+            <div class="tile-title">HF / VHF Conditions</div>
+            <div class="tile-value small" id="tile-conditions">Quiet; solar wind nominal</div>
+            <div class="tile-sub">24h snapshot (placeholder)</div>
+          </article>
         </div>
-        <div class="hero-status-tile">
-          <div class="hero-status-label">UTC Time</div>
-          <div class="hero-status-value" id="utc-time">--:--</div>
-          <div class="hero-status-meta">Global sync</div>
+
+        <!-- Hero CTA / quick links -->
+        <nav class="hero-quicklinks" aria-label="Quick links">
+          <a class="btn ghost" href="#section-radio-intel">Open Radio Intel</a>
+          <a class="btn" href="#section-career">SNCO Career</a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- REAL-TIME RADIO INTEL DASHBOARD -->
+    <!-- ID: section-radio-intel -->
+    <section id="section-radio-intel" class="radio-intel" aria-labelledby="radio-intel-title">
+      <h2 id="radio-intel-title">Real-Time Radio Intel Dashboard</h2>
+      <p class="lead">Aggregated propagation, solar, geomagnetic, and space weather summaries. Data cards are placeholders for free API embeds.</p>
+
+      <!-- Dashboard grid -->
+      <div class="intel-grid">
+
+        <!-- Group: Solar & Geomagnetic -->
+        <div class="intel-group" id="intel-solar" aria-labelledby="intel-solar-title">
+          <h3 id="intel-solar-title">Solar & Geomagnetic</h3>
+          <div class="group-row">
+            <!-- CSS gauge -->
+            <div class="gauge-card">
+              <div class="gauge-label">Overall</div>
+              <div class="gauge gauge-poor" data-score="40" aria-hidden="true">
+                <svg viewBox="0 0 36 36" class="gauge-svg">
+                  <path class="gauge-bg" d="M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32"></path>
+                  <path class="gauge-arc" d="" />
+                  <text x="18" y="20" class="gauge-text">Fair</text>
+                </svg>
+              </div>
+              <div class="gauge-summary">24h: Fair • 48h: Improving • 72h: Stable</div>
+            </div>
+
+            <!-- Data card / iframe placeholder -->
+            <div class="data-card">
+              <div class="data-title">Solar Wind / Kp Index</div>
+              <!-- Example iframe container for future embed -->
+              <div class="iframe-wrap" aria-hidden="true">
+                <!-- Replace src with a free provider that allows embedding -->
+                <iframe title="Solar Wind" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+              </div>
+              <div class="data-note">Source placeholders: swpc.noaa.gov; spaceweatherlive.com</div>
+            </div>
+          </div>
         </div>
-        <div class="hero-status-tile">
-          <div class="hero-status-label">Current Focus</div>
-          <div class="hero-status-value">HF / 20m</div>
-          <div class="hero-status-meta">Configurable</div>
+
+        <!-- Group: HF Propagation -->
+        <div class="intel-group" id="intel-hf" aria-labelledby="intel-hf-title">
+          <h3 id="intel-hf-title">HF Propagation</h3>
+          <div class="group-row">
+            <div class="gauge-card">
+              <div class="gauge-label">HF</div>
+              <div class="gauge gauge-good" data-score="80" aria-hidden="true">
+                <svg viewBox="0 0 36 36" class="gauge-svg">
+                  <path class="gauge-bg" d="M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32"></path>
+                  <path class="gauge-arc" d="" />
+                  <text x="18" y="20" class="gauge-text">Good</text>
+                </svg>
+              </div>
+              <div class="gauge-summary">24h: Good • 48h: Fair • 72h: Fair</div>
+            </div>
+
+            <div class="data-card">
+              <div class="data-title">VOACAP / HF Maps</div>
+              <div class="iframe-wrap">
+                <iframe title="VOACAP" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+              </div>
+              <div class="data-note">VOACAP and prop.kc2g.com placeholders</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="hero-right">
-      <div class="hero-panel">
-        <div class="hero-panel-header">
-          <span class="hero-panel-title">OPS SNAPSHOT</span>
-          <span class="hero-panel-state hero-panel-state-good">GREEN</span>
+        <!-- Group: VHF UHF Tropo -->
+        <div class="intel-group" id="intel-vhf" aria-labelledby="intel-vhf-title">
+          <h3 id="intel-vhf-title">VHF UHF & Tropo</h3>
+          <div class="group-row">
+            <div class="gauge-card">
+              <div class="gauge-label">VHF</div>
+              <div class="gauge gauge-fair" data-score="60" aria-hidden="true">
+                <svg viewBox="0 0 36 36" class="gauge-svg">
+                  <path class="gauge-bg" d="M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32"></path>
+                  <path class="gauge-arc" d="" />
+                  <text x="18" y="20" class="gauge-text">Fair</text>
+                </svg>
+              </div>
+              <div class="gauge-summary">Tropo windows: low</div>
+            </div>
+
+            <div class="data-card">
+              <div class="data-title">VHF DX Spots</div>
+              <div class="iframe-wrap">
+                <iframe title="VHF DX" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+              </div>
+              <div class="data-note">dxmaps.com; vhf.dxview.org placeholders</div>
+            </div>
+          </div>
         </div>
-        <div class="hero-panel-body">
-          <p>
-            HF conditions generally favorable; daytime 20m/17m strong, 40m improves after local sunset.
-            VHF tropo marginal; monitor lightning and severe weather for field deployments.
-          </p>
+
+        <!-- Group: DX Clusters & Spots -->
+        <div class="intel-group" id="intel-dx" aria-labelledby="intel-dx-title">
+          <h3 id="intel-dx-title">DX Clusters & Spots</h3>
+          <div class="group-row">
+            <div class="data-card wide">
+              <div class="data-title">Live Spots</div>
+              <div class="iframe-wrap">
+                <iframe title="DX Cluster" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+              </div>
+              <div class="gauge-summary">Top clusters: dxsummit.fi; dxwatch.com</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="hero-radar-overlay">
-        <div class="hero-radar-sweep"></div>
-        <div class="hero-scanlines"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- =========================
-  SECTION 2 — USAF AOC: SOLAR & GEOMAGNETIC
-  ========================== -->
-<section id="section-solar" class="console-section console-width-medium section-aoc">
-  <header class="section-header">
-    <h2>SOLAR &amp; GEOMAGNETIC // AOC DESK</h2>
-    <p>Air Operations Center view of solar flux, Kp, and geomagnetic stability for HF reliability.</p>
-  </header>
+        <!-- Group: Lightning & Severe Weather -->
+        <div class="intel-group" id="intel-weather" aria-labelledby="intel-weather-title">
+          <h3 id="intel-weather-title">Lightning & Severe Weather</h3>
+          <div class="group-row">
+            <div class="data-card">
+              <div class="data-title">Lightning Map</div>
+              <div class="iframe-wrap">
+                <iframe title="Lightning" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+              </div>
+              <div class="data-note">lightningmaps.org placeholder</div>
+            </div>
 
-  <article class="intel-panel">
-    <div class="intel-header">
-      <span class="intel-title">SpaceWeatherLive Auroral / Solar Overview</span>
-      <span class="intel-tag intel-tag-aoc">PRIMARY FEED</span>
-    </div>
+            <div class="data-card">
+              <div class="data-title">APRS / Local Spots</div>
+              <div class="iframe-wrap">
+                <iframe title="APRS" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+              </div>
+              <div class="data-note">aprs.fi placeholder</div>
+            </div>
+          </div>
+        </div>
 
-    <div class="iframe-frame iframe-aoc">
-      <iframe
-        src="https://www.spaceweatherlive.com/en/auroral-activity/auroral-oval"
-        loading="lazy"
-        title="SpaceWeatherLive Auroral Oval">
-      </iframe>
-    </div>
+      </div> <!-- end intel-grid -->
 
-    <div class="intel-actions">
-      <a href="https://www.swpc.noaa.gov/" target="_blank" class="btn-link">SWPC NOAA</a>
-      <a href="https://www.spaceweatherlive.com/" target="_blank" class="btn-link">SpaceWeatherLive</a>
-      <a href="https://www.spaceweather.com/" target="_blank" class="btn-link">SpaceWeather.com</a>
-    </div>
-
-    <div class="intel-brief">
-      <h3>Ops Brief (Placeholder)</h3>
-      <p><strong>24h:</strong> Quiet to unsettled geomagnetic field; HF generally stable.</p>
-      <p><strong>48h:</strong> Monitor Kp and solar wind for minor disturbances.</p>
-      <p><strong>72h:</strong> Future AI summary hook for automated mission briefs.</p>
-    </div>
-  </article>
-</section>
-
-<!-- =========================
-  SECTION 3 — JSOC FUSION CELL: HF PROPAGATION
-  ========================== -->
-<section id="section-hf" class="console-section console-width-adaptive section-jsoc">
-  <header class="section-header">
-    <h2>HF PROPAGATION // JSOC FUSION CELL</h2>
-    <p>Global HF openings and MUF trends rendered as a mission‑critical intel wall.</p>
-  </header>
-
-  <div class="iframe-stack">
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">KC2G MUF / Propagation Map</span>
-        <span class="intel-tag intel-tag-jsoc">REAL‑TIME</span>
+      <!-- Footer note for this section -->
+      <div class="intel-footer">
+        <small>Tiles are grouped for clarity. Replace iframe src attributes with free provider endpoints that permit embedding.</small>
       </div>
-      <div class="iframe-frame iframe-jsoc">
-        <iframe
-          src="https://prop.kc2g.com/"
-          loading="lazy"
-          title="KC2G MUF Map">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://prop.kc2g.com/" target="_blank" class="btn-link">Open KC2G</a>
-      </div>
-    </article>
+    </section>
 
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">VOACAP Online HF Prediction</span>
-        <span class="intel-tag intel-tag-jsoc">PLANNING</span>
-      </div>
-      <div class="iframe-frame iframe-jsoc">
-        <iframe
-          src="https://www.voacap.com/hf/"
-          loading="lazy"
-          title="VOACAP HF Prediction">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://www.voacap.com/hf/" target="_blank" class="btn-link">Open VOACAP</a>
-      </div>
-    </article>
-  </div>
-</section>
+    <!-- Placeholder for SNCO career section referenced in hero quicklinks -->
+    <section id="section-career" class="career" aria-labelledby="career-title">
+      <h2 id="career-title">U.S. Air Force SNCO Career</h2>
+      <p class="lead">Dedicated section for Presidential, Nuclear, Classified, and National Security duties. Content and timeline to be added.</p>
+    </section>
 
-<!-- =========================
-  SECTION 4 — UFO COCKPIT: VHF / UHF & TROPO
-  ========================== -->
-<section id="section-vhf" class="console-section console-width-adaptive section-ufo">
-  <header class="section-header">
-    <h2>VHF / UHF &amp; TROPO // FLIGHT DECK</h2>
-    <p>Line‑of‑sight, tropo, and Es‑driven opportunities visualized as holographic cockpit windows.</p>
-  </header>
+  </main>
 
-  <div class="iframe-stack">
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">VHF DX View</span>
-        <span class="intel-tag intel-tag-ufo">ACTIVITY</span>
-      </div>
-      <div class="iframe-frame iframe-ufo">
-        <iframe
-          src="https://vhf.dxview.org/"
-          loading="lazy"
-          title="VHF DX View">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://vhf.dxview.org/" target="_blank" class="btn-link">Open VHF DX View</a>
-      </div>
-    </article>
-
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">APRS.fi Activity</span>
-        <span class="intel-tag intel-tag-ufo">POSITIONAL</span>
-      </div>
-      <div class="iframe-frame iframe-ufo">
-        <iframe
-          src="https://aprs.fi"
-          loading="lazy"
-          title="APRS.fi">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://aprs.fi" target="_blank" class="btn-link">Open APRS.fi</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- =========================
-  SECTION 5 — SIGINT TERMINAL: DX CLUSTERS
-  ========================== -->
-<section id="section-dx" class="console-section console-width-medium section-sigint">
-  <header class="section-header">
-    <h2>DX CLUSTERS // SIGINT TERMINAL</h2>
-    <p>Real‑time HF/VHF activity, skimmer data, and DX spots treated as a live SIGINT feed.</p>
-  </header>
-
-  <div class="iframe-stack">
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">DX Summit</span>
-        <span class="intel-tag intel-tag-sigint">CLUSTER</span>
-      </div>
-      <div class="iframe-frame iframe-sigint">
-        <iframe
-          src="https://www.dxsummit.fi/#/"
-          loading="lazy"
-          title="DX Summit">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://www.dxsummit.fi/#/" target="_blank" class="btn-link">Open DX Summit</a>
-      </div>
-    </article>
-
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">Reverse Beacon Network</span>
-        <span class="intel-tag intel-tag-sigint">SKIMMER</span>
-      </div>
-      <div class="iframe-frame iframe-sigint">
-        <iframe
-          src="https://www.reversebeacon.net/main.php"
-          loading="lazy"
-          title="Reverse Beacon Network">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://www.reversebeacon.net/main.php" target="_blank" class="btn-link">Open Reverse Beacon</a>
-      </div>
-    </article>
-
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">DXHeat Activity</span>
-        <span class="intel-tag intel-tag-sigint">HEATMAP</span>
-      </div>
-      <div class="iframe-frame iframe-sigint">
-        <iframe
-          src="https://dxheat.com/dxc/"
-          loading="lazy"
-          title="DXHeat">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://dxheat.com/dxc/" target="_blank" class="btn-link">Open DXHeat</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- =========================
-  SECTION 6 — EOC / ATOMIC PSY: WEATHER & LIGHTNING
-  ========================== -->
-<section id="section-weather" class="console-section console-width-adaptive section-eoc-psy">
-  <header class="section-header">
-    <h2>WEATHER &amp; LIGHTNING // EOC FLOOR</h2>
-    <p>Lightning risk and severe weather rendered as an atomic‑era, neon‑lit emergency ops wall.</p>
-  </header>
-
-  <div class="iframe-stack">
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">LightningMaps.org</span>
-        <span class="intel-tag intel-tag-eoc">STRIKE RISK</span>
-      </div>
-      <div class="iframe-frame iframe-eoc">
-        <iframe
-          src="https://www.lightningmaps.org/"
-          loading="lazy"
-          title="LightningMaps.org">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://www.lightningmaps.org/" target="_blank" class="btn-link">Open LightningMaps.org</a>
-      </div>
-    </article>
-
-    <article class="iframe-block">
-      <div class="intel-header">
-        <span class="intel-title">MeteoAgent / Severe Weather</span>
-        <span class="intel-tag intel-tag-eoc">SEVERE WX</span>
-      </div>
-      <div class="iframe-frame iframe-eoc">
-        <iframe
-          src="https://meteoagent.com/"
-          loading="lazy"
-          title="MeteoAgent">
-        </iframe>
-      </div>
-      <div class="intel-actions">
-        <a href="https://meteoagent.com/" target="_blank" class="btn-link">Open MeteoAgent</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- =========================
-  SECTION 7 — MILITARY BRIEF FOOTER / QRZ EXPORT
-  ========================== -->
-<section id="section-footer" class="console-section console-width-narrow section-footer">
-  <header class="section-header">
-    <h2>AE0TO // BRIEFING BLOCK</h2>
-    <p>Lightweight, QRZ‑safe content blocks that mirror the intent of this full TOC interface.</p>
-  </header>
-
-  <div class="brief-block">
-    <h3>Operator</h3>
-    <p><strong>Callsign:</strong> AE0TO</p>
-    <p><strong>Name:</strong> Ryan "Sheepdog" Tanner</p>
-    <p><strong>QTH Grid:</strong> EM36VJ</p>
-    <p><strong>Background:</strong> Retired U.S. Air Force Security Forces SNCO with a bias for disciplined, field‑ready comms.</p>
-  </div>
-
-  <div class="brief-block">
-    <h3>Mission Concept</h3>
-    <p>
-      This profile is built as a Combat Tactical Operations Center: NORAD bunker at the top, AOC solar desk,
-      JSOC HF fusion cell, UFO cockpit for VHF/UHF, SIGINT terminal for DX, and an EOC‑style severe weather wall.
-      Everything is designed to be operational, not ornamental.
-    </p>
-  </div>
-
-  <div class="brief-block">
-    <h3>Quick Navigation</h3>
-    <ul>
-      <li><a href="#section-solar">Solar &amp; Geomagnetic</a></li>
-      <li><a href="#section-hf">HF Propagation</a></li>
-      <li><a href="#section-vhf">VHF / UHF &amp; Tropo</a></li>
-      <li><a href="#section-dx">DX Clusters</a></li>
-      <li><a href="#section-weather">Weather &amp; Lightning</a></li>
-    </ul>
-  </div>
-</section>
-
-<!-- =========================
-  CLOCK + NAV COLLAPSE SCRIPT
-  ========================== -->
-<script>
-  function updateClocks() {
-    const now = new Date();
-    const local = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const utcMatch = now.toUTCString().match(/\d{2}:\d{2}/);
-    const utc = utcMatch ? utcMatch[0] : '--:--';
-
-    const localEl = document.getElementById('local-time');
-    const utcEl = document.getElementById('utc-time');
-
-    if (localEl) localEl.textContent = local;
-    if (utcEl) utcEl.textContent = utc + 'Z';
-  }
-
-  updateClocks();
-  setInterval(updateClocks, 30000);
-
-  let lastScrollY = window.scrollY;
-  const nav = document.getElementById('toc-nav');
-
-  window.addEventListener('scroll', () => {
-    const current = window.scrollY;
-    if (current > lastScrollY && current > 80) {
-      nav.classList.add('toc-nav-collapsed');
-    } else {
-      nav.classList.remove('toc-nav-collapsed');
-    }
-    lastScrollY = current;
-  });
-</script>
-
+  <script src="scripts.js" defer></script>
 </body>
 </html>
