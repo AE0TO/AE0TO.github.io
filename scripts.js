@@ -273,3 +273,30 @@ function announceWidgetUpdate(slotId, message){
     if(e.key === 'ArrowLeft'){ loadTrack((current-1+playlist.length)%playlist.length); audio.play(); }
   });
 })();
+
+/* Psychedelic transition trigger (add to scripts.js) */
+(function(){
+  const psy = document.getElementById('section-psychedelic-transition');
+  if(!psy) return;
+  const root = document.documentElement;
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        // Apply mid-century color palette to root variables
+        root.style.setProperty('--accent', '#ffb86b');
+        root.style.setProperty('--accent-2', '#ff6fa3');
+        root.style.setProperty('--muted', '#f0e6d6');
+        root.style.setProperty('--text', '#111010');
+        psy.classList.add('state-midcentury');
+      } else {
+        // Revert to default console palette when out of view
+        root.style.setProperty('--accent', '#00ffd5');
+        root.style.setProperty('--accent-2', '#7b61ff');
+        root.style.setProperty('--muted', '#9fb3c8');
+        root.style.setProperty('--text', '#dff7ff');
+        psy.classList.remove('state-midcentury');
+      }
+    });
+  }, {threshold:0.35});
+  io.observe(psy);
+})();
