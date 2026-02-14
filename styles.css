@@ -177,3 +177,51 @@ body{
   .maps-row{flex-direction:column}
   .gallery-item img{height:200px}
 }
+
+/* Military dossier and resource library styles */
+
+/* Dossier */
+.military-career .dossier{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.dossier-header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.dossier-title{font-weight:800;color:var(--accent-2);font-size:1rem}
+.dossier-meta{color:var(--muted);font-size:0.9rem}
+.dossier-intro{color:var(--muted);margin-top:10px}
+
+/* Timeline */
+.service-timeline{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.timeline-item{display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:8px;background:rgba(0,0,0,0.04);border:1px solid rgba(255,255,255,0.02)}
+.timeline-year{width:64px;font-weight:800;color:var(--accent);font-size:0.95rem}
+.timeline-title{font-weight:700;color:var(--text)}
+.timeline-desc{color:var(--muted);font-size:0.9rem}
+
+/* Ribbons */
+.ribbons{display:flex;gap:8px;margin-top:12px}
+.ribbon{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#001;padding:6px 10px;border-radius:999px;font-weight:700;font-size:0.85rem}
+
+/* Career blocks */
+.career-sections{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.career-block{padding:10px;border-radius:8px;background:rgba(0,0,0,0.03);border:1px solid rgba(255,255,255,0.02)}
+.career-block h3{margin-top:0;color:var(--accent-2)}
+
+/* Resource library */
+.resource-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.resource-col{background:rgba(0,0,0,0.03);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
+.resource-col h3{margin:0 0 8px 0}
+.res-link{color:var(--text);text-decoration:none}
+.res-link:hover{text-decoration:underline;color:var(--accent)}
+
+/* Video row */
+.video-row{display:flex;gap:12px;margin-top:12px}
+.video-card{flex:1;padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+.video-title{font-weight:800;color:var(--accent)}
+.video-note{color:var(--muted);font-size:0.85rem;margin-top:8px}
+
+/* Widget bay */
+.widget-bay{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.widget-slot{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
+.widget-title{font-weight:800;color:var(--accent-2);margin-bottom:8px}
+.widget-body{color:var(--muted);min-height:80px}
+
+/* Responsive adjustments */
+@media (max-width:1100px){ .resource-grid{grid-template-columns:repeat(2,1fr)} .career-sections{grid-template-columns:1fr} .video-row{flex-direction:column} .widget-bay{grid-template-columns:1fr} }
+@media (max-width:640px){ .resource-grid{grid-template-columns:1fr} .bands-grid{grid-template-columns:1fr} }
