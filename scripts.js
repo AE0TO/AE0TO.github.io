@@ -169,3 +169,107 @@ function announceWidgetUpdate(slotId, message){
     sr.textContent = message;
   }
 }
+
+/* Jukebox behavior (add to scripts.js) */
+(function(){
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('play-btn');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const seek = document.getElementById('seek');
+  const volume = document.getElementById('volume');
+  const curTime = document.getElementById('cur-time');
+  const durTime = document.getElementById('dur-time');
+  const trackTitle = document.getElementById('track-title');
+  const trackDesc = document.getElementById('track-desc');
+  const playlist = Array.from(document.querySelectorAll('#playlist .track'));
+  const equalizer = document.querySelector('.equalizer');
+
+  let current = 0;
+  let isPlaying = false;
+
+  function loadTrack(index){
+    const item = playlist[index];
+    if(!item) return;
+    const src = item.getAttribute('data-src');
+    const title = item.getAttribute('data-title') || 'Untitled';
+    const desc = item.getAttribute('data-desc') || '';
+    audio.src = src;
+    audio.load();
+    trackTitle.textContent = title;
+    trackDesc.textContent = desc;
+    playlist.forEach((p,i)=> p.classList.toggle('active', i===index));
+    current = index;
+  }
+
+  function playPause(){
+    if(!audio.src) return;
+    if(audio.paused){
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }
+
+  // Event bindings
+  playBtn.addEventListener('click', () => playPause());
+  prevBtn.addEventListener('click', () => { loadTrack((current-1+playlist.length)%playlist.length); audio.play(); });
+  nextBtn.addEventListener('click', () => { loadTrack((current+1)%playlist.length); audio.play(); });
+
+  playlist.forEach((item, idx) => {
+    item.addEventListener('click', () => { loadTrack(idx); audio.play(); });
+    item.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); loadTrack(idx); audio.play(); }});
+  });
+
+  audio.addEventListener('play', () => {
+    isPlaying = true;
+    playBtn.textContent = '⏸';
+    playBtn.setAttribute('aria-pressed','true');
+    equalizer.classList.add('playing');
+  });
+  audio.addEventListener('pause', () => {
+    isPlaying = false;
+    playBtn.textContent = '▶';
+    playBtn.setAttribute('aria-pressed','false');
+    equalizer.classList.remove('playing');
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    if(audio.duration){
+      const pct = (audio.currentTime / audio.duration) * 100;
+      seek.value = pct;
+      curTime.textContent = formatTime(audio.currentTime);
+      durTime.textContent = formatTime(audio.duration);
+    }
+  });
+
+  seek.addEventListener('input', () => {
+    if(audio.duration) audio.currentTime = (seek.value/100) * audio.duration;
+  });
+
+  volume.addEventListener('input', () => { audio.volume = volume.value; });
+
+  audio.addEventListener('ended', () => {
+    // auto-advance
+    loadTrack((current+1)%playlist.length);
+    audio.play();
+  });
+
+  function formatTime(sec){
+    if(isNaN(sec)) return '0:00';
+    const m = Math.floor(sec/60);
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return `${m}:${s}`;
+  }
+
+  // Initialize first track if present
+  if(playlist.length) loadTrack(0);
+
+  // Accessibility: keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if(e.target.tagName === 'INPUT' || e.target.isContentEditable) return;
+    if(e.key === ' '){ e.preventDefault(); playPause(); }
+    if(e.key === 'ArrowRight'){ loadTrack((current+1)%playlist.length); audio.play(); }
+    if(e.key === 'ArrowLeft'){ loadTrack((current-1+playlist.length)%playlist.length); audio.play(); }
+  });
+})();
