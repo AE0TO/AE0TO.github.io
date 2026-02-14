@@ -123,3 +123,49 @@ function setBandCondition(bandId, condition, pathsText){
   if(cond && cond.querySelector('.cond-text')) cond.querySelector('.cond-text').textContent = condition.charAt(0).toUpperCase() + condition.slice(1);
   if(paths && pathsText) paths.textContent = pathsText;
 }
+
+/* Add to scripts.js */
+
+/* Simple function to populate a widget slot with HTML safely (developer responsibility) */
+function populateWidgetSlot(slotId, htmlString){
+  const slot = document.getElementById(slotId);
+  if(!slot) return;
+  // Basic sanitization: remove <script> tags to avoid accidental execution
+  const sanitized = htmlString.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+  slot.querySelector('.widget-body').innerHTML = sanitized;
+}
+
+/* Example: populateWidgetSlot('widget-slot-1','<div>Live tool placeholder</div>'); */
+
+/* Lazy-load YouTube iframes when visible to save bandwidth */
+const ytObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const iframe = e.target.querySelector('iframe');
+    if(iframe && !iframe.src){
+      // Developer: set iframe.src to the desired embed URL when ready
+      // e.g., iframe.src = 'https://www.youtube.com/embed?listType=user_uploads&list=UCkXjdDQ-db0xz8f4PKgKsag';
+    }
+    ytObserver.unobserve(e.target);
+  });
+},{threshold:0.25});
+document.querySelectorAll('.video-card').forEach(card => ytObserver.observe(card));
+
+/* Accessibility: announce updates to widget slots */
+function announceWidgetUpdate(slotId, message){
+  const slot = document.getElementById(slotId);
+  if(slot){
+    const live = slot;
+    live.setAttribute('aria-live','polite');
+    // Optionally set a visually hidden element for screen readers
+    let sr = slot.querySelector('.sr-announcer');
+    if(!sr){
+      sr = document.createElement('div');
+      sr.className = 'sr-announcer';
+      sr.style.position = 'absolute';
+      sr.style.left = '-9999px';
+      slot.appendChild(sr);
+    }
+    sr.textContent = message;
+  }
+}
