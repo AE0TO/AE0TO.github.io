@@ -1,39 +1,36 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{CALLSIGN}} Mission Control</title>
-  <!-- Minimal meta for accessibility and mobile -->
+  <title>AE0TO Mission Control — Ryan "Sheepdog" Tanner</title>
+  <meta name="description" content="AE0TO Mission Control — Ryan 'Sheepdog' Tanner. Portable ops, POTA/SOTA, military career dossier, radio intel dashboard." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Main container -->
   <main id="main" class="site-root">
 
-    <!-- HERO CONSOLE -->
-    <!-- ID: section-hero-console -->
+    <!-- SECTION: HERO CONSOLE (ID: section-hero-console) -->
+    <!-- HERO CONSOLE: Prominent callsign, operator, status tiles, animated holographic background -->
     <section id="section-hero-console" class="hero-console" aria-labelledby="hero-title">
-      <!-- Visual layers: holographic glass, scanlines, animated background -->
       <div class="hero-bg" aria-hidden="true"></div>
 
       <div class="hero-inner">
         <header class="hero-header">
-          <h1 id="hero-title" class="callsign">{{CALLSIGN}} <span class="muted">MISSION CONTROL</span></h1>
-          <p class="operator">Operator: <strong>{{NAME}}</strong> • QTH: <strong>{{QTH}}</strong></p>
+          <h1 id="hero-title" class="callsign">AE0TO <span class="muted">MISSION CONTROL</span></h1>
+          <p class="operator">Operator: <strong>Ryan "Sheepdog" Tanner</strong> • QTH: <strong>EM36VJ</strong></p>
+          <!-- Short professional tagline pulled from LinkedIn summary (paraphrased) -->
+          <p class="hero-tagline">U.S. Air Force Security Forces Senior NCO • Projects Manager & Resource Advisor • Field ops, POTA/SOTA, and advanced mission planning.</p>
         </header>
 
-        <!-- Status tiles row -->
+        <!-- Status tiles -->
         <div class="status-tiles" role="list" aria-label="Mission status tiles">
-          <!-- Tile: Current band focus -->
           <article class="tile" role="listitem" aria-label="Current band focus">
             <div class="tile-title">Band Focus</div>
-            <div class="tile-value" id="tile-band">HF 20m</div>
-            <div class="tile-sub">Primary: DX / Portable</div>
+            <div class="tile-value" id="tile-band">20m</div>
+            <div class="tile-sub">Primary: Portable ops & DX</div>
           </article>
 
-          <!-- Tile: Local and UTC time -->
           <article class="tile" role="listitem" aria-label="Local and UTC time">
             <div class="tile-title">Local / UTC</div>
             <div class="tile-value">
@@ -43,47 +40,41 @@
             <div class="tile-sub">Auto-updating via JS</div>
           </article>
 
-          <!-- Tile: Grid locator -->
           <article class="tile" role="listitem" aria-label="Grid locator">
             <div class="tile-title">Grid</div>
-            <div class="tile-value" id="tile-grid">EM##xx</div>
-            <div class="tile-sub">QTH Grid Locator</div>
+            <div class="tile-value" id="tile-grid">EM36VJ</div>
+            <div class="tile-sub">Home QTH</div>
           </article>
 
-          <!-- Tile: HF/VHF conditions summary -->
           <article class="tile tile-wide" role="listitem" aria-label="HF and VHF conditions">
             <div class="tile-title">HF / VHF Conditions</div>
-            <div class="tile-value small" id="tile-conditions">Quiet; solar wind nominal</div>
-            <div class="tile-sub">24h snapshot (placeholder)</div>
+            <div class="tile-value small" id="tile-conditions">Placeholder: solar wind nominal</div>
+            <div class="tile-sub">24h snapshot <!-- AI SUMMARY PLACEHOLDER: 24/48/72 HOUR RADIO OUTLOOK --></div>
           </article>
         </div>
 
-        <!-- Hero CTA / quick links -->
         <nav class="hero-quicklinks" aria-label="Quick links">
           <a class="btn ghost" href="#section-radio-intel">Open Radio Intel</a>
-          <a class="btn" href="#section-career">SNCO Career</a>
+          <a class="btn" href="#section-military-career">View SNCO Dossier</a>
         </nav>
       </div>
     </section>
 
-    <!-- REAL-TIME RADIO INTEL DASHBOARD -->
-    <!-- ID: section-radio-intel -->
+    <!-- SECTION: RADIO INTEL DASHBOARD (ID: section-radio-intel) -->
+    <!-- AI SUMMARY PLACEHOLDER: 24/48/72 HOUR RADIO OUTLOOK -->
     <section id="section-radio-intel" class="radio-intel" aria-labelledby="radio-intel-title">
       <h2 id="radio-intel-title">Real-Time Radio Intel Dashboard</h2>
-      <p class="lead">Aggregated propagation, solar, geomagnetic, and space weather summaries. Data cards are placeholders for free API embeds.</p>
+      <p class="lead">Aggregated propagation, solar, geomagnetic, and space weather summaries. Grouped tiles for clarity and future live data injection.</p>
 
-      <!-- Dashboard grid -->
       <div class="intel-grid">
-
-        <!-- Group: Solar & Geomagnetic -->
+        <!-- Solar & Geomagnetic -->
         <div class="intel-group" id="intel-solar" aria-labelledby="intel-solar-title">
           <h3 id="intel-solar-title">Solar & Geomagnetic</h3>
           <div class="group-row">
-            <!-- CSS gauge -->
             <div class="gauge-card">
               <div class="gauge-label">Overall</div>
-              <div class="gauge gauge-poor" data-score="40" aria-hidden="true">
-                <svg viewBox="0 0 36 36" class="gauge-svg">
+              <div class="gauge gauge-fair" data-score="55" aria-hidden="true">
+                <svg viewBox="0 0 36 36" class="gauge-svg" role="img" aria-label="Solar gauge">
                   <path class="gauge-bg" d="M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32"></path>
                   <path class="gauge-arc" d="" />
                   <text x="18" y="20" class="gauge-text">Fair</text>
@@ -92,27 +83,22 @@
               <div class="gauge-summary">24h: Fair • 48h: Improving • 72h: Stable</div>
             </div>
 
-            <!-- Data card / iframe placeholder -->
             <div class="data-card">
               <div class="data-title">Solar Wind / Kp Index</div>
-              <!-- Example iframe container for future embed -->
-              <div class="iframe-wrap" aria-hidden="true">
-                <!-- Replace src with a free provider that allows embedding -->
-                <iframe title="Solar Wind" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-              </div>
-              <div class="data-note">Source placeholders: swpc.noaa.gov; spaceweatherlive.com</div>
+              <div class="iframe-wrap"><iframe title="Solar Wind" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
+              <div class="data-note">Sources: swpc.noaa.gov; spaceweatherlive.com</div>
             </div>
           </div>
         </div>
 
-        <!-- Group: HF Propagation -->
+        <!-- HF Propagation -->
         <div class="intel-group" id="intel-hf" aria-labelledby="intel-hf-title">
           <h3 id="intel-hf-title">HF Propagation</h3>
           <div class="group-row">
             <div class="gauge-card">
               <div class="gauge-label">HF</div>
-              <div class="gauge gauge-good" data-score="80" aria-hidden="true">
-                <svg viewBox="0 0 36 36" class="gauge-svg">
+              <div class="gauge gauge-good" data-score="78" aria-hidden="true">
+                <svg viewBox="0 0 36 36" class="gauge-svg" role="img" aria-label="HF gauge">
                   <path class="gauge-bg" d="M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32"></path>
                   <path class="gauge-arc" d="" />
                   <text x="18" y="20" class="gauge-text">Good</text>
@@ -123,22 +109,20 @@
 
             <div class="data-card">
               <div class="data-title">VOACAP / HF Maps</div>
-              <div class="iframe-wrap">
-                <iframe title="VOACAP" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-              </div>
+              <div class="iframe-wrap"><iframe title="VOACAP" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
               <div class="data-note">VOACAP and prop.kc2g.com placeholders</div>
             </div>
           </div>
         </div>
 
-        <!-- Group: VHF UHF Tropo -->
+        <!-- VHF/UHF & Tropo -->
         <div class="intel-group" id="intel-vhf" aria-labelledby="intel-vhf-title">
           <h3 id="intel-vhf-title">VHF UHF & Tropo</h3>
           <div class="group-row">
             <div class="gauge-card">
               <div class="gauge-label">VHF</div>
               <div class="gauge gauge-fair" data-score="60" aria-hidden="true">
-                <svg viewBox="0 0 36 36" class="gauge-svg">
+                <svg viewBox="0 0 36 36" class="gauge-svg" role="img" aria-label="VHF gauge">
                   <path class="gauge-bg" d="M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32"></path>
                   <path class="gauge-arc" d="" />
                   <text x="18" y="20" class="gauge-text">Fair</text>
@@ -149,45 +133,37 @@
 
             <div class="data-card">
               <div class="data-title">VHF DX Spots</div>
-              <div class="iframe-wrap">
-                <iframe title="VHF DX" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-              </div>
+              <div class="iframe-wrap"><iframe title="VHF DX" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
               <div class="data-note">dxmaps.com; vhf.dxview.org placeholders</div>
             </div>
           </div>
         </div>
 
-        <!-- Group: DX Clusters & Spots -->
+        <!-- DX Clusters & Spots -->
         <div class="intel-group" id="intel-dx" aria-labelledby="intel-dx-title">
           <h3 id="intel-dx-title">DX Clusters & Spots</h3>
           <div class="group-row">
             <div class="data-card wide">
               <div class="data-title">Live Spots</div>
-              <div class="iframe-wrap">
-                <iframe title="DX Cluster" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-              </div>
+              <div class="iframe-wrap"><iframe title="DX Cluster" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
               <div class="gauge-summary">Top clusters: dxsummit.fi; dxwatch.com</div>
             </div>
           </div>
         </div>
 
-        <!-- Group: Lightning & Severe Weather -->
+        <!-- Lightning & Severe Weather -->
         <div class="intel-group" id="intel-weather" aria-labelledby="intel-weather-title">
           <h3 id="intel-weather-title">Lightning & Severe Weather</h3>
           <div class="group-row">
             <div class="data-card">
               <div class="data-title">Lightning Map</div>
-              <div class="iframe-wrap">
-                <iframe title="Lightning" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-              </div>
+              <div class="iframe-wrap"><iframe title="Lightning" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
               <div class="data-note">lightningmaps.org placeholder</div>
             </div>
 
             <div class="data-card">
               <div class="data-title">APRS / Local Spots</div>
-              <div class="iframe-wrap">
-                <iframe title="APRS" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-              </div>
+              <div class="iframe-wrap"><iframe title="APRS" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
               <div class="data-note">aprs.fi placeholder</div>
             </div>
           </div>
@@ -195,16 +171,487 @@
 
       </div> <!-- end intel-grid -->
 
-      <!-- Footer note for this section -->
       <div class="intel-footer">
-        <small>Tiles are grouped for clarity. Replace iframe src attributes with free provider endpoints that permit embedding.</small>
+        <small>Tiles are grouped for clarity. Replace iframe data-src attributes with free provider endpoints that permit embedding.</small>
       </div>
     </section>
 
-    <!-- Placeholder for SNCO career section referenced in hero quicklinks -->
-    <section id="section-career" class="career" aria-labelledby="career-title">
-      <h2 id="career-title">U.S. Air Force SNCO Career</h2>
-      <p class="lead">Dedicated section for Presidential, Nuclear, Classified, and National Security duties. Content and timeline to be added.</p>
+    <!-- SECTION: GLOBAL PROPAGATION MAPS (ID: section-global-propagation) -->
+    <section id="section-global-propagation" class="global-prop" aria-labelledby="global-prop-title">
+      <h2 id="global-prop-title">Global Propagation Maps by Band</h2>
+      <p class="lead">Per-band propagation overview. Each card is independent and ready for map/heatmap injection.</p>
+
+      <div class="bands-grid" role="list" aria-label="Propagation bands">
+        <!-- band cards (IDs required by spec) -->
+        <article id="band-6m" class="band-card" role="listitem" aria-labelledby="band-6m-title">
+          <h3 id="band-6m-title" class="band-name">6m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-6m-map"><div class="map-placeholder">6m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="marginal" aria-live="polite"><span class="cond-dot"></span><strong class="cond-text">Marginal</strong></div>
+              <div class="band-paths">Best paths: Sporadic E coastal openings (placeholder)</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-10m" class="band-card" role="listitem" aria-labelledby="band-10m-title">
+          <h3 id="band-10m-title" class="band-name">10m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-10m-map"><div class="map-placeholder">10m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="open"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+              <div class="band-paths">Best paths: Long-haul daytime; skip to Asia</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-12m" class="band-card" role="listitem" aria-labelledby="band-12m-title">
+          <h3 id="band-12m-title" class="band-name">12m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-12m-map"><div class="map-placeholder">12m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="marginal"><span class="cond-dot"></span><strong class="cond-text">Marginal</strong></div>
+              <div class="band-paths">Best paths: Daytime mid-latitude DX</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-15m" class="band-card" role="listitem" aria-labelledby="band-15m-title">
+          <h3 id="band-15m-title" class="band-name">15m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-15m-map"><div class="map-placeholder">15m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="good"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+              <div class="band-paths">Best paths: Reliable DX daytime</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-17m" class="band-card" role="listitem" aria-labelledby="band-17m-title">
+          <h3 id="band-17m-title" class="band-name">17m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-17m-map"><div class="map-placeholder">17m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="fair"><span class="cond-dot"></span><strong class="cond-text">Fair</strong></div>
+              <div class="band-paths">Best paths: Mixed day/night DX</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-20m" class="band-card" role="listitem" aria-labelledby="band-20m-title">
+          <h3 id="band-20m-title" class="band-name">20m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-20m-map"><div class="map-placeholder">20m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="good"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+              <div class="band-paths">Best paths: Reliable DX day/night; transatlantic</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-30m" class="band-card" role="listitem" aria-labelledby="band-30m-title">
+          <h3 id="band-30m-title" class="band-name">30m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-30m-map"><div class="map-placeholder">30m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="fair"><span class="cond-dot"></span><strong class="cond-text">Fair</strong></div>
+              <div class="band-paths">Best paths: NVIS and regional DX</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-40m" class="band-card" role="listitem" aria-labelledby="band-40m-title">
+          <h3 id="band-40m-title" class="band-name">40m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-40m-map"><div class="map-placeholder">40m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="good"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+              <div class="band-paths">Best paths: Nighttime regional and DX</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-60m" class="band-card" role="listitem" aria-labelledby="band-60m-title">
+          <h3 id="band-60m-title" class="band-name">60m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-60m-map"><div class="map-placeholder">60m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="marginal"><span class="cond-dot"></span><strong class="cond-text">Marginal</strong></div>
+              <div class="band-paths">Best paths: Regional NVIS windows</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-80m" class="band-card" role="listitem" aria-labelledby="band-80m-title">
+          <h3 id="band-80m-title" class="band-name">80m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-80m-map"><div class="map-placeholder">80m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="good"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
+              <div class="band-paths">Best paths: Nighttime regional comms</div>
+            </div>
+          </div>
+        </article>
+
+        <article id="band-160m" class="band-card" role="listitem" aria-labelledby="band-160m-title">
+          <h3 id="band-160m-title" class="band-name">160m</h3>
+          <div class="band-body">
+            <div class="band-map" id="band-160m-map"><div class="map-placeholder">160m map placeholder</div></div>
+            <div class="band-meta">
+              <div class="band-condition" data-condition="closed"><span class="cond-dot"></span><strong class="cond-text">Closed</strong></div>
+              <div class="band-paths">Best paths: Local NVIS at night (placeholder)</div>
+            </div>
+          </div>
+        </article>
+
+      </div> <!-- end bands-grid -->
+    </section>
+
+    <!-- SECTION: FIELD OPS (ID: section-field-ops) -->
+    <section id="section-field-ops" class="field-ops" aria-labelledby="field-ops-title">
+      <h2 id="field-ops-title">POTA SOTA Field Operations — Best of Field</h2>
+      <p class="lead">Tactical field notebook meets holographic mission planner.</p>
+
+      <div class="field-grid">
+        <article id="field-loadout" class="field-panel" aria-labelledby="field-loadout-title">
+          <h3 id="field-loadout-title">Field Loadout</h3>
+          <ul class="loadout-list">
+            <li><strong>Radios</strong>: QRP transceivers, dual-band HT, SDR receiver</li>
+            <li><strong>Antennas</strong>: End-fed, linked dipole, portable vertical, magnetic loop</li>
+            <li><strong>Power</strong>: LiFePO4 packs, solar panel, power bank, inline fuse</li>
+            <li><strong>Logging</strong>: HamLog, paper backup</li>
+            <li><strong>Deployment</strong>: Mast, guying kit, stakes, multi-tool</li>
+          </ul>
+        </article>
+
+        <article id="field-tactics" class="field-panel" aria-labelledby="field-tactics-title">
+          <h3 id="field-tactics-title">Fieldcraft & Tactics</h3>
+          <ol class="tactics-list">
+            <li>Site selection: elevation, RF noise survey, access, safety</li>
+            <li>Setup: low-noise grounding, antenna orientation, quick-deploy knots</li>
+            <li>Weather: micro-forecast checks, shelter, lightning safety</li>
+            <li>Operational: band plan, split operation, logging discipline</li>
+            <li>Safety: comms plan, buddy system, medical kit</li>
+          </ol>
+        </article>
+
+        <article id="field-mission-log" class="field-panel" aria-labelledby="field-mission-log-title">
+          <h3 id="field-mission-log-title">Mission Log</h3>
+          <table class="mission-log" role="table" aria-label="Mission log table">
+            <thead><tr><th>Date</th><th>Site</th><th>Bands</th><th>Contacts</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>2025-09-12</td><td>State Park A</td><td>20m, 40m</td><td>34</td><td>Strong takeoff to EU; light QRN</td></tr>
+              <tr><td>2025-06-03</td><td>Summit B</td><td>6m, 10m</td><td>12</td><td>Sporadic E opening; short activation</td></tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+
+      <!-- Galleries -->
+      <div class="galleries">
+        <h3>Field Galleries</h3>
+
+        <div id="pota-gallery" class="gallery" aria-label="POTA gallery">
+          <div class="gallery-track" role="list">
+            <figure class="gallery-item" role="listitem"><img src="assets/pota1.jpg" alt="POTA setup 1"><figcaption>State Park A - 20m</figcaption></figure>
+            <figure class="gallery-item" role="listitem"><img src="assets/pota2.jpg" alt="POTA setup 2"><figcaption>Portable vertical</figcaption></figure>
+            <figure class="gallery-item" role="listitem"><img src="assets/pota3.jpg" alt="POTA setup 3"><figcaption>Solar charging</figcaption></figure>
+          </div>
+          <div class="gallery-controls">
+            <button class="g-prev" aria-label="Previous POTA image">‹</button>
+            <button class="g-next" aria-label="Next POTA image">›</button>
+          </div>
+        </div>
+
+        <div id="sota-gallery" class="gallery" aria-label="SOTA gallery">
+          <div class="gallery-track" role="list">
+            <figure class="gallery-item" role="listitem"><img src="assets/sota1.jpg" alt="SOTA summit 1"><figcaption>Summit B - sunrise</figcaption></figure>
+            <figure class="gallery-item" role="listitem"><img src="assets/sota2.jpg" alt="SOTA summit 2"><figcaption>Lightweight pack</figcaption></figure>
+            <figure class="gallery-item" role="listitem"><img src="assets/sota3.jpg" alt="SOTA summit 3"><figcaption>Summit antenna</figcaption></figure>
+          </div>
+          <div class="gallery-controls">
+            <button class="g-prev" aria-label="Previous SOTA image">‹</button>
+            <button class="g-next" aria-label="Next SOTA image">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: MILITARY CAREER (ID: section-military-career) -->
+    <!-- The following content integrates the uploaded LinkedIn profile (Ryan_Sheepdog_TannerProfile).
+         Two verbatim quotes from the uploaded PDF are included per user request.
+         Additional career details are summarized and organized for public display. -->
+    <section id="section-military-career" class="military-career" aria-labelledby="mil-career-title">
+      <h2 id="mil-career-title">U.S. Air Force Security Forces Senior NCO — Career Dossier</h2>
+
+      <div class="dossier">
+        <div class="dossier-header">
+          <div class="dossier-title">Service Dossier — Ryan "Sheepdog" Tanner</div>
+          <div class="dossier-meta">
+            <div><strong>Role</strong>: Security Forces Senior NCO; Projects Manager & Resource Advisor</div>
+            <div><strong>Contact</strong>: Ryan.Tanner.1@us.af.mil</div>
+          </div>
+        </div>
+
+        <!-- Verbatim quotes requested by user (from uploaded LinkedIn PDF) -->
+        <p class="dossier-intro">
+          "Need a FIXER? I am a U.S. Air Force Security Forces Senior Noncommissioned Officer with over 22-years of worldwide experience ranging from downrange door kicking to extensive Presidential Security during some of our nation's most trying times."
+          <br />
+          "Planned/Executed Largest Motorcade in Andrews AFB History (Vladimir Putin)"
+        </p>
+
+        <!-- High-level summary (paraphrased from LinkedIn content) -->
+        <p class="dossier-summary">Ryan is a seasoned leader with a 22+ year career spanning expeditionary combat training, presidential support, nuclear security, intelligence liaison roles, and large-scale program and resource management. He has led major training programs, developed anti-terrorism and active shooter curricula, and managed multi-million dollar budgets and projects.</p>
+
+        <!-- Projects & Major Assignments (expanded from LinkedIn) -->
+        <div class="projects">
+          <h3>Key Assignments & Projects</h3>
+          <ul class="projects-list">
+            <li><strong>Projects Manager & Resource Advisor</strong> — 509th Security Forces Squadron (Feb 2017–Present): Oversaw security and resource management for the B-2 Stealth Bomber fleet and multiple special access areas; coordinated multi-agency threat fusion and community policing for a 10K population.</li>
+
+            <li><strong>Superintendent, Combat Training Operations</strong> — 421st Combat Training Squadron (Oct 2014–Feb 2017): Led training for thousands of expeditionary airmen, managed a $181M budget, and modernized combat skills and advisory training across the Air Force.</li>
+
+            <li><strong>Chief, Expeditionary Combat Training Support</strong> — 421st CTS (Aug 2013–Oct 2014): Managed large expeditionary support sections, vehicle fleets, and EOD/medical training venues supporting joint exercises and contingency operations.</li>
+
+            <li><strong>Phoenix Warrior / Phoenix Raven Program Leadership</strong>: Directed advanced expeditionary training programs, integrated sniper and embassy security training, and supported global deployments with zero mission losses.</li>
+
+            <li><strong>89th SFS X-Ray Threat & WMD Detection Team Leader</strong> — Presidential Support Unit (2002–2004): Led early adoption and demonstration of directed-energy threat detection technologies and supported high-level demonstrations and acquisition efforts.</li>
+          </ul>
+        </div>
+
+        <!-- Timeline (select highlights) -->
+        <div class="service-timeline" role="list" aria-label="Service timeline">
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-year">2002–2004</div>
+            <div class="timeline-body"><div class="timeline-title">X-Ray Threat & WMD Detection Team Leader</div><div class="timeline-desc">Led MSV and Model 101Z integration; supported acquisition and DOD-wide adoption of directed-energy detection technologies.</div></div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-year">2006–2014</div>
+            <div class="timeline-body"><div class="timeline-title">Training Programs & Expeditionary Support</div><div class="timeline-desc">Developed DoD benchmarked Active Shooter program; built host-nation security schools; led Phoenix Warrior and Phoenix Raven programs.</div></div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-year">2014–2017</div>
+            <div class="timeline-body"><div class="timeline-title">Superintendent, Combat Training Operations</div><div class="timeline-desc">Oversaw training for 5,000+ airmen annually and managed $181M in program resources.</div></div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-year">2017–Present</div>
+            <div class="timeline-body"><div class="timeline-title">Projects Manager & Resource Advisor</div><div class="timeline-desc">Responsible for security of high-value assets, multi-agency coordination, and large-scale resource planning.</div></div>
+          </div>
+        </div>
+
+        <!-- Awards, Achievements, and Notable Outcomes -->
+        <div class="achievements">
+          <h3>Selected Achievements</h3>
+          <ul>
+            <li>Led Waldo Canyon Fire response and evacuation, saving 11,000 people.</li>
+            <li>Acquisition lead for early directed-energy threat detection technologies contributing to large DOD purchases.</li>
+            <li>Developed USAF Academy Active Shooter program adopted as a U.S. Army benchmark.</li>
+            <li>Designed and executed large vehicle inspection site and other infrastructure projects ($14M+).</li>
+            <li>Managed multi-million dollar budgets and complex interagency operations.</li>
+          </ul>
+        </div>
+
+        <!-- Skills rollup (paraphrased and organized) -->
+        <div class="skills">
+          <h3>Skills & Values</h3>
+          <p class="muted">Leadership • Training Development • Program & Project Management • Force Protection • Intelligence Liaison • Logistics • Emergency Response</p>
+          <div class="skill-grid">
+            <div class="skill-col">
+              <h4>Operational Skills</h4>
+              <ul><li>Contingency Response & Fieldcraft</li><li>Force Protection & Antiterrorism</li><li>Convoy & Route Security</li></ul>
+            </div>
+            <div class="skill-col">
+              <h4>Program & Resource Management</h4>
+              <ul><li>Budgeting & Execution ($181M)</li><li>Facility & Infrastructure Projects</li><li>Training Program Development</li></ul>
+            </div>
+            <div class="skill-col">
+              <h4>Leadership & People</h4>
+              <ul><li>Large team leadership (600+)</li><li>Mentoring & HR management</li><li>Interagency coordination</li></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ribbons">
+          <div class="ribbon">Leadership Excellence</div>
+          <div class="ribbon">Operational Readiness</div>
+          <div class="ribbon">Interagency Coordination</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: RESOURCE LIBRARY & WIDGET BAY (ID: section-resources) -->
+    <section id="section-resources" class="resource-library" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resource Library and Widget Bay</h2>
+      <p class="lead">Curated links, learning resources, and modular widget slots for tools and embeds.</p>
+
+      <div class="resource-grid" role="list" aria-label="Resource categories">
+        <div class="resource-col" role="listitem" aria-labelledby="res-hf-title">
+          <h3 id="res-hf-title"><span class="icon">📡</span> HF Operations</h3>
+          <ul><li><a href="#" class="res-link">VOACAP and HF planning</a></li><li><a href="#" class="res-link">Propagation fundamentals</a></li></ul>
+        </div>
+
+        <div class="resource-col" role="listitem" aria-labelledby="res-vhf-title">
+          <h3 id="res-vhf-title"><span class="icon">🔭</span> VHF/UHF & Weak Signal</h3>
+          <ul><li><a href="#" class="res-link">Tropo and Sporadic E</a></li><li><a href="#" class="res-link">VHF contesting tips</a></li></ul>
+        </div>
+
+        <div class="resource-col" role="listitem" aria-labelledby="res-digital-title">
+          <h3 id="res-digital-title"><span class="icon">💻</span> Digital Modes</h3>
+          <ul><li><a href="#" class="res-link">FT8, PSK31 workflows</a></li><li><a href="#" class="res-link">PSKreporter usage</a></li></ul>
+        </div>
+
+        <div class="resource-col" role="listitem" aria-labelledby="res-ant-title">
+          <h3 id="res-ant-title"><span class="icon">🛠️</span> Antennas & Station Building</h3>
+          <ul><li><a href="#" class="res-link">Antenna design basics</a></li><li><a href="#" class="res-link">Portable station checklists</a></li></ul>
+        </div>
+
+        <div class="resource-col" role="listitem" aria-labelledby="res-weather-title">
+          <h3 id="res-weather-title"><span class="icon">☄️</span> Weather & Space Weather</h3>
+          <ul><li><a href="#" class="res-link">NOAA SWPC</a></li><li><a href="#" class="res-link">Space weather primers</a></li></ul>
+        </div>
+
+        <div class="resource-col" role="listitem" aria-labelledby="res-training-title">
+          <h3 id="res-training-title"><span class="icon">🎓</span> Training & Licensing</h3>
+          <ul><li><a href="#" class="res-link">License study resources</a></li><li><a href="#" class="res-link">Emergency comms training</a></li></ul>
+        </div>
+      </div>
+
+      <!-- Embedded YouTube placeholders -->
+      <div class="video-row">
+        <div class="video-card">
+          <div class="video-title">Featured Channel</div>
+          <div class="iframe-wrap"><iframe title="YouTube Channel 1" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
+          <div class="video-note">Channel: UCkXjdDQ-db0xz8f4PKgKsag</div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-title">Featured Channel</div>
+          <div class="iframe-wrap"><iframe title="YouTube Channel 2" data-src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe></div>
+          <div class="video-note">Channel: RyanHallYall</div>
+        </div>
+      </div>
+
+      <!-- Widget Bay -->
+      <div class="widget-bay" aria-label="Widget bay">
+        <div id="widget-slot-1" class="widget-slot" aria-live="polite"><div class="widget-title">Widget Slot 1</div><div class="widget-body">Placeholder for external widget, map, or mini dashboard.</div></div>
+        <div id="widget-slot-2" class="widget-slot" aria-live="polite"><div class="widget-title">Widget Slot 2</div><div class="widget-body">Placeholder for tools or custom HTML blocks.</div></div>
+        <div id="widget-slot-3" class="widget-slot" aria-live="polite"><div class="widget-title">Widget Slot 3</div><div class="widget-body">Placeholder for embeds or interactive maps.</div></div>
+      </div>
+    </section>
+
+    <!-- SECTION: JUKEBOX (ID: section-jukebox) -->
+    <section id="section-jukebox" class="jukebox" aria-labelledby="jukebox-title">
+      <h2 id="jukebox-title">Jukebox</h2>
+      <p class="lead">Retro‑futuristic jukebox blending neon, chrome, and holographic equalizer bars.</p>
+
+      <div class="jukebox-inner">
+        <div class="player" role="region" aria-label="Audio player">
+          <div class="player-meta">
+            <div class="track-info">
+              <div id="track-title" class="track-title">—</div>
+              <div id="track-desc" class="track-desc">Select a track to play</div>
+            </div>
+
+            <div class="player-controls" role="group" aria-label="Playback controls">
+              <button id="prev-btn" class="btn large" aria-label="Previous track">⟨</button>
+              <button id="play-btn" class="btn play large" aria-label="Play" aria-pressed="false">▶</button>
+              <button id="next-btn" class="btn large" aria-label="Next track">⟩</button>
+            </div>
+          </div>
+
+          <audio id="audio" preload="none" crossorigin="anonymous"></audio>
+
+          <div class="equalizer" aria-hidden="true">
+            <div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="bar b4"></div><div class="bar b5"></div>
+          </div>
+
+          <div class="player-footer">
+            <div class="progress-wrap">
+              <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
+              <div class="time"><span id="cur-time">0:00</span> / <span id="dur-time">0:00</span></div>
+            </div>
+            <div class="volume-wrap"><label for="volume" class="visually-hidden">Volume</label><input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" /></div>
+          </div>
+        </div>
+
+        <aside class="playlist" aria-label="Playlist">
+          <h3 class="playlist-title">Playlist</h3>
+          <ul id="playlist" class="playlist-list" role="list">
+            <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track1.mp3" data-title="Field Ops Mix" data-desc="Portable ops, sunset shift"><div class="track-left"><div class="track-name">Field Ops Mix</div><div class="track-sub">Portable ops, sunset shift</div></div><div class="track-right">3:42</div></li>
+            <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track2.mp3" data-title="Late Night DXing" data-desc="Long-haul listening session"><div class="track-left"><div class="track-name">Late Night DXing</div><div class="track-sub">Long-haul listening session</div></div><div class="track-right">4:10</div></li>
+            <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track3.mp3" data-title="Aurora Watch Session" data-desc="Ambient aurora tones"><div class="track-left"><div class="track-name">Aurora Watch Session</div><div class="track-sub">Ambient aurora tones</div></div><div class="track-right">5:05</div></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION: PSYCHEDELIC TRANSITION (ID: section-psychedelic-transition) -->
+    <section id="section-psychedelic-transition" class="psychedelic" aria-labelledby="psy-title">
+      <h2 id="psy-title">Style Transition</h2>
+      <p class="lead">A dimensional shift from high‑tech console to psychedelic mid‑century aesthetics.</p>
+
+      <div class="psy-layers">
+        <div class="psy-foreground">
+          <div class="psy-copy">
+            <h3 class="psy-heading">Dimensional Shift</h3>
+            <p class="psy-text">Colors warm, shapes bloom, and the interface breathes a retro pulse. Boomerangs, starbursts, and halftone textures appear as the console yields to the Atomic era.</p>
+          </div>
+        </div>
+
+        <div class="psy-patterns" aria-hidden="true">
+          <div class="starburst"></div>
+          <div class="boomerang b1"></div>
+          <div class="boomerang b2"></div>
+          <div class="halftone"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: ORACLE (ID: section-oracle) -->
+    <section id="section-oracle" class="oracle" aria-labelledby="oracle-title">
+      <h2 id="oracle-title">Stone Circle of AE0TO</h2>
+      <p class="lead">A mystical interface for ham radio insight. Future AI integration will power Q&A responses.</p>
+
+      <div class="oracle-wrap">
+        <div class="stone-scene" aria-hidden="true">
+          <div class="stone-circle">
+            <div class="stone stone-1"></div>
+            <div class="stone stone-2"></div>
+            <div class="stone stone-3"></div>
+            <div class="stone stone-4"></div>
+            <div class="stone stone-5"></div>
+          </div>
+          <div class="mist"></div>
+        </div>
+
+        <div class="oracle-ui" role="region" aria-label="Oracle Q and A">
+          <div class="oracle-note">Future AI integration: this Oracle will answer any ham radio question using a trusted knowledge base.</div>
+
+          <div class="oracle-examples">
+            <div class="example">
+              <div class="q">Q: What band is best for transatlantic DX at 1400 UTC?</div>
+              <div class="a">A: Example: 20m often provides reliable transatlantic paths during daytime; check solar indices for confirmation.</div>
+            </div>
+            <div class="example">
+              <div class="q">Q: Quick field power tip for a 4-hour activation?</div>
+              <div class="a">A: Example: Use a LiFePO4 pack sized for radio draw + 30% buffer; bring a small solar panel for extended ops.</div>
+            </div>
+          </div>
+
+          <form id="oracle-form" class="oracle-form" onsubmit="return false;">
+            <label for="oracle-input" class="visually-hidden">Ask the Oracle a ham radio question</label>
+            <input id="oracle-input" type="text" placeholder="Ask the Oracle (example: Best band to work Europe tonight?)" aria-label="Ask the Oracle" />
+            <button id="oracle-submit" class="btn">Ask</button>
+          </form>
+
+          <div id="oracle-answer" class="oracle-answer" aria-live="polite">
+            <div class="placeholder">Example answer will appear here. (Static examples above.)</div>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>
@@ -212,452 +659,3 @@
   <script src="scripts.js" defer></script>
 </body>
 </html>
-<!-- Add this inside your existing index.html main container -->
-<!-- ID: section-global-propagation -->
-<section id="section-global-propagation" class="global-prop" aria-labelledby="global-prop-title">
-  <h2 id="global-prop-title">Global Propagation Maps by Band</h2>
-  <p class="lead">Per-band propagation overview. Each card is independent and ready for map/heatmap injection.</p>
-
-  <div class="bands-grid" role="list" aria-label="Propagation bands">
-    <!-- Example band card template. Duplicate for each band with unique IDs -->
-    <article id="band-6m" class="band-card" role="listitem" aria-labelledby="band-6m-title">
-      <h3 id="band-6m-title" class="band-name">6m</h3>
-      <div class="band-body">
-        <!-- Map placeholder -->
-        <div class="band-map" id="band-6m-map" aria-hidden="true">
-          <!-- Replace with <img> or JS map later -->
-          <div class="map-placeholder">Global propagation map placeholder</div>
-        </div>
-
-        <!-- Condition indicator -->
-        <div class="band-meta">
-          <div class="band-condition" data-condition="marginal" aria-live="polite">
-            <span class="cond-dot" aria-hidden="true"></span>
-            <strong class="cond-text">Marginal</strong>
-          </div>
-          <div class="band-paths">Best paths: Coastal openings to Europe; Sporadic E possible</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- Duplicate the above article for each band with matching IDs -->
-    <article id="band-10m" class="band-card" aria-labelledby="band-10m-title">
-      <h3 id="band-10m-title" class="band-name">10m</h3>
-      <div class="band-body">
-        <div class="band-map" id="band-10m-map"><div class="map-placeholder">10m map placeholder</div></div>
-        <div class="band-meta">
-          <div class="band-condition" data-condition="open"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
-          <div class="band-paths">Best paths: Long-haul daytime; skip to Asia</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- Continue for 12m, 15m, 17m, 20m, 30m, 40m, 60m, 80m, 160m -->
-    <!-- Example for 20m -->
-    <article id="band-20m" class="band-card" aria-labelledby="band-20m-title">
-      <h3 id="band-20m-title" class="band-name">20m</h3>
-      <div class="band-body">
-        <div class="band-map" id="band-20m-map"><div class="map-placeholder">20m map placeholder</div></div>
-        <div class="band-meta">
-          <div class="band-condition" data-condition="good"><span class="cond-dot"></span><strong class="cond-text">Open</strong></div>
-          <div class="band-paths">Best paths: Reliable DX day/night; transatlantic</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- Add remaining band cards here with ids band-12m, band-15m, band-17m, band-30m, band-40m, band-60m, band-80m, band-160m -->
-  </div>
-
-  <div class="global-prop-footer">
-    <small>Each band card is modular. Replace .map-placeholder with an image, canvas, or JS map widget from free sources.</small>
-  </div>
-</section>
-
-<!-- ID: section-field-ops -->
-<section id="section-field-ops" class="field-ops" aria-labelledby="field-ops-title">
-  <h2 id="field-ops-title">POTA SOTA Field Operations Best of Field</h2>
-  <p class="lead">Tactical field notebook meets holographic mission planner. Focused on POTA and SOTA activations.</p>
-
-  <div class="field-grid">
-    <!-- Field Loadout -->
-    <article id="field-loadout" class="field-panel" aria-labelledby="field-loadout-title">
-      <h3 id="field-loadout-title">Field Loadout</h3>
-      <ul class="loadout-list">
-        <li><strong>Radios</strong>: QRP transceivers, dual-band HT, SDR receiver</li>
-        <li><strong>Antennas</strong>: End-fed, linked dipole, portable vertical, magnetic loop</li>
-        <li><strong>Power</strong>: LiFePO4 packs, solar panel, power bank, inline fuse</li>
-        <li><strong>Logging</strong>: N3FJP, HamLog, paper backup, pencil</li>
-        <li><strong>Deployment</strong>: Mast, guying kit, stakes, multi-tool</li>
-      </ul>
-    </article>
-
-    <!-- Fieldcraft & Tactics -->
-    <article id="field-tactics" class="field-panel" aria-labelledby="field-tactics-title">
-      <h3 id="field-tactics-title">Fieldcraft and Tactics</h3>
-      <ol class="tactics-list">
-        <li>Site selection: elevation, RF noise survey, access, safety</li>
-        <li>Setup: low-noise grounding, antenna orientation, quick-deploy knots</li>
-        <li>Weather: micro-forecast checks, shelter, lightning safety</li>
-        <li>Operational: band plan, split operation, logging discipline</li>
-        <li>Safety: comms plan, buddy system, medical kit</li>
-      </ol>
-    </article>
-
-    <!-- Mission Log -->
-    <article id="field-mission-log" class="field-panel" aria-labelledby="field-mission-log-title">
-      <h3 id="field-mission-log-title">Mission Log</h3>
-      <table class="mission-log" role="table" aria-label="Mission log table">
-        <thead><tr><th>Date</th><th>Site</th><th>Bands</th><th>Contacts</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>2025-09-12</td><td>State Park A</td><td>20m, 40m</td><td>34</td><td>Strong takeoff to EU; light QRN</td></tr>
-          <tr><td>2025-06-03</td><td>Summit B</td><td>6m, 10m</td><td>12</td><td>Sporadic E opening; short activation</td></tr>
-        </tbody>
-      </table>
-    </article>
-  </div>
-
-  <!-- Galleries -->
-  <div class="galleries">
-    <h3>Field Galleries</h3>
-
-    <!-- POTA gallery -->
-    <div id="pota-gallery" class="gallery" aria-label="POTA gallery">
-      <div class="gallery-track" role="list">
-        <figure class="gallery-item" role="listitem"><img src="assets/pota1.jpg" alt="POTA setup 1"><figcaption>State Park A - 20m</figcaption></figure>
-        <figure class="gallery-item" role="listitem"><img src="assets/pota2.jpg" alt="POTA setup 2"><figcaption>Portable vertical</figcaption></figure>
-        <figure class="gallery-item" role="listitem"><img src="assets/pota3.jpg" alt="POTA setup 3"><figcaption>Solar charging</figcaption></figure>
-      </div>
-      <div class="gallery-controls">
-        <button class="g-prev" aria-label="Previous POTA image">‹</button>
-        <button class="g-next" aria-label="Next POTA image">›</button>
-      </div>
-    </div>
-
-    <!-- SOTA gallery -->
-    <div id="sota-gallery" class="gallery" aria-label="SOTA gallery">
-      <div class="gallery-track" role="list">
-        <figure class="gallery-item" role="listitem"><img src="assets/sota1.jpg" alt="SOTA summit 1"><figcaption>Summit B - sunrise</figcaption></figure>
-        <figure class="gallery-item" role="listitem"><img src="assets/sota2.jpg" alt="SOTA summit 2"><figcaption>Lightweight pack</figcaption></figure>
-        <figure class="gallery-item" role="listitem"><img src="assets/sota3.jpg" alt="SOTA summit 3"><figcaption>Summit antenna</figcaption></figure>
-      </div>
-      <div class="gallery-controls">
-        <button class="g-prev" aria-label="Previous SOTA image">‹</button>
-        <button class="g-next" aria-label="Next SOTA image">›</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Map placeholders -->
-  <div class="maps-row">
-    <div class="map-card">
-      <div class="map-placeholder" id="pota-map">POTA map placeholder</div>
-      <div class="map-note">Replace with embedded map or screenshot</div>
-    </div>
-    <div class="map-card">
-      <div class="map-placeholder" id="sota-map">SOTA map placeholder</div>
-      <div class="map-note">Replace with embedded map or screenshot</div>
-    </div>
-  </div>
-
-  <div class="field-footer">
-    <small>Galleries use CSS scroll-snap and lightweight JS for swipe and button controls. All assets are optional and can be replaced with free-hosted images.</small>
-  </div>
-</section>
-
-<!-- Add inside <main> of index.html -->
-
-<!-- MILITARY CAREER -->
-<!-- ID: section-military-career -->
-<section id="section-military-career" class="military-career" aria-labelledby="mil-career-title">
-  <h2 id="mil-career-title">U.S. Air Force Security Forces Senior NCO</h2>
-
-  <!-- Intro dossier -->
-  <div class="dossier">
-    <div class="dossier-header">
-      <div class="dossier-title">Service Dossier</div>
-      <div class="dossier-meta">
-        <div><strong>Role</strong>: Security Forces Senior NCO</div>
-        <div><strong>Focus</strong>: Presidential support, nuclear security, classified operations, national security missions</div>
-      </div>
-    </div>
-
-    <p class="dossier-intro">
-      A career marked by leadership, mission execution, and high‑trust responsibilities. Emphasis on precision, interagency coordination, and sustained readiness across Presidential support, nuclear security, and sensitive national security missions. Details are intentionally high‑level to preserve operational security and professionalism.
-    </p>
-
-    <!-- Timeline / ribbons -->
-    <div class="service-timeline" role="list" aria-label="Service timeline">
-      <div class="timeline-item" role="listitem">
-        <div class="timeline-year">2010</div>
-        <div class="timeline-body">
-          <div class="timeline-title">Initial Enlistment and Training</div>
-          <div class="timeline-desc">Foundational Security Forces training, leadership development, and certification in force protection.</div>
-        </div>
-      </div>
-
-      <div class="timeline-item" role="listitem">
-        <div class="timeline-year">2016</div>
-        <div class="timeline-body">
-          <div class="timeline-title">Presidential Support Assignments</div>
-          <div class="timeline-desc">Operational support for high‑level movements and protective details requiring interagency coordination and precision planning.</div>
-        </div>
-      </div>
-
-      <div class="timeline-item" role="listitem">
-        <div class="timeline-year">2020</div>
-        <div class="timeline-body">
-          <div class="timeline-title">Nuclear Security Operations</div>
-          <div class="timeline-desc">Leadership roles in safeguarding strategic assets, emphasizing compliance, readiness, and procedural rigor.</div>
-        </div>
-      </div>
-
-      <div class="timeline-item" role="listitem">
-        <div class="timeline-year">2023</div>
-        <div class="timeline-body">
-          <div class="timeline-title">Classified and Strategic Missions</div>
-          <div class="timeline-desc">Trusted positions within controlled environments; focus on training, mentorship, and mission assurance.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mission ribbons / honors -->
-    <div class="ribbons" aria-hidden="false">
-      <div class="ribbon">Leadership Excellence</div>
-      <div class="ribbon">Operational Readiness</div>
-      <div class="ribbon">Interagency Coordination</div>
-    </div>
-
-    <!-- High-level subsections -->
-    <div class="career-sections">
-      <article class="career-block" id="career-presidential" aria-labelledby="career-presidential-title">
-        <h3 id="career-presidential-title">Presidential Support and Protection</h3>
-        <p>High‑trust duties supporting Presidential movements and missions. Emphasis on planning, precision execution, and secure coordination with partner agencies.</p>
-      </article>
-
-      <article class="career-block" id="career-nuclear" aria-labelledby="career-nuclear-title">
-        <h3 id="career-nuclear-title">Nuclear Security Operations</h3>
-        <p>Roles focused on safeguarding strategic assets and facilities. Emphasis on compliance, redundancy, and continuous readiness without operational specifics.</p>
-      </article>
-
-      <article class="career-block" id="career-classified" aria-labelledby="career-classified-title">
-        <h3 id="career-classified-title">Classified and Special Access Programs</h3>
-        <p>Trusted responsibilities within compartmented environments. Content remains high‑level to preserve security and professionalism.</p>
-      </article>
-
-      <article class="career-block" id="career-national" aria-labelledby="career-national-title">
-        <h3 id="career-national-title">National Security and Strategic Missions</h3>
-        <p>Leadership in broader mission sets supporting national defense objectives, training, and operational excellence.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- RESOURCE LIBRARY AND WIDGET BAY -->
-<!-- ID: section-resources -->
-<section id="section-resources" class="resource-library" aria-labelledby="resources-title">
-  <h2 id="resources-title">Resource Library and Widget Bay</h2>
-  <p class="lead">Curated links, learning resources, and modular widget slots for tools and embeds.</p>
-
-  <!-- Categorized link library -->
-  <div class="resource-grid" role="list" aria-label="Resource categories">
-    <div class="resource-col" role="listitem" aria-labelledby="res-hf-title">
-      <h3 id="res-hf-title"><span class="icon">📡</span> HF Operations</h3>
-      <ul>
-        <li><a href="#" class="res-link">HF band planning and VOACAP guides</a></li>
-        <li><a href="#" class="res-link">Propagation fundamentals</a></li>
-      </ul>
-    </div>
-
-    <div class="resource-col" role="listitem" aria-labelledby="res-vhf-title">
-      <h3 id="res-vhf-title"><span class="icon">🔭</span> VHF UHF Weak Signal</h3>
-      <ul>
-        <li><a href="#" class="res-link">Tropo and sporadic E references</a></li>
-        <li><a href="#" class="res-link">VHF contesting and DX tips</a></li>
-      </ul>
-    </div>
-
-    <div class="resource-col" role="listitem" aria-labelledby="res-digital-title">
-      <h3 id="res-digital-title"><span class="icon">💻</span> Digital Modes</h3>
-      <ul>
-        <li><a href="#" class="res-link">FT8, PSK31, and digital workflows</a></li>
-        <li><a href="#" class="res-link">PSKreporter and reversebeacon usage</a></li>
-      </ul>
-    </div>
-
-    <div class="resource-col" role="listitem" aria-labelledby="res-ant-title">
-      <h3 id="res-ant-title"><span class="icon">🛠️</span> Antennas and Station Building</h3>
-      <ul>
-        <li><a href="#" class="res-link">Antenna design basics</a></li>
-        <li><a href="#" class="res-link">Portable station checklists</a></li>
-      </ul>
-    </div>
-
-    <div class="resource-col" role="listitem" aria-labelledby="res-weather-title">
-      <h3 id="res-weather-title"><span class="icon">☄️</span> Weather and Space Weather</h3>
-      <ul>
-        <li><a href="#" class="res-link">NOAA SWPC and space weather primers</a></li>
-        <li><a href="#" class="res-link">Lightning and severe weather awareness</a></li>
-      </ul>
-    </div>
-
-    <div class="resource-col" role="listitem" aria-labelledby="res-training-title">
-      <h3 id="res-training-title"><span class="icon">🎓</span> Training and Licensing</h3>
-      <ul>
-        <li><a href="#" class="res-link">License study resources</a></li>
-        <li><a href="#" class="res-link">Emergency communications training</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Embedded YouTube placeholders -->
-  <div class="video-row">
-    <div class="video-card">
-      <div class="video-title">Featured Channel</div>
-      <div class="iframe-wrap">
-        <!-- Replace src with channel embed or playlist; placeholder left empty -->
-        <iframe title="YouTube Channel 1" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-      </div>
-      <div class="video-note">Channel: UCkXjdDQ-db0xz8f4PKgKsag</div>
-    </div>
-
-    <div class="video-card">
-      <div class="video-title">Featured Channel</div>
-      <div class="iframe-wrap">
-        <iframe title="YouTube Channel 2" src="" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-      </div>
-      <div class="video-note">Channel: RyanHallYall</div>
-    </div>
-  </div>
-
-  <!-- Widget Bay -->
-  <div class="widget-bay" aria-label="Widget bay">
-    <div id="widget-slot-1" class="widget-slot" aria-live="polite">
-      <div class="widget-title">Widget Slot 1</div>
-      <div class="widget-body">Placeholder for external widget, map, or mini dashboard.</div>
-    </div>
-
-    <div id="widget-slot-2" class="widget-slot" aria-live="polite">
-      <div class="widget-title">Widget Slot 2</div>
-      <div class="widget-body">Placeholder for tools or custom HTML blocks.</div>
-    </div>
-
-    <div id="widget-slot-3" class="widget-slot" aria-live="polite">
-      <div class="widget-title">Widget Slot 3</div>
-      <div class="widget-body">Placeholder for embeds or interactive maps.</div>
-    </div>
-  </div>
-
-  <div class="resources-footer">
-    <small>Tiles are modular. Replace links and iframe src attributes with free resources and embeds that permit embedding.</small>
-  </div>
-</section>
-
-<!-- ID: section-jukebox -->
-<section id="section-jukebox" class="jukebox" aria-labelledby="jukebox-title">
-  <h2 id="jukebox-title">Jukebox</h2>
-  <p class="lead">Retro‑futuristic jukebox blending neon, chrome, and holographic equalizer bars.</p>
-
-  <div class="jukebox-inner">
-    <!-- Player area -->
-    <div class="player" role="region" aria-label="Audio player">
-      <div class="player-meta">
-        <div class="track-info">
-          <div id="track-title" class="track-title">—</div>
-          <div id="track-desc" class="track-desc">Select a track to play</div>
-        </div>
-
-        <div class="player-controls" role="group" aria-label="Playback controls">
-          <button id="prev-btn" class="btn large" aria-label="Previous track">⟨</button>
-          <button id="play-btn" class="btn play large" aria-label="Play" aria-pressed="false">▶</button>
-          <button id="next-btn" class="btn large" aria-label="Next track">⟩</button>
-        </div>
-      </div>
-
-      <!-- Native audio element (hidden) -->
-      <audio id="audio" preload="none" crossorigin="anonymous"></audio>
-
-      <!-- Visual equalizer -->
-      <div class="equalizer" aria-hidden="true">
-        <div class="bar b1"></div>
-        <div class="bar b2"></div>
-        <div class="bar b3"></div>
-        <div class="bar b4"></div>
-        <div class="bar b5"></div>
-      </div>
-
-      <!-- Progress and volume -->
-      <div class="player-footer">
-        <div class="progress-wrap" aria-hidden="false">
-          <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
-          <div class="time">
-            <span id="cur-time">0:00</span> / <span id="dur-time">0:00</span>
-          </div>
-        </div>
-
-        <div class="volume-wrap">
-          <label for="volume" class="visually-hidden">Volume</label>
-          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Playlist -->
-    <aside class="playlist" aria-label="Playlist">
-      <h3 class="playlist-title">Playlist</h3>
-      <ul id="playlist" class="playlist-list" role="list">
-        <!-- Example track items. Replace data-src with jukehost URLs -->
-        <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track1.mp3" data-title="Field Ops Mix" data-desc="Portable ops, sunset shift">
-          <div class="track-left">
-            <div class="track-name">Field Ops Mix</div>
-            <div class="track-sub">Portable ops, sunset shift</div>
-          </div>
-          <div class="track-right">3:42</div>
-        </li>
-
-        <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track2.mp3" data-title="Late Night DXing" data-desc="Long-haul listening session">
-          <div class="track-left">
-            <div class="track-name">Late Night DXing</div>
-            <div class="track-sub">Long-haul listening session</div>
-          </div>
-          <div class="track-right">4:10</div>
-        </li>
-
-        <li role="listitem" tabindex="0" class="track" data-src="https://jukehost.co.uk/files/track3.mp3" data-title="Aurora Watch Session" data-desc="Ambient aurora tones">
-          <div class="track-left">
-            <div class="track-name">Aurora Watch Session</div>
-            <div class="track-sub">Ambient aurora tones</div>
-          </div>
-          <div class="track-right">5:05</div>
-        </li>
-      </ul>
-    </aside>
-  </div>
-
-  <!-- Shortcode examples for WordPress (placeholders) -->
-  <!--
-    [audio src="https://jukehost.co.uk/files/track1.mp3" preload="none"]
-    Use the native WordPress audio shortcode or a free audio block.
-  -->
-</section>
-
-<!-- ID: section-psychedelic-transition -->
-<section id="section-psychedelic-transition" class="psychedelic" aria-labelledby="psy-title">
-  <h2 id="psy-title">Style Transition</h2>
-  <p class="lead">A dimensional shift from high‑tech console to psychedelic mid‑century aesthetics. This section is a thematic bridge and intentionally lightweight.</p>
-
-  <div class="psy-layers">
-    <div class="psy-foreground">
-      <div class="psy-copy">
-        <h3 class="psy-heading">Dimensional Shift</h3>
-        <p class="psy-text">Colors warm, shapes bloom, and the interface breathes a retro pulse. Boomerangs, starbursts, and halftone textures appear as the console yields to the Atomic era.</p>
-      </div>
-    </div>
-
-    <div class="psy-patterns" aria-hidden="true">
-      <div class="starburst"></div>
-      <div class="boomerang b1"></div>
-      <div class="boomerang b2"></div>
-      <div class="halftone"></div>
-    </div>
-  </div>
-</section>
