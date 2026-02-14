@@ -74,3 +74,52 @@ sections.forEach(s=>io.observe(s));
 document.addEventListener('keydown', e=>{
   if(e.key === 'Tab') document.body.classList.add('show-focus');
 });
+
+/* Add to scripts.js or a new module */
+/* Lightweight gallery controls with swipe support and keyboard accessibility */
+
+document.querySelectorAll('.gallery').forEach(gallery => {
+  const track = gallery.querySelector('.gallery-track');
+  const prev = gallery.querySelector('.g-prev');
+  const next = gallery.querySelector('.g-next');
+
+  // Button navigation
+  if(prev) prev.addEventListener('click', () => scrollByItem(track, -1));
+  if(next) next.addEventListener('click', () => scrollByItem(track, 1));
+
+  // Keyboard support
+  gallery.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight') scrollByItem(track, 1);
+    if(e.key === 'ArrowLeft') scrollByItem(track, -1);
+  });
+
+  // Touch swipe support
+  let startX = 0, isDown = false;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  track.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if(Math.abs(diff) > 40) scrollByItem(track, diff > 0 ? 1 : -1);
+  });
+
+  // Helper: scroll by one item width
+  function scrollByItem(trackEl, direction){
+    const item = trackEl.querySelector('.gallery-item');
+    if(!item) return;
+    const width = item.getBoundingClientRect().width + parseFloat(getComputedStyle(trackEl).gap || 10);
+    trackEl.scrollBy({ left: direction * width, behavior: 'smooth' });
+  }
+});
+
+/* Utility: function to update band condition programmatically
+   Example usage: setBandCondition('band-20m','closed','Poor propagation to EU');
+*/
+function setBandCondition(bandId, condition, pathsText){
+  const band = document.getElementById(bandId);
+  if(!band) return;
+  const cond = band.querySelector('.band-condition');
+  const paths = band.querySelector('.band-paths');
+  if(cond) cond.setAttribute('data-condition', condition);
+  if(cond && cond.querySelector('.cond-text')) cond.querySelector('.cond-text').textContent = condition.charAt(0).toUpperCase() + condition.slice(1);
+  if(paths && pathsText) paths.textContent = pathsText;
+}
