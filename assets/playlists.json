@@ -1,1 +1,12 @@
-
+{
+  "default": [
+    {
+      "title": "AE0TO Jukebox Track 1",
+      "url": "https://jukehost.co.uk/yourfile1.mp3"
+    },
+    {
+      "title": "AE0TO Jukebox Track 2",
+      "url": "https://jukehost.co.uk/yourfile2.mp3"
+    }
+  ]
+}
