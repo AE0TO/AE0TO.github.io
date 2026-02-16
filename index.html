@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AE0TO // COMMAND CENTER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Bungee+Shade&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --hologram-cyan: #00f2ff;
+            --hologram-glow: rgba(0, 242, 255, 0.3);
+            --terminal-green: #00ff41;
+            --atomic-orange: #ff5f00;
+            --bg-dark: #020b14;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Scanline Overlay Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* --- SECTION 1: THE HUD --- */
+        .hud-header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #0a2d4d 0%, #020b14 100%);
+            border-bottom: 2px solid var(--hologram-cyan);
+            text-align: center;
+        }
+
+        .glass-panel {
+            background: rgba(0, 242, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--hologram-cyan);
+            box-shadow: 0 0 20px var(--hologram-glow);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 80%;
+        }
+
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 4rem; margin: 0; color: var(--hologram-cyan); text-shadow: 0 0 15px var(--hologram-cyan); }
+        .sub-text { font-size: 1.5rem; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; }
+
+        /* --- SECTION 2: THE EOC (PROPAGATION) --- */
+        .section-title { font-family: 'Orbitron'; color: var(--hologram-cyan); padding: 20px; border-left: 5px solid var(--hologram-cyan); background: rgba(0,0,0,0.5); margin: 40px 0; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .widget-box {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #333;
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- SECTION 3: MILITARY DOSSIER --- */
+        .military-section {
+            background: #050505;
+            padding: 50px;
+            border-top: 1px solid var(--terminal-green);
+        }
+
+        .dossier-card {
+            border: 1px solid var(--terminal-green);
+            padding: 20px;
+            color: var(--terminal-green);
+            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        /* --- SECTION 4: ATOMIC PSYCHEDELIC / JUKEBOX --- */
+        .psychedelic-layer {
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff5f00);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            padding: 100px 20px;
+            color: white;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .jukebox-container {
+            background: #222;
+            border: 10px solid var(--atomic-orange);
+            border-radius: 50px 50px 0 0;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Bungee Shade', cursive;
+        }
+
+        /* --- SECTION 5: THE ORACLE --- */
+        .oracle-footer {
+            height: 100vh;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stone-circle {
+            width: 300px;
+            height: 300px;
+            border: 10px dashed #444;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: rotate 20s linear infinite;
+        }
+
+        .mist {
+            position: absolute;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            filter: blur(50px);
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <header class="hud-header">
+        <div class="glass-panel">
+            <div class="sub-text">DIRECTIVE: AE0TO // GRID: EM36VJ</div>
+            <h1>RYAN "SHEEPDOG" TANNER</h1>
+            <p>USAF SECURITY FORCES // AMATEUR RADIO COMMAND</p>
+            <div id="utc-clock" style="font-size: 2rem; color: var(--hologram-cyan);">00:00:00 UTC</div>
+        </div>
+    </header>
+
+    <div class="section-title">GLOBAL PROPAGATION INTELLIGENCE (LIVE FEEDS)</div>
+    <div class="grid-container">
+        <div class="widget-box">
+            <iframe src="https://www.swpc.noaa.gov/products/geospace-magnetosphere-movies" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <div class="widget-box">
+            <iframe src="https://www.dxmaps.com/spots/mapg.php?Lan=E" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <div class="widget-box">
+            <iframe src="https://www.lightningmaps.org/#m=oss;y=35.4133;x=-92.31;z=6;" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <div class="widget-box" style="display: flex; justify-content: center; align-items: center; background: #000;">
+            <a href="https://www.hamqsl.com/solar.html"><img src="https://www.hamqsl.com/solar101vhf.php" alt="Solar Data"></a>
+        </div>
+    </div>
+
+    <section class="military-section">
+        <div class="dossier-card">
+            <h2 style="font-family: 'Orbitron';">ENCRYPTED SERVICE RECORD: USAF SECURITY FORCES SNCO</h2>
+            <hr border-color="var(--terminal-green)">
+            <p>> RANK: SENIOR NON-COMMISSIONED OFFICER</p>
+            <p>> SPECIALIZATION: NUCLEAR SECURITY / PRESIDENTIAL PROTECTION</p>
+            <p>> CLEARANCE: [REDACTED]</p>
+            <p>Ryan "Sheepdog" Tanner has provided over two decades of service in high-stakes National Security environments, ensuring the integrity of the nation's most sensitive assets.</p>
+            <a href="#" style="color: white; background: var(--terminal-green); padding: 10px; text-decoration: none;">VIEW FULL CAREER DOSSIER (LINKEDIN)</a>
+        </div>
+    </section>
+
+    <div class="section-title">FIELD OPERATIONS: POTA / SOTA LOGS</div>
+    <div style="overflow-x: auto; white-space: nowrap; padding: 20px; background: #111;">
+        <img src="https://via.placeholder.com/400x300/00f2ff/000000?text=SOTA+Deployment+1" style="height: 300px; margin-right: 10px; border: 2px solid var(--hologram-cyan);">
+        <img src="https://via.placeholder.com/400x300/00f2ff/000000?text=POTA+Rig+Setup" style="height: 300px; margin-right: 10px; border: 2px solid var(--hologram-cyan);">
+        <img src="https://via.placeholder.com/400x300/00f2ff/000000?text=Field+Day+EM36VJ" style="height: 300px; margin-right: 10px; border: 2px solid var(--hologram-cyan);">
+    </div>
+
+    <section class="psychedelic-layer">
+        <div class="jukebox-container">
+            <h2 style="text-align: center; color: var(--atomic-orange);">ATOMIC RADIO JUKEBOX</h2>
+            <p style="text-align: center; font-family: 'Share Tech Mono';">SELECT FREQUENCY FOR AUDIO UPLINK</p>
+            <audio controls style="width: 100%;">
+                <source src="YOUR_JUKEHOST_DIRECT_LINK_HERE" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </section>
+
+    <footer class="oracle-footer">
+        <div class="mist"></div>
+        <div class="stone-circle">
+            <div style="color: white; transform: rotate(-20deg); font-family: 'Orbitron'; letter-spacing: 10px;">AE0TO</div>
+        </div>
+        <div style="margin-top: 30px; z-index: 10;">
+            <h3 style="font-family: 'Orbitron';">THE ORACLE OF AMATEUR RADIO</h3>
+            <input type="text" placeholder="ASK THE ANCIENTS..." style="padding: 15px; width: 300px; background: transparent; border: 1px solid white; color: white; text-align: center;">
+            <p style="font-size: 0.8rem; opacity: 0.5;">73 de AE0TO // CLEAR FREQUENCY</p>
+        </div>
+    </footer >
+
+    <script>
+        // Update UTC Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('utc-clock').innerText = now.toISOString().split('T')[1].split('.')[0] + " UTC";
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
