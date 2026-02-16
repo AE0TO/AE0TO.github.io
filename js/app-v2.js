@@ -93,16 +93,6 @@ function setupJukebox(cfg){
   controls.insertBefore(prevBtn, playBtn);
   controls.insertBefore(nextBtn, pauseBtn.nextSibling);
 }
-
-// Load military markdown
-function populateMilitary(){
-  fetch('content/military.md')
-    .then(r=>r.text())
-    .then(md=>{
-      document.getElementById('military-content').innerHTML = md.replace(/\n/g,'<br>');
-    });
-}
-
 // ---------------------------------------------------------
 // LIVE K-INDEX FETCH — AE0TO DASHBOARD
 // ---------------------------------------------------------
