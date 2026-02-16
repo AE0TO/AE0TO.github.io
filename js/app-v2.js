@@ -29,27 +29,69 @@ function setupJukebox(cfg){
     return;
   }
 
-  // Hide filenames
+  // Hide filenames completely
   playlistEl.style.display = "none";
 
+  // Track index
+  let index = 0;
+
   // Shuffle helper
-  function randomTrack(){
-    const index = Math.floor(Math.random() * list.length);
-    return list[index];
+  function randomIndex(){
+    return Math.floor(Math.random() * list.length);
   }
 
-  playBtn.addEventListener('click', ()=>{
-    audio.src = randomTrack();
+  // Load a track by index
+  function loadTrack(i){
+    index = i;
+    audio.src = list[index];
+  }
+
+  // Play current track
+  function play(){
     audio.play().catch(e=>console.warn('Playback blocked', e));
+  }
+
+  // Next track (forward)
+  function nextTrack(){
+    index = (index + 1) % list.length;
+    loadTrack(index);
+    play();
+  }
+
+  // Previous track (reverse)
+  function prevTrack(){
+    index = (index - 1 + list.length) % list.length;
+    loadTrack(index);
+    play();
+  }
+
+  // Auto-shuffle when a track ends
+  audio.addEventListener('ended', ()=>{
+    loadTrack(randomIndex());
+    play();
+  });
+
+  // Button wiring
+  playBtn.addEventListener('click', ()=>{
+    loadTrack(randomIndex());
+    play();
   });
 
   pauseBtn.addEventListener('click', ()=>audio.pause());
 
-  // Auto‑shuffle when a track ends
-  audio.addEventListener('ended', ()=>{
-    audio.src = randomTrack();
-    audio.play();
-  });
+  // Add forward/reverse buttons dynamically
+  const controls = document.getElementById('jukebox-ui');
+  const prevBtn = document.createElement('button');
+  const nextBtn = document.createElement('button');
+
+  prevBtn.textContent = "Prev";
+  nextBtn.textContent = "Next";
+
+  prevBtn.addEventListener('click', prevTrack);
+  nextBtn.addEventListener('click', nextTrack);
+
+  controls.insertBefore(prevBtn, playBtn);
+  controls.insertBefore(nextBtn, pauseBtn.nextSibling);
 }
 
 // Load military markdown
