@@ -16,28 +16,40 @@ function populateHeader(cfg){
 
 // Jukebox engine
 function setupJukebox(cfg){
-  const playlistEl = document.getElementById('playlist');
   const playBtn = document.getElementById('play-btn');
   const pauseBtn = document.getElementById('pause-btn');
+  const playlistEl = document.getElementById('playlist');
   const audio = new Audio();
-  let idx = 0;
-  const list = cfg.jukebox || [];
 
-  if(list.length===0){
-    playlistEl.textContent = 'No tracks configured. Edit assets/config.json';
+  const list = cfg.jukebox || [];
+  if(list.length === 0){
+    playlistEl.textContent = 'No tracks configured.';
     playBtn.disabled = true;
     pauseBtn.disabled = true;
     return;
   }
 
-  playlistEl.innerHTML = list.map((u,i)=>`<div>${i+1}. ${u}</div>`).join('');
+  // Hide filenames
+  playlistEl.style.display = "none";
+
+  // Shuffle helper
+  function randomTrack(){
+    const index = Math.floor(Math.random() * list.length);
+    return list[index];
+  }
 
   playBtn.addEventListener('click', ()=>{
-    audio.src = list[idx];
-    audio.play().catch(e=>console.warn('Playback blocked',e));
+    audio.src = randomTrack();
+    audio.play().catch(e=>console.warn('Playback blocked', e));
   });
 
   pauseBtn.addEventListener('click', ()=>audio.pause());
+
+  // Auto‑shuffle when a track ends
+  audio.addEventListener('ended', ()=>{
+    audio.src = randomTrack();
+    audio.play();
+  });
 }
 
 // Load military markdown
