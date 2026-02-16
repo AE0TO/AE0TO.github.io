@@ -1,5 +1,5 @@
 // ---------------------------------------------------------
-// AE0TO — APP ENGINE
+// AE0TO — FULL DASHBOARD ENGINE
 // ---------------------------------------------------------
 
 // Load config file
@@ -76,6 +76,78 @@ async function updateKIndex() {
 }
 
 // ---------------------------------------------------------
+// LIVE SFI FETCH — SOLAR FLUX INDEX
+// ---------------------------------------------------------
+async function updateSFI() {
+  try {
+    const res = await fetch("https://services.swpc.noaa.gov/json/solar_cycle/solar_cycle.json");
+    const data = await res.json();
+
+    const latest = data[data.length - 1];
+    const sfi = latest.sfi;
+
+    document.querySelector('#g-sfi span').textContent = sfi;
+
+    const gauge = document.getElementById('g-sfi');
+    gauge.style.boxShadow = `
+      0 0 ${4 + sfi/40}px rgba(0,255,255,0.6),
+      0 0 ${8 + sfi/20}px rgba(0,255,255,0.4)
+    `;
+  } catch (err) {
+    console.warn("SFI fetch failed:", err);
+    document.querySelector('#g-sfi span').textContent = "--";
+  }
+}
+
+// ---------------------------------------------------------
+// LIVE A-INDEX FETCH
+// ---------------------------------------------------------
+async function updateAIndex() {
+  try {
+    const res = await fetch("https://services.swpc.noaa.gov/json/planetary_k_index_1m.json");
+    const data = await res.json();
+
+    const latest = data[data.length - 1];
+    const a = latest.a_index;
+
+    document.querySelector('#g-a span').textContent = a;
+
+    const gauge = document.getElementById('g-a');
+    gauge.style.boxShadow = `
+      0 0 ${4 + a}px rgba(0,255,255,0.6),
+      0 0 ${8 + a*1.5}px rgba(0,255,255,0.4)
+    `;
+  } catch (err) {
+    console.warn("A-index fetch failed:", err);
+    document.querySelector('#g-a span').textContent = "--";
+  }
+}
+
+// ---------------------------------------------------------
+// LIVE TEC FETCH — TOTAL ELECTRON CONTENT
+// ---------------------------------------------------------
+async function updateTEC() {
+  try {
+    const res = await fetch("https://services.swpc.noaa.gov/json/tec/tec.json");
+    const data = await res.json();
+
+    const latest = data[data.length - 1];
+    const tec = latest.tec;
+
+    document.querySelector('#g-tec span').textContent = tec;
+
+    const gauge = document.getElementById('g-tec');
+    gauge.style.boxShadow = `
+      0 0 ${4 + tec/2}px rgba(0,255,255,0.6),
+      0 0 ${8 + tec/1.5}px rgba(0,255,255,0.4)
+    `;
+  } catch (err) {
+    console.warn("TEC fetch failed:", err);
+    document.querySelector('#g-tec span').textContent = "--";
+  }
+}
+
+// ---------------------------------------------------------
 // INIT — RUN EVERYTHING
 // ---------------------------------------------------------
 async function init(){
@@ -92,7 +164,15 @@ async function init(){
 
   // LIVE DATA
   updateKIndex();
-  setInterval(updateKIndex, 60000); // update every 60 seconds
+  updateSFI();
+  updateAIndex();
+  updateTEC();
+
+  // Auto-refresh every 60 seconds
+  setInterval(updateKIndex, 60000);
+  setInterval(updateSFI, 60000);
+  setInterval(updateAIndex, 60000);
+  setInterval(updateTEC, 60000);
 
   // Oracle hook
   document.getElementById('oracle-ask').addEventListener('click', ()=>{
