@@ -3,231 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AE0TO // COMMAND CENTER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Bungee+Shade&display=swap" rel="stylesheet">
+    <title>AE0TO // STRATCOM HUD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@300;700&family=Lobster&display=swap" rel="stylesheet">
     <style>
         :root {
-            --hologram-cyan: #00f2ff;
-            --hologram-glow: rgba(0, 242, 255, 0.3);
-            --terminal-green: #00ff41;
-            --atomic-orange: #ff5f00;
-            --bg-dark: #020b14;
+            --hologram-blue: #00e5ff;
+            --hologram-glow: rgba(0, 229, 255, 0.4);
+            --nsa-green: #00ff6a;
+            --atomic-orange: #ffcc00;
+            --deep-space: #01080e;
+            --glass-bg: rgba(2, 15, 26, 0.7);
         }
 
-        body, html {
-            margin: 0; padding: 0;
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Share Tech Mono', monospace;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+        /* --- GLOBAL FX --- */
+        body, html { 
+            margin: 0; padding: 0; background: var(--deep-space); color: #fff;
+            font-family: 'JetBrains Mono', monospace; scroll-behavior: smooth; overflow-x: hidden;
         }
 
-        /* Scanline Overlay Effect */
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 9999;
-            background-size: 100% 4px, 3px 100%;
-            pointer-events: none;
+        /* Scanline and CRT Flicker Effect */
+        body::after {
+            content: " "; display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 999; pointer-events: none; background-size: 100% 3px, 2px 100%;
         }
 
-        /* --- SECTION 1: THE HUD --- */
-        .hud-header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at center, #0a2d4d 0%, #020b14 100%);
-            border-bottom: 2px solid var(--hologram-cyan);
-            text-align: center;
+        .hologram-grid {
+            background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
 
-        .glass-panel {
-            background: rgba(0, 242, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--hologram-cyan);
-            box-shadow: 0 0 20px var(--hologram-glow);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 80%;
+        /* --- SECTION 1: THE COCKPIT HUD --- */
+        #hud-top {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; border-bottom: 4px double var(--hologram-blue);
         }
 
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 4rem; margin: 0; color: var(--hologram-cyan); text-shadow: 0 0 15px var(--hologram-cyan); }
-        .sub-text { font-size: 1.5rem; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; }
-
-        /* --- SECTION 2: THE EOC (PROPAGATION) --- */
-        .section-title { font-family: 'Orbitron'; color: var(--hologram-cyan); padding: 20px; border-left: 5px solid var(--hologram-cyan); background: rgba(0,0,0,0.5); margin: 40px 0; }
-        
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .radar-circle {
+            position: absolute; width: 600px; height: 600px; border: 1px solid var(--hologram-blue);
+            border-radius: 50%; opacity: 0.2; animation: pulse 4s infinite;
         }
 
-        .widget-box {
-            background: rgba(0,0,0,0.8);
-            border: 1px solid #333;
-            height: 500px;
-            overflow: hidden;
-            position: relative;
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 15px;
+            padding: 40px; box-shadow: 0 0 40px var(--hologram-glow);
+            text-align: center; z-index: 10;
         }
 
-        /* --- SECTION 3: MILITARY DOSSIER --- */
-        .military-section {
-            background: #050505;
-            padding: 50px;
-            border-top: 1px solid var(--terminal-green);
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; letter-spacing: 10px; margin: 0; color: var(--hologram-blue); text-shadow: 0 0 20px var(--hologram-blue); }
+        .badge { background: var(--hologram-blue); color: #000; padding: 5px 15px; font-weight: bold; font-size: 1rem; margin-top: 10px; display: inline-block; }
+
+        /* --- SECTION 2: THE EOC DATA TILES --- */
+        .dashboard-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px; padding: 50px; background: rgba(0,0,0,0.5);
         }
 
-        .dossier-card {
-            border: 1px solid var(--terminal-green);
-            padding: 20px;
-            color: var(--terminal-green);
-            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
+        .data-module {
+            background: rgba(0, 15, 25, 0.8); border: 1px solid #1a3a5a;
+            height: 550px; position: relative; overflow: hidden;
+            transition: 0.3s;
         }
 
-        /* --- SECTION 4: ATOMIC PSYCHEDELIC / JUKEBOX --- */
-        .psychedelic-layer {
-            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff5f00);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            padding: 100px 20px;
-            color: white;
+        .data-module:hover { border-color: var(--hologram-blue); box-shadow: 0 0 15px var(--hologram-glow); }
+
+        .module-header {
+            background: #1a3a5a; padding: 10px; font-size: 0.8rem; font-family: 'Orbitron';
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- SECTION 3: THE DOSSIER (USAF) --- */
+        .military-dossier {
+            padding: 80px 20px; background: #0a0a0a; border-top: 2px solid var(--nsa-green);
         }
 
-        .jukebox-container {
-            background: #222;
-            border: 10px solid var(--atomic-orange);
-            border-radius: 50px 50px 0 0;
-            padding: 30px;
-            max-width: 600px;
-            margin: 0 auto;
-            font-family: 'Bungee Shade', cursive;
+        .classified-folder {
+            max-width: 900px; margin: 0 auto; border: 2px solid var(--nsa-green);
+            padding: 30px; position: relative; background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,255,106,0.03) 1px, rgba(0,255,106,0.03) 2px);
+        }
+
+        .classified-stamp {
+            position: absolute; top: 20px; right: 20px; border: 4px solid #ff4444; color: #ff4444;
+            padding: 10px; transform: rotate(15deg); font-weight: 900; font-size: 1.5rem; opacity: 0.7;
+        }
+
+        /* --- SECTION 4: ATOMIC JUKEBOX (The Shift) --- */
+        .atomic-section {
+            padding: 100px 0; background: #2b1d0e; 
+            background-image: radial-gradient(#4d341a 1px, transparent 1px); background-size: 20px 20px;
+            color: var(--atomic-orange); text-align: center;
+        }
+
+        .jukebox-ui {
+            width: 500px; height: 600px; margin: 0 auto; background: #1a1108;
+            border: 8px solid #4d341a; border-radius: 40px 40px 10px 10px;
+            box-shadow: 0 0 50px rgba(255, 204, 0, 0.2); position: relative; padding: 20px;
         }
 
         /* --- SECTION 5: THE ORACLE --- */
-        .oracle-footer {
-            height: 100vh;
-            background: black;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .oracle-vault {
+            height: 100vh; background: radial-gradient(circle at bottom, #111, #000);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .stone-circle {
-            width: 300px;
-            height: 300px;
-            border: 10px dashed #444;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: rotate 20s linear infinite;
+        #starfield { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+
+        .oracle-circle {
+            width: 400px; height: 400px; z-index: 2;
+            background: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            border: 20px solid #222; border-radius: 50%; box-shadow: 0 0 100px rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            animation: breathe 5s infinite ease-in-out;
         }
 
-        .mist {
-            position: absolute;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            filter: blur(50px);
-        }
-
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.2; } 50% { transform: scale(1.05); opacity: 0.4; } 100% { transform: scale(0.95); opacity: 0.2; } }
+        @keyframes breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
     </style>
 </head>
-<body>
+<body class="hologram-grid">
 
-    <header class="hud-header">
-        <div class="glass-panel">
-            <div class="sub-text">DIRECTIVE: AE0TO // GRID: EM36VJ</div>
-            <h1>RYAN "SHEEPDOG" TANNER</h1>
-            <p>USAF SECURITY FORCES // AMATEUR RADIO COMMAND</p>
-            <div id="utc-clock" style="font-size: 2rem; color: var(--hologram-cyan);">00:00:00 UTC</div>
+    <section id="hud-top">
+        <div class="radar-circle"></div>
+        <div class="glass-card">
+            <div style="color: var(--hologram-blue); font-size: 0.8rem; letter-spacing: 5px;">STRATEGIC AMATEUR RADIO COMMAND</div>
+            <h1>AEØTO</h1>
+            <div class="badge">CALLSIGN VERIFIED // SHEEPDOG</div>
+            <p style="margin-top: 20px; opacity: 0.8;">OPERATOR: RYAN TANNER | QTH: EM36VJ | STATUS: MONITORING</p>
+            <div id="clock" style="font-size: 2.5rem; font-weight: bold; color: var(--hologram-blue);">00:00:00 UTC</div>
         </div>
-    </header>
+    </section>
 
-    <div class="section-title">GLOBAL PROPAGATION INTELLIGENCE (LIVE FEEDS)</div>
-    <div class="grid-container">
-        <div class="widget-box">
-            <iframe src="https://www.swpc.noaa.gov/products/geospace-magnetosphere-movies" width="100%" height="100%" frameborder="0"></iframe>
+    <div class="module-header" style="background: var(--hologram-blue); color: black; padding: 20px; font-weight: bold;">
+        <span>>> LIVE SIGNAL INTELLIGENCE (SIGINT)</span>
+        <span>LOCATION: 35.92, -92.88</span>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="data-module">
+            <div class="module-header"><span>HF PROPAGATION PLANNER</span><span>LIVE</span></div>
+            <iframe src="https://prop.kc2g.com/" width="100%" height="100%" frameborder="0"></iframe>
         </div>
-        <div class="widget-box">
-            <iframe src="https://www.dxmaps.com/spots/mapg.php?Lan=E" width="100%" height="100%" frameborder="0"></iframe>
+
+        <div class="data-module">
+            <div class="module-header"><span>PSK REPORTER (LIVE SPOTS)</span><span>FT8/CW</span></div>
+            <iframe src="https://pskreporter.info/pskmap.html" width="100%" height="100%" frameborder="0"></iframe>
         </div>
-        <div class="widget-box">
+
+        <div class="data-module">
+            <div class="module-header"><span>NOAA SPACE WEATHER OPS</span><span>REAL-TIME</span></div>
+            <iframe src="https://www.swpc.noaa.gov/communities/radio-communications" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+
+        <div class="data-module">
+            <div class="module-header"><span>GLOBAL LIGHTNING MAP</span><span>SFERICS</span></div>
             <iframe src="https://www.lightningmaps.org/#m=oss;y=35.4133;x=-92.31;z=6;" width="100%" height="100%" frameborder="0"></iframe>
         </div>
-        <div class="widget-box" style="display: flex; justify-content: center; align-items: center; background: #000;">
-            <a href="https://www.hamqsl.com/solar.html"><img src="https://www.hamqsl.com/solar101vhf.php" alt="Solar Data"></a>
-        </div>
     </div>
 
-    <section class="military-section">
-        <div class="dossier-card">
-            <h2 style="font-family: 'Orbitron';">ENCRYPTED SERVICE RECORD: USAF SECURITY FORCES SNCO</h2>
-            <hr border-color="var(--terminal-green)">
-            <p>> RANK: SENIOR NON-COMMISSIONED OFFICER</p>
-            <p>> SPECIALIZATION: NUCLEAR SECURITY / PRESIDENTIAL PROTECTION</p>
-            <p>> CLEARANCE: [REDACTED]</p>
-            <p>Ryan "Sheepdog" Tanner has provided over two decades of service in high-stakes National Security environments, ensuring the integrity of the nation's most sensitive assets.</p>
-            <a href="#" style="color: white; background: var(--terminal-green); padding: 10px; text-decoration: none;">VIEW FULL CAREER DOSSIER (LINKEDIN)</a>
+    <section class="military-dossier">
+        <div class="classified-folder">
+            <div class="classified-stamp">TOP SECRET</div>
+            <h2 style="color: var(--nsa-green); font-family: 'Orbitron';">PERSONNEL FILE: TANNER, RYAN</h2>
+            <hr style="border: 1px solid var(--nsa-green); opacity: 0.3;">
+            <p>> SERVICE: UNITED STATES AIR FORCE</p>
+            <p>> UNIT: SECURITY FORCES (SFS)</p>
+            <p>> ROLE: SNCO / DEFENSOR FORTIS</p>
+            <p style="margin: 30px 0; line-height: 1.6; color: #aaa;">
+                Extensive background in <b>Nuclear Security</b>, <b>Presidential Support</b>, and <b>National Security</b> operations. 
+                Expert in perimeter defense, tactical communication, and high-value asset protection. 
+                <br><br>
+                [REDACTED DATA FOLLOWS]...
+            </p>
+            <div style="display: flex; gap: 20px;">
+                <a href="https://www.linkedin.com/in/YOUR_LINKEDIN_HERE" style="border: 1px solid var(--nsa-green); color: var(--nsa-green); padding: 10px 20px; text-decoration: none;">ACCESS LINKEDIN NODES</a>
+                <span style="color: #444;">ID: 4A0X1-SF-AE0TO</span>
+            </div>
         </div>
     </section>
 
-    <div class="section-title">FIELD OPERATIONS: POTA / SOTA LOGS</div>
-    <div style="overflow-x: auto; white-space: nowrap; padding: 20px; background: #111;">
-        <img src="https://via.placeholder.com/400x300/00f2ff/000000?text=SOTA+Deployment+1" style="height: 300px; margin-right: 10px; border: 2px solid var(--hologram-cyan);">
-        <img src="https://via.placeholder.com/400x300/00f2ff/000000?text=POTA+Rig+Setup" style="height: 300px; margin-right: 10px; border: 2px solid var(--hologram-cyan);">
-        <img src="https://via.placeholder.com/400x300/00f2ff/000000?text=Field+Day+EM36VJ" style="height: 300px; margin-right: 10px; border: 2px solid var(--hologram-cyan);">
-    </div>
-
-    <section class="psychedelic-layer">
-        <div class="jukebox-container">
-            <h2 style="text-align: center; color: var(--atomic-orange);">ATOMIC RADIO JUKEBOX</h2>
-            <p style="text-align: center; font-family: 'Share Tech Mono';">SELECT FREQUENCY FOR AUDIO UPLINK</p>
-            <audio controls style="width: 100%;">
-                <source src="YOUR_JUKEHOST_DIRECT_LINK_HERE" type="audio/mpeg">
-                Your browser does not support the audio element.
+    <section class="atomic-section">
+        <h2 style="font-family: 'Lobster', cursive; font-size: 3rem;">The Sheepdog Jukebox</h2>
+        <div class="jukebox-ui">
+            <div style="height: 200px; background: #000; border: 4px inset #4d341a; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <div style="color: #0f0; font-family: 'JetBrains Mono'; font-size: 0.8rem; padding: 10px;">
+                    LOAD "JUKEBOX.EXE"<br>
+                    CONNECTING TO JUKEHOST.CO.UK...<br>
+                    SIGNAL STRENGTH: 59+<br>
+                    <span style="color: var(--atomic-orange)">NOW PLAYING: [EXTERNAL AUDIO SOURCE]</span>
+                </div>
+            </div>
+            <audio controls style="width: 100%; filter: sepia(1) saturate(5) hue-rotate(10deg);">
+                <source src="https://jukehost.co.uk/direct/YOUR_FILE_ID" type="audio/mpeg">
             </audio>
+            <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                <div style="height: 60px; background: #332211; border-radius: 5px; border-bottom: 4px solid #000;"></div>
+                <div style="height: 60px; background: #332211; border-radius: 5px; border-bottom: 4px solid #000;"></div>
+                <div style="height: 60px; background: #332211; border-radius: 5px; border-bottom: 4px solid #000;"></div>
+            </div>
         </div>
     </section>
 
-    <footer class="oracle-footer">
-        <div class="mist"></div>
-        <div class="stone-circle">
-            <div style="color: white; transform: rotate(-20deg); font-family: 'Orbitron'; letter-spacing: 10px;">AE0TO</div>
+    <section class="oracle-vault">
+        <canvas id="starfield"></canvas>
+        <div class="oracle-circle">
+            <div style="color: #fff; font-family: 'Orbitron'; letter-spacing: 5px; opacity: 0.8;">THE ORACLE</div>
+            <div style="font-size: 0.6rem; color: var(--hologram-blue);">AEØTO CONSTELLATION ACTIVE</div>
+            <input type="text" placeholder="QUERY THE ANCIENTS..." style="margin-top: 20px; background: transparent; border: 1px solid #444; color: white; padding: 10px; text-align: center; width: 250px;">
         </div>
-        <div style="margin-top: 30px; z-index: 10;">
-            <h3 style="font-family: 'Orbitron';">THE ORACLE OF AMATEUR RADIO</h3>
-            <input type="text" placeholder="ASK THE ANCIENTS..." style="padding: 15px; width: 300px; background: transparent; border: 1px solid white; color: white; text-align: center;">
-            <p style="font-size: 0.8rem; opacity: 0.5;">73 de AE0TO // CLEAR FREQUENCY</p>
+        <div style="z-index: 10; margin-top: 20px; text-align: center;">
+            <p style="font-size: 0.7rem; opacity: 0.4;">73 DE AE0TO | CLEAR FREQUENCY | EM36VJ</p>
         </div>
-    </footer >
+    </section>
 
     <script>
-        // Update UTC Clock
+        // Real-time UTC Clock
         function updateClock() {
             const now = new Date();
-            document.getElementById('utc-clock').innerText = now.toISOString().split('T')[1].split('.')[0] + " UTC";
+            const time = now.toISOString().split('T')[1].split('.')[0];
+            document.getElementById('clock').innerText = time + ' UTC';
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        // Starfield Constellation Effect
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const stars = [];
+
+        for(let i=0; i<200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                opacity: Math.random()
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI*2);
+                ctx.fill();
+            });
+            // Draw Constellation AE0TO lines
+            ctx.strokeStyle = 'rgba(0, 229, 255, 0.15)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width/2 - 50, canvas.height/2);
+            ctx.lineTo(canvas.width/2 + 50, canvas.height/2 + 30);
+            ctx.lineTo(canvas.width/2, canvas.height/2 - 80);
+            ctx.closePath();
+            ctx.stroke();
+        }
+        drawStars();
     </script>
 </body>
 </html>
