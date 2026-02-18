@@ -3,361 +3,631 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AE0TO // COMMAND HOLODECK</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&family=Bungee+Inline&display=swap" rel="stylesheet">
+    <title>AE0TO Frequency Database</title>
     <style>
         :root {
-            --hologram-cyan: #00f2ff;
-            --hologram-cyan-glow: rgba(0, 242, 255, 0.4);
-            --atomic-orange: #ff9d00;
-            --atomic-glow: rgba(255, 157, 0, 0.6);
-            --deep-space: #01080e;
+            --neon-blue: #00d2ff;
+            --dark-bg: #0a0b10;
             --glass: rgba(255, 255, 255, 0.05);
         }
 
-        body, html {
-            margin: 0; padding: 0; background: var(--deep-space); color: white;
-            font-family: 'Share Tech Mono', monospace; overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 50%, #0a1b2a 0%, #01080e 100%),
-                repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
-            background-size: 100% 100%, 100% 3px;
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .glass-panel {
+        header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #161b22, var(--dark-bg));
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .player-card {
             background: var(--glass);
-            backdrop-filter: blur(20px) saturate(150%);
-            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.05);
-            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .hud-header {
-            padding: 40px; text-align: center; border-bottom: 2px solid var(--hologram-cyan-glow);
-            position: relative; overflow: hidden;
-        }
-        .hud-header h1 {
-            font-family: 'Orbitron'; font-size: clamp(2rem, 8vw, 5rem); margin: 0;
-            color: var(--hologram-cyan); text-shadow: 0 0 20px var(--hologram-cyan);
-            letter-spacing: 15px;
+        #now-playing {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            margin-bottom: 15px;
+            height: 1.5em;
         }
 
-        /* --- THE NEW IRIDESCENT JUKEBOX --- */
-        .juke-holodeck {
-            max-width: 900px; margin: 50px auto; padding: 40px;
-            border: 1px solid var(--hologram-cyan-glow);
-            position: relative; text-align: center;
+        audio {
+            width: 100%;
+            filter: invert(100%) hue-rotate(180deg) brightness(1.5);
         }
 
-        .viz-outer-wrap {
-            width: 100%; height: 160px; margin-bottom: 20px;
-            position: relative; overflow: hidden;
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
         }
 
-        #waveform { width: 100%; height: 100%; filter: drop-shadow(0 0 10px var(--hologram-cyan-glow)); }
-
-        .track-info-display {
-            background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 5px;
-            border-left: 6px solid var(--hologram-cyan); margin-bottom: 30px;
+        button {
+            background: transparent;
+            color: white;
+            border: 1px solid var(--neon-blue);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .track-title { font-family: 'Orbitron'; font-size: 1.6rem; color: #fff; letter-spacing: 2px; }
-        .track-meta { font-size: 0.9rem; color: var(--hologram-cyan); letter-spacing: 4px; margin-bottom: 8px; }
-
-        .btn-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .control-btn {
-            background: transparent; border: 1px solid var(--hologram-cyan);
-            color: var(--hologram-cyan); padding: 12px 25px; font-family: 'Orbitron';
-            cursor: pointer; transition: 0.3s; font-size: 0.8rem;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        button:hover {
+            background: var(--neon-blue);
+            color: black;
         }
-        .control-btn:hover { background: var(--hologram-cyan); color: #000; box-shadow: 0 0 15px var(--hologram-cyan); }
 
-        .scanline {
-            width: 100%; height: 100px; background: linear-gradient(0deg, transparent, rgba(0, 242, 255, 0.05), transparent);
-            position: fixed; top: -100px; left: 0; z-index: 100; pointer-events: none;
-            animation: scan 6s linear infinite;
+        #search-bar {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-bottom: 20px;
+            outline: none;
+            border: 1px solid transparent;
         }
-        @keyframes scan { 0% { top: -100px; } 100% { top: 100vh; } }
+
+        #search-bar:focus {
+            border-color: var(--neon-blue);
+        }
+
+        .track-list {
+            max-height: 50vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .track-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .track-item:hover {
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        .track-item.active {
+            border-left: 4px solid var(--neon-blue);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="scanline"></div>
+<header>
+    <h1>AE0TO FREQUENCY DATABASE</h1>
+    <p>MASTER LIBRARY | 389 TRACKS</p>
+</header>
 
-    <header class="hud-header">
-        <div style="font-size: 0.8rem; letter-spacing: 5px; color: var(--hologram-cyan); margin-bottom: 10px;">[ PRESIDENTIAL COMMAND // STRATCOM UPLINK ]</div>
-        <h1>AEØTO</h1>
-    </header>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 30px;">
-        <div class="glass-panel" style="height: 350px;"><iframe src="https://prop.kc2g.com/" width="100%" height="100%" frameborder="0"></iframe></div>
-        <div class="glass-panel" style="height: 350px;"><iframe src="https://pskreporter.info/pskmap.html" width="100%" height="100%" frameborder="0"></iframe></div>
-        <div class="glass-panel" style="height: 350px;"><iframe src="https://www.lightningmaps.org/#m=oss;y=35.4133;x=-92.31;z=6;" width="100%" height="100%" frameborder="0"></iframe></div>
+<div class="container">
+    <div class="player-card">
+        <div id="now-playing">Select a track to begin</div>
+        <audio id="audio-player" controls></audio>
+        <div class="controls">
+            <button onclick="prevTrack()">Prev</button>
+            <button onclick="shuffleLibrary()">Shuffle</button>
+            <button onclick="nextTrack()">Next</button>
+        </div>
     </div>
 
-    <section style="padding: 20px;">
-        <div class="juke-holodeck glass-panel">
-            <div class="viz-outer-wrap"><canvas id="waveform"></canvas></div>
-
-            <div class="track-info-display">
-                <div id="track-id" class="track-meta">SIGNAL ACQUISITION...</div>
-                <div id="track-name" class="track-title">STATION_IDLE</div>
-            </div>
-
-            <div class="btn-grid">
-                <button class="control-btn" onclick="prevTrack()">PREV_SIG</button>
-                <button id="master-power" class="control-btn" onclick="togglePower()">MASTER_POWER: OFF</button>
-                <button class="control-btn" onclick="nextTrack()">NEXT_SIG</button>
-                <button class="control-btn" onclick="shuffleNow()">RE_SHUFFLE</button>
-            </div>
-            <audio id="comms-audio" onended="nextTrack()"></audio>
+    <input type="text" id="search-bar" placeholder="Search by Artist or Song..." onkeyup="filterTracks()">
+    
+    <div class="track-list" id="list-container">
         </div>
-    </section>
+</div>
 
-    <script>
-        // RESTORED: THE FULL LIBRARY
-        const rawTracks = [
-            "https://audio.jukehost.co.uk/iQwrtX0Q3jYMXmqjnZ9UKQRT8scaHMOn.mp3", "https://audio.jukehost.co.uk/MpVhO6htS6WNXWnnR1XE1ymxD8xrShVo.mp3",
-            "https://audio.jukehost.co.uk/5awycyDgkmkm3QdJ5FOYjuU5mrHHkv54.mp3", "https://audio.jukehost.co.uk/TxFFfbaT2oFzpI4SpBFgX3BzkgQeWfM1.mp3",
-            "https://audio.jukehost.co.uk/6FtNBMj7BFn3phgCLC8jNpSW2Tdls88R.mp3", "https://audio.jukehost.co.uk/GmiVRvalIW5qpIRIrnDMNC2uLDzwjrqZ.mp3",
-            "https://audio.jukehost.co.uk/WM4X8ivlqMVa9sawNUCM9MvMejjWw3Ih.mp3", "https://audio.jukehost.co.uk/mDDXHQhIBw54XdCyAbUESz6JIal5cDdu.mp3",
-            "https://audio.jukehost.co.uk/H2GEpeFC4l1PC8DByAGCujZnc9JrWYT.mp3", "https://audio.jukehost.co.uk/7IhIa8FO4yDAsCC70aBZ7eEz5AuUp7ze.mp3",
-            "https://audio.jukehost.co.uk/RO74p6sVKc9KmKevAFEVq8tahM4veajG.mp3", "https://audio.jukehost.co.uk/SBvFZXcsnLL13pBJWCMWpO34pJyLKMuY.mp3",
-            "https://audio.jukehost.co.uk/FelIrgLqKIddvZfXaYBukIBEyVuflDlo.mp3", "https://audio.jukehost.co.uk/K00w6gBUX8E8W4T89V0e3uZW57Bfz4VL.mp3",
-            "https://audio.jukehost.co.uk/shffcofeij85YKt5vlDtAcFvuuKlHaSp.mp3", "https://audio.jukehost.co.uk/EdmF2juJAdzCTuxK2lUllNzDC1io6B5d.mp3",
-            "https://audio.jukehost.co.uk/1v1atA15hY5M3EPJ8JVNRiKi9SoycuWi.mp3", "https://audio.jukehost.co.uk/B0tVBzM1FcvWUL72eAMZNR03ExjBwIV1.mp3",
-            "https://audio.jukehost.co.uk/OH34e7cgN241jZi54icZh5VvS1z5L4qN.mp3", "https://audio.jukehost.co.uk/bRANprYWDEM9kNSmF2Tgp2TAtlZ00QQh.mp3",
-            "https://audio.jukehost.co.uk/sN0IRory4AuV2bb3A4mSlb7P3xmXwBu8.mp3", "https://audio.jukehost.co.uk/KLeQqDynG3vcw8npOqffSMqXCE5NfBNr.mp3",
-            "https://audio.jukehost.co.uk/7JX7pcrkjlA5zWJPttubUjFePBz2ECAr.mp3", "https://audio.jukehost.co.uk/ACmRD6Z6B0sV970jMhm98gcXU4ZsT18c.mp3",
-            "https://audio.jukehost.co.uk/BAPbOeMO7jsUOodeRMdQm21TeuqY2Tup.mp3", "https://audio.jukehost.co.uk/gkmZ1yEbKPTtHjMVJZFaE4HqmNOqBxod.mp3",
-            "https://audio.jukehost.co.uk/W5BmacgeCNqpBT6BVGWyXz6mQsZMoY1B.mp3", "https://audio.jukehost.co.uk/pog1Zb54tXOvvjTqGRmGbaQuDSDBDd81.mp3",
-            "https://audio.jukehost.co.uk/R5hECf6MEYsIVScSIqTxRNw6rtrr0DdB.mp3", "https://audio.jukehost.co.uk/skgW09u3yY6UbRxCnd0eEHyaBxFqMFKG.mp3",
-            "https://audio.jukehost.co.uk/V7uUUNzCqRI2QuZUkRDCMwLOPudA087U.mp3", "https://audio.jukehost.co.uk/cS14EY2l8FHlm2GXqTXQg3xDeD5axLOG.mp3",
-            "https://audio.jukehost.co.uk/GZYG5rbd2AvHp9FOjx2xf1LcjoIBcak0.mp3", "https://audio.jukehost.co.uk/9JVl3i6MdxmJpFZPLu39PBl5RWGOJQdH.mp3",
-            "https://audio.jukehost.co.uk/Su7QeoZPgXskziCvf0FIXK8S1dabRXto.mp3", "https://audio.jukehost.co.uk/u59iXq84Zx4ly6mglHj5W6WYxVgY5eSg.mp3",
-            "https://audio.jukehost.co.uk/13G2vawBkdLr1RtsLAVJt6kdO5Qo7YHH.mp3", "https://audio.jukehost.co.uk/108kHKkFvPexYSfGkc9C1xtb60yY4tnu.mp3",
-            "https://audio.jukehost.co.uk/uTbJbu4jgVzGuK2kGaxyfUy9OlnmNSIZ.mp3", "https://audio.jukehost.co.uk/FF0IBQzE8P0jIgMVBXSFZaMHccM5GOKm.mp3",
-            "https://audio.jukehost.co.uk/rw9kFMJXYKfoco2Jopz7VYowRoWVw48H.mp3", "https://audio.jukehost.co.uk/HbN5kc1tQzh3Jfr6ach3KETgtjggRPtR.mp3",
-            "https://audio.jukehost.co.uk/ZHFG3rHxhZXF2KgGXIrFr7I9oX6Ogz3H.mp3", "https://audio.jukehost.co.uk/N3YGCuKsdz8yRskn1sJWIYmbu8wkWHDr.mp3",
-            "https://audio.jukehost.co.uk/pUmAeU6DPM46h1vd2Fu1xkAyhpOqlLva.mp3", "https://audio.jukehost.co.uk/VOFA39FFS6YQPyqti9lEIRbKtru7hf0c.mp3",
-            "https://audio.jukehost.co.uk/1r08WaMh4h4kJysNtBTo7XhSQ8atmk68.mp3", "https://audio.jukehost.co.uk/kvsRwyWCJvZ3prgrU6iZ7qiNtbh0Lf8Q.mp3",
-            "https://audio.jukehost.co.uk/rTHLstnm14KB3LD3FpMoj1ZpV1JYFQh2.mp3", "https://audio.jukehost.co.uk/uNIzouQMycNEnft34BM2cFAfD8tHt83A.mp3",
-            "https://audio.jukehost.co.uk/RIeozpcAwHMQoA5wvRYOzAo3bmvONl2d.mp3", "https://audio.jukehost.co.uk/UkSXWOPaCe4IVUEXdjOnKY3ATHBn5J2m.mp3",
-            "https://audio.jukehost.co.uk/79u84IsYDp6PkajObNIMUDYe27dbg2kF.mp3", "https://audio.jukehost.co.uk/g7rEqMwjJcjyYUbaSriNUuYyLd186Dfr.mp3",
-            "https://audio.jukehost.co.uk/s7T2TH2obWTxbJSljToHL5r7Ob40WJVH.mp3", "https://audio.jukehost.co.uk/PP1tLH0avzw1FpMs7z5UGYwiHmedb8IM.mp3",
-            "https://audio.jukehost.co.uk/Qb3b2BQHuQy9N6yBvmCdzbO1Ns5705dv.mp3", "https://audio.jukehost.co.uk/3vbfFl46uksoumC5T70rFOhnA1R0Vn8v.mp3",
-            "https://audio.jukehost.co.uk/GWifFHK1cyD7Wo1jXRjWCHFcIn088qTE.mp3", "https://audio.jukehost.co.uk/ZiaGf1ZfcKIZvM5zd5vyio60DYDALNom.mp3",
-            "https://audio.jukehost.co.uk/L1bMRwIYxrltIU8M4L6T57l5N5fMZdd2.mp3", "https://audio.jukehost.co.uk/cSPoGBEIGcbrimm6mCLCZdawSzDwSSCg.mp3",
-            "https://audio.jukehost.co.uk/gtlxct5yTyi1Ptq6qTZXlPHQT3mjJiwP.mp3", "https://audio.jukehost.co.uk/tBMTJQUhL6DcypLm0QLJ6DpUI5Bn8QKJ.mp3",
-            "https://audio.jukehost.co.uk/iaFHIUSPzN0Me5ukont3jIfWoU79FjVf.mp3", "https://audio.jukehost.co.uk/bNzuz0Ng1q6f0r2ljOo5xQB0PDsxJPbn.mp3",
-            "https://audio.jukehost.co.uk/LFsiMMWIWud2me8vyD6YjnHbPuz498eH.mp3", "https://audio.jukehost.co.uk/ysTzOFtUiffCNbNyL727Ft5V4NO3HRpW.mp3",
-            "https://audio.jukehost.co.uk/RExwsYcFkx9ig9EilwEYCASbXCIjWcRK.mp3", "https://audio.jukehost.co.uk/X6CwfVaTtZg7oEMSbL2lrkv7xFnB3bFo.mp3",
-            "https://audio.jukehost.co.uk/Ohf3orc89UAbVt93DCEmhspxpHkh1SHD.mp3", "https://audio.jukehost.co.uk/hL2dzCcgRIzjBdeUV0Pr5mhh7nIKJqKV.mp3",
-            "https://audio.jukehost.co.uk/JkNoFojgwrzlOegQG2yqMB0kdNdvasAt.mp3", "https://audio.jukehost.co.uk/azEDVdr5sTSdhKBlSBx53uKSgEwbGYaT.mp3",
-            "https://audio.jukehost.co.uk/y2YrkwJx0dVh21YhJigHQ9dw5B8GstYb.mp3", "https://audio.jukehost.co.uk/Vf5JfpuiUIS3kb7LbONtvfO8C6uDZldp.mp3",
-            "https://audio.jukehost.co.uk/wlq8TaElyoxm0ukOskLyRPtB8KwZWSZb.mp3", "https://audio.jukehost.co.uk/y07PiIcAJeZHjlG3xVQ8rHlruERNLWgq.mp3",
-            "https://audio.jukehost.co.uk/6O9MgrQg0ezBEiXMchaIsUWlWcKnOwGU.mp3", "https://audio.jukehost.co.uk/RO2OTPIeTYMAOXkHaSFOEp6aRo4tBPfU.mp3",
-            "https://audio.jukehost.co.uk/pNAcVVftMA0iM8Vn6gTBt05bqCNErhfT.mp3", "https://audio.jukehost.co.uk/NIGKXTtsmNxRLCkzXqf5oBRyJieZKLxU.mp3",
-            "https://audio.jukehost.co.uk/Aa0oYymj06owiQQDFKmdSZY0r6uzP1Eq.mp3", "https://audio.jukehost.co.uk/RNuy15wZWAY8IbxD6ECKHmUFPj5V2gA.mp3",
-            "https://audio.jukehost.co.uk/eiDN2A334ArGCRNzCBMtkzq8r6ZJV9at.mp3", "https://audio.jukehost.co.uk/nDzxOTJDFDmsNLipGccEn3Lr2F0pTsBt.mp3",
-            "https://audio.jukehost.co.uk/8qTuoWbXfhD5t73O1KaLc631LTrbnx3F.mp3", "https://audio.jukehost.co.uk/9nfmJpjBbHDLRXQuo6u23awrTYlR3zw.mp3",
-            "https://audio.jukehost.co.uk/q9OmYLf1U79jLLZtMwIznHByH6m6J442.mp3", "https://audio.jukehost.co.uk/q6Rc7dwsZU0XZLN6eEmFFiYXhX0NAeRo.mp3",
-            "https://audio.jukehost.co.uk/hKaXxBar3kRDiDbPLEgZ5nfi6zSjcc4r.mp3", "https://audio.jukehost.co.uk/xKDyQp8rJaN1zxHPbD06QE9FIBQTC0mE.mp3",
-            "https://audio.jukehost.co.uk/uMKVZBZ8sOb80r0FmlfBRaWjNHoqJzPe.mp3", "https://audio.jukehost.co.uk/R3TweleEiGKCTUnmX6r6jhTqEqqGCZD1.mp3",
-            "https://audio.jukehost.co.uk/Lr201BuAoaERpPffsihXGHUytVe4Sk4G.mp3", "https://audio.jukehost.co.uk/OVeLaOA6lIlCGgAbF8A2yonLxD84hYSW.mp3",
-            "https://audio.jukehost.co.uk/Pid5j4VPLHwTNXSjXu1L1fKfSSjsLCvM.mp3", "https://audio.jukehost.co.uk/a9oFslpLsXcVGKPgK5cGrViocLKsZO0j.mp3",
-            "https://audio.jukehost.co.uk/iZ16Bkf92A0WaovgzuLDLIzZFXl74mmx.mp3", "https://audio.jukehost.co.uk/pSaLwfwIB0tPbqyckOYCyvPS6dBEsQYh.mp3",
-            "https://audio.jukehost.co.uk/Bf9H57uRozSao1lpbGbMAGQxPz5Xwmw8.mp3", "https://audio.jukehost.co.uk/Iur4f4jjQPqGT7sO5Sc4tcmszsULNYZ1.mp3",
-            "https://audio.jukehost.co.uk/zMFGNTMPb6H0qMsLHnQZsvtcvjUUY5sF.mp3", "https://audio.jukehost.co.uk/jRIsefegeZqlE8A4vt4OJAIZ2R6PFoe5.mp3",
-            "https://audio.jukehost.co.uk/SaVAxd6TUQXMewX5ikoArBDXqiCaWv9E.mp3", "https://audio.jukehost.co.uk/j5ftjW8rNcYncMhocv5pu9YRQZpnZqc0.mp3",
-            "https://audio.jukehost.co.uk/8gWbidcwTLIfd4iMsmzfZWb22b6EZMnD.mp3", "https://audio.jukehost.co.uk/uQHijz902F4Cq5TXQkYDpG84LFMGRz1y.mp3",
-            "https://audio.jukehost.co.uk/4haECJ8cyQ2Vqf35cT8t3sw14dNHZH09.mp3", "https://audio.jukehost.co.uk/bfjfAWNE0BjLqmi9mdQJWWJMVIhZo4wP.mp3",
-            "https://audio.jukehost.co.uk/BZzfgBD5oCvqFEWrvluBs12nBJhhHcF7.mp3", "https://audio.jukehost.co.uk/Xp6sxksPXN0H4xv0YAvEQXgrIT8pt4RF.mp3",
-            "https://audio.jukehost.co.uk/0GvJis2CrlaVPaHUpzPmRD3bsSEf2YVM.mp3", "https://audio.jukehost.co.uk/jqwp8IB1Atxkv9EJ5AZyb6kX6adveb1V.mp3",
-            "https://audio.jukehost.co.uk/YAvGgkHjDRgPKXZ7AbGi3Ter3lNHlsrD.mp3", "https://audio.jukehost.co.uk/0EZ0pzi1aPwDaHk2QbuSflOZxlM2tyZy.mp3",
-            "https://audio.jukehost.co.uk/czsNzJ4YhbveSkzDRkEXEhoTu0KDfBGr.mp3", "https://audio.jukehost.co.uk/odl6M3sOYz4Awtt6o3ehBzaKtT5aQCQQ.mp3",
-            "https://audio.jukehost.co.uk/UeBF7THVwVwJukkbgrpDgXaIMHCg58XR.mp3", "https://audio.jukehost.co.uk/8iyTSSL2O2slFTUCqmcKDime5s4Wggpz.mp3",
-            "https://audio.jukehost.co.uk/PriVp9Wa3cG1BzrPF2tzvbhrtOrYL21X.mp3", "https://audio.jukehost.co.uk/SlbMbNgrgFqDvABI8WGTUGnhNNKoDOkb.mp3",
-            "https://audio.jukehost.co.uk/BXsy2ewA2DjmrLDWZy90CwrYSjnfGDGM.mp3", "https://audio.jukehost.co.uk/lQsfosGqsLwrCeOxSrWQ6zPXxkwOEc4X.mp3",
-            "https://audio.jukehost.co.uk/AxGGaCckmuX3lSMvKlRmBj2fPl2hAeza.mp3", "https://audio.jukehost.co.uk/277s0vR5kyVbQuxzpObP0GK7d9VgsIzg.mp3",
-            "https://audio.jukehost.co.uk/SXhrqcURq5GTjVUBOjN3ZVxSHYCFePON.mp3", "https://audio.jukehost.co.uk/anZ7HYCRNIPVebadGcKXyIyEAMUyjCsG.mp3",
-            "https://audio.jukehost.co.uk/Hg6ZPoKo0fi13uyJTLf4NhmlhbmFxMrG.mp3", "https://audio.jukehost.co.uk/qpr37qsNZjFSXDwyjePRXlpnwUUce3JF.mp3",
-            "https://audio.jukehost.co.uk/IPX1AIbmmpMPRtLWnl756GdBGOZHSUFs.mp3", "https://audio.jukehost.co.uk/pXD36efYXEbmpqNjh0aQ7JjP0Ut0WTk0.mp3",
-            "https://audio.jukehost.co.uk/P13ZbMJ3vBCYVFbgr94RKI6GKCUkCtXn.mp3", "https://audio.jukehost.co.uk/6Wtkz9aPRIXrHgppyU2DIzDbR31sF9iP.mp3",
-            "https://audio.jukehost.co.uk/1UeK2Jr9OT72EBYbryVaMnhsTEKzT8aP.mp3", "https://audio.jukehost.co.uk/PC1w6QhihRxKWGYXckXkgXUfXcK6beHB.mp3",
-            "https://audio.jukehost.co.uk/cJ3Y5ZCbObX3KAtAlpHNG7gQfjPdbUPw.mp3", "https://audio.jukehost.co.uk/nq3Cw710tvm5nYn6YZAot7Eejp7ppg2y.mp3",
-            "https://audio.jukehost.co.uk/oibqU1KLTBl48xIIJJ2OhAsNRmPSKjqe.mp3", "https://audio.jukehost.co.uk/z7SC6drQ3idPCTZIn29k057ahBNsfN3y.mp3",
-            "https://audio.jukehost.co.uk/Szah8PlnO5ssV8B8RHo5lR2OPDK8SLxo.mp3", "https://audio.jukehost.co.uk/DNpoFOU6rWXRszm0dIVYezGgwy4v8Y9y.mp3",
-            "https://audio.jukehost.co.uk/TJ2QMKlVFsu8bFrkkXFH6Jn6qXACyZLA.mp3", "https://audio.jukehost.co.uk/qzLnPxey5SrQEqZYnHduV1NVAFTo9w0m.mp3",
-            "https://audio.jukehost.co.uk/ZgFDab2VMdweJGyUhPuosfk3cM5hej2L.mp3", "https://audio.jukehost.co.uk/4fjAMGFxN989FrFHFGJKxLjJ15qWhU8n.mp3",
-            "https://audio.jukehost.co.uk/te1zUIj34ZFr3WQvRSf8PMQWuVieEik2.mp3", "https://audio.jukehost.co.uk/w9i0xtR9oXv7NSwH0Pz6FyOSiGniwSKf.mp3",
-            "https://audio.jukehost.co.uk/t1mp2bMdGXWsiK9uAKYXLEGeVvPFMaVa.mp3", "https://audio.jukehost.co.uk/WVDdBIdyirF8v1ei3w1SHuPcRsQAsduH.mp3",
-            "https://audio.jukehost.co.uk/eGsdk7aHIoVVwsif54arvJkshABaeFl0.mp3", "https://audio.jukehost.co.uk/EHaeFxsQrs2RsHplityZrRjaCPaf8G6z.mp3",
-            "https://audio.jukehost.co.uk/WMubtbSuGdZXTxdWJweKSjr3Td3pWPZ3.mp3", "https://audio.jukehost.co.uk/JUV3N6xFUyiA92oOaihOkX42rE48KRa4.mp3",
-            "https://audio.jukehost.co.uk/xoFFFPBLNZnO0Kmw3mldq5Ot6v4CWCCv.mp3", "https://audio.jukehost.co.uk/yGE0GnXsS4YpzFdStbZRZxcHTtUBSmX8.mp3",
-            "https://audio.jukehost.co.uk/zikVISMAl0iPQmfNwpDmuLXkZzXEczyE.mp3", "https://audio.jukehost.co.uk/s3hvZCaXwjL1S6wXR3wYIDLO0GxE62l9.mp3",
-            "https://audio.jukehost.co.uk/wi2XiGYb9zsUgyDbGitAcxBSwwI5YpRj.mp3", "https://audio.jukehost.co.uk/6aaM9cIN5oqDv4czUNftXfJApW6bTf4u.mp3",
-            "https://audio.jukehost.co.uk/CwxVGgW9X4qDRyJE0JRhp9dbT8ckM0mp.mp3", "https://audio.jukehost.co.uk/DdmxonAUkR0PicyWyTbHjXh6wAllIA5M.mp3",
-            "https://audio.jukehost.co.uk/yTroQxXEmmIg1RpRnTXoEGu23XlaNVKd.mp3", "https://audio.jukehost.co.uk/KwkyvWDU81kaJEeIx5cYRyMFnpV4In3T.mp3",
-            "https://audio.jukehost.co.uk/KzqniTQFms3RZrbq0cnFJNx8GwWgnFir.mp3", "https://audio.jukehost.co.uk/jLvxtP179kU52HSMSd4hZkg8agmhrRxB.mp3",
-            "https://audio.jukehost.co.uk/jUZy6QuFOzw7tQjzGuE1VX2ZgPswoupH.mp3", "https://audio.jukehost.co.uk/kXQBBojCczWYgmu4mGiXQijpSay7MN2i.mp3",
-            "https://audio.jukehost.co.uk/uRz3pwp1rfqqXkhYdVFu9nKKdkUyM8IC.mp3", "https://audio.jukehost.co.uk/hrk0dUWrsa28gv1Gb9XurKThqx7Spd8w.mp3",
-            "https://audio.jukehost.co.uk/jn7zrPmLbzmkmy7y2FfSvJ6FQjm8UfDW.mp3", "https://audio.jukehost.co.uk/cxbClnSLylF6HzZMingJcsq0u6Gx6o3H.mp3",
-            "https://audio.jukehost.co.uk/u1yVLpdounhB6RUHKNt9btstx62pfl9t.mp3", "https://audio.jukehost.co.uk/EqLQ0xhzcjMts7vatF0uHERWda8PSLLI.mp3",
-            "https://audio.jukehost.co.uk/sUSkjq8nV2sJJgYhC8ZwgEormlBSef4E.mp3", "https://audio.jukehost.co.uk/K8w1uzHixOiLgHavxt08FEmFlcFs2sli.mp3",
-            "https://audio.jukehost.co.uk/slkDnVpAi7eV2ovDLgsDGVMASrSEPrRC.mp3", "https://audio.jukehost.co.uk/dClFoOVCq4qbPliq3GmKa51PL6FOsPgg.mp3",
-            "https://audio.jukehost.co.uk/BA6yQS0vm4uoK5w6MNLas7dzar6KrDle.mp3", "https://audio.jukehost.co.uk/VGoRyAGKLesDqpfyCNWhhioSonoZCZoj.mp3",
-            "https://audio.jukehost.co.uk/QClJNSrHOf1g4kGjXmjm03s9kfQgvUJG.mp3", "https://audio.jukehost.co.uk/meTQgMDIxFubvTlbJCWMyms6NCg2HbVq.mp3",
-            "https://audio.jukehost.co.uk/6boZwkbwQrHB1HUdwd7F5K8XW5BC1Dth.mp3", "https://audio.jukehost.co.uk/rkJX8zEaB3Blmp0Z5jGmGQGMsJFjdy8G.mp3",
-            "https://audio.jukehost.co.uk/Wk6VV0nFBzkqMKoCApMfZSzeVGbtMrsM.mp3", "https://audio.jukehost.co.uk/LgJLGyiYByE3RDOVFWtRs2M5m9zZ9ASO.mp3",
-            "https://audio.jukehost.co.uk/tlv4i4fFJI95wCJ3ZmDwKN1i0y7rAqgt.mp3", "https://audio.jukehost.co.uk/12W5kh1rQwejldp9QkXE2KsNoGNG6MS6.mp3",
-            "https://audio.jukehost.co.uk/mU0RDr7eY1bp4IxmTGdplBRV3UjFE5Z1.mp3", "https://audio.jukehost.co.uk/ZWS0WG9DkggNiF0w2tt7MaCE528hV9MS.mp3",
-            "https://audio.jukehost.co.uk/VgzCwSBhjfYFKnCX5OT4NxVUcZnhlflc.mp3", "https://audio.jukehost.co.uk/ObNrVA3GO4U41noR91hsUH7LE3DhdLzG.mp3",
-            "https://audio.jukehost.co.uk/OQrDnQjolECz85qjbtNs6OWAvFAXqaZ7.mp3", "https://audio.jukehost.co.uk/rK9NG9b2mt0bK9PuKRyUIYGz0EBSZoaw.mp3",
-            "https://audio.jukehost.co.uk/rlsWukGNMcfiueKLPTWUKFm5XfOlwaIt.mp3", "https://audio.jukehost.co.uk/vFZzQEWetsUTz6QIpAm4y9Iu84Ba4u7o.mp3",
-            "https://audio.jukehost.co.uk/enKZbSCgNq5TtfpMLnPubQQYEG5668vj.mp3", "https://audio.jukehost.co.uk/namjUzx0BqcxSpOBrBdqJoduqoh8mIHp.mp3",
-            "https://audio.jukehost.co.uk/crEcwKv4T29QFDBk1DTrho7b4vZaCaoP.mp3", "https://audio.jukehost.co.uk/UdFFrTBjrntMUZhABIjEjgqWxHYmqXQp.mp3",
-            "https://audio.jukehost.co.uk/qaRanEJjZwnYrT9aVaCD3C2LkWCfMVMm.mp3", "https://audio.jukehost.co.uk/uKQgM4W2u441ndBz9sqaNA0khSQxechm.mp3",
-            "https://audio.jukehost.co.uk/1KBR0xUTJ8Exs53y5UPXyRq2Ta7GM8iA.mp3", "https://audio.jukehost.co.uk/4ugKANhULhjUjkafSSqSCf6IBQK2jWiK.mp3",
-            "https://audio.jukehost.co.uk/PaqZi8ZmH77Ppm5yGSPkV9oUAam2PI1r.mp3", "https://audio.jukehost.co.uk/Az5jKqqh9h4ANh5OSTDHnmrn5oUv1j5T.mp3",
-            "https://audio.jukehost.co.uk/MHr2yNaAnvk9GCttHcXluoJjJoJo2rCc.mp3", "https://audio.jukehost.co.uk/Z9ku4uLU8kUFLOGzKnTc61XkHZPnCFuS.mp3",
-            "https://audio.jukehost.co.uk/Wb103lJKASWeYZXT1QllwstA1tDhsDq8.mp3", "https://audio.jukehost.co.uk/BVx0brIzY0rwJah3cOVrqjglv1NXVmaU.mp3",
-            "https://audio.jukehost.co.uk/sNzcuOhkOyjzALEWl2haymn2O0K55UJd.mp3", "https://audio.jukehost.co.uk/D0tuNfcpPDczbjOJTO6rSwlRrs4zHZYO.mp3",
-            "https://audio.jukehost.co.uk/bRVgVQcVzpmcUGe3GQptvLB8RXdrkAg7.mp3", "https://audio.jukehost.co.uk/ZuDPPLORoxyNxlTnOAB0k4mDIpw5jINq.mp3",
-            "https://audio.jukehost.co.uk/pkP2IjJty3XId3Ap4izy1nDzbvFtdhhs.mp3", "https://audio.jukehost.co.uk/NZgcAVSwrwFKcflyi4GuR3UEKHM5lVoA.mp3",
-            "https://audio.jukehost.co.uk/ZJCuUN54sDNDPzmXLRDcTpPpH6Y9awj9.mp3", "https://audio.jukehost.co.uk/jzw457hOExUlUM0EmFpEXuPxB30KAJUM.mp3",
-            "https://audio.jukehost.co.uk/UKNAwm7IrSQX8E1WXUOqKNNJ7Y3UsvQW.mp3", "https://audio.jukehost.co.uk/5urS7buG9aGvYB4TWS2d4KcEXnzKvMUP.mp3",
-            "https://audio.jukehost.co.uk/NEM7et11aW6tkCjjPFp4xMtQQGTo7TKA.mp3", "https://audio.jukehost.co.uk/EssUWgKLFhM5Erty8s0IRr73LAFFHjRm.mp3",
-            "https://audio.jukehost.co.uk/2P6hwFLYc5zjqQFhxW4d3vNDVUqLwj4Y.mp3", "https://audio.jukehost.co.uk/e47iI5r433J2LTsgYhgeNvdFTmtegwhJ.mp3",
-            "https://audio.jukehost.co.uk/cRvGFR0MWmvwdHxdWiYsn9lS3ODneDmw.mp3", "https://audio.jukehost.co.uk/Owb59xDNErZKgSrAMOtmZZGmjiwoqmMT.mp3",
-            "https://audio.jukehost.co.uk/YiTdNaOk0nKabCIWUXKcjP0ZlNVd5Hb0.mp3", "https://audio.jukehost.co.uk/gPM6JdthXKL74yNR3qBA3jDU5UmyuxPe.mp3",
-            "https://audio.jukehost.co.uk/Bnpmt0wfKbQuZTIAjFE1XWp3SbKDsQAy.mp3", "https://audio.jukehost.co.uk/8y4kAr8OZA4LUItdNugTSFc7qjeU8t8R.mp3",
-            "https://audio.jukehost.co.uk/C1w92neAdSbyhaE3iJRLomirX28x8BhO.mp3", "https://audio.jukehost.co.uk/oQRqRuSQgLFNZrNON1dwy2pP4ETnQVQT.mp3",
-            "https://audio.jukehost.co.uk/7CNvIzXgnWCZwP65eSLwPVmYrxUWl8ez.mp3", "https://audio.jukehost.co.uk/VZC4F03IQIIiXpl6NPyE7xHKENFhzK4V.mp3",
-            "https://audio.jukehost.co.uk/eSaPdHXfWUHTv4r7guhAB5nXk3mMNC3P.mp3", "https://audio.jukehost.co.uk/r5bPCoq2e6IAQ9FMVlC8RVoymfHeAohM.mp3",
-            "https://audio.jukehost.co.uk/rk8wYv09b4RXWuTKCF6QyKIezNqFrmxr.mp3", "https://audio.jukehost.co.uk/gOzKdRaUuv4q5coo2YZ0uBWO3jVDclDM.mp3",
-            "https://audio.jukehost.co.uk/pWiL7ImcwyLJVAxa1kCI1JcdLVwHsDyj.mp3", "https://audio.jukehost.co.uk/rbmcsnNqMrbjxNAQLPDlxa5qJzaynuZp.mp3",
-            "https://audio.jukehost.co.uk/GBkUFG6Ag7YOVxvZQx2hqlAj4OcKUeaU.mp3", "https://audio.jukehost.co.uk/X20jo0xYT1HxJRSEbHjKo0CjcvKitaR9.mp3",
-            "https://audio.jukehost.co.uk/Kc2ITmzBPmhDPfil59A6XjeuSY48TD6S.mp3", "https://audio.jukehost.co.uk/LP7u7mwQJXZyK8ONNLWX7fjoE0aTwfS9.mp3",
-            "https://audio.jukehost.co.uk/KHIcfSEeOdrqbFK5DGy0MTgNuh1hNZ29.mp3", "https://audio.jukehost.co.uk/Qsc5Ac1993cdPWRlC1WAXO8x17W3NmaS.mp3",
-            "https://audio.jukehost.co.uk/oXbjAECuWgHGbyWre3np2vaykpFc8YGP.mp3", "https://audio.jukehost.co.uk/6NvwC9Ur0GIx29VII96xjMzcB4kgrlZC.mp3",
-            "https://audio.jukehost.co.uk/S47TmKyGPcFEnElFNi1Q9SwayJhlk8rm.mp3", "https://audio.jukehost.co.uk/Gcj3niSMvlk4t0RD2eOMr8MRYMSmNs6M.mp3",
-            "https://audio.jukehost.co.uk/ZJLXMXyEVHGZHBAPPsRtwYE80nebDBNg.mp3", "https://audio.jukehost.co.uk/oxtaPRMyKaUdQ8JEjNTxi7cmfTmxffMI.mp3",
-            "https://audio.jukehost.co.uk/MxhtFu3j6JeN8JvMXnDBlr8K25F26XCT.mp3", "https://audio.jukehost.co.uk/f5ptAeGGSE2RvHm5h3vq9tGmlNxr8nJ7.mp3",
-            "https://audio.jukehost.co.uk/bfOEJGOUmI28ToY81LRf5INcSAvKbL99.mp3", "https://audio.jukehost.co.uk/lTUmgujwKIpzExisqNADRVQ7YmmYXU44.mp3",
-            "https://audio.jukehost.co.uk/nEn31nBbn2Ge93c9l0Sszpn3VJtzAkoO.mp3", "https://audio.jukehost.co.uk/YiGsGsykLiILccNgFZQ0R9lRenWMbshS.mp3",
-            "https://audio.jukehost.co.uk/HpuATDV9NFlbuyaNvurbNbSIB6RMCKAK.mp3", "https://audio.jukehost.co.uk/PDvhx3Y9TAKxmNhXpvVtxdRemE9oP86J.mp3",
-            "https://audio.jukehost.co.uk/U2BZcdT4bAydJIrybTVZL1PrYYYctgh3.mp3", "https://audio.jukehost.co.uk/bW66xa3E44IoiBLQxoDi2t3j3osJdSaZ.mp3",
-            "https://audio.jukehost.co.uk/HO5zFxcK6GWyX5DlFhi3qWa30K8QmvHw.mp3", "https://audio.jukehost.co.uk/6wXliHflk7SJETbZeHxOr6HkwbH60BD8.mp3",
-            "https://audio.jukehost.co.uk/5pXii3cZNhhKyDgprXmptxam7ceHxdQz.mp3", "https://audio.jukehost.co.uk/6vfdupQtIWviQMCOOHMNCntBAQOsJbxS.mp3",
-            "https://audio.jukehost.co.uk/rhJhqMrA6BCfcVRi51ghrx9wNi1cTt0r.mp3", "https://audio.jukehost.co.uk/3MKX5btJDnMZhehTtMTOXesbe2HMaaEV.mp3",
-            "https://audio.jukehost.co.uk/Vj4U49f9qHr41k6DMjwjbk7idb1BA1To.mp3", "https://audio.jukehost.co.uk/sNzMrK652Mwmo7DQGggFHggImkA6pCy0.mp3",
-            "https://audio.jukehost.co.uk/hKm0kjcSHX9IAHc3erRvQV3FTldoPTYI.mp3", "https://audio.jukehost.co.uk/pMUk5xfoD38o896Z7GwYCY7soi8PmQiT.mp3",
-            "https://audio.jukehost.co.uk/alWJvJlAX5A7MfXoWbVu3VSZu4OFUOW6.mp3", "https://audio.jukehost.co.uk/OD6HzTuwjXgB5PweE5Fy1i2qP2oP98xT.mp3",
-            "https://audio.jukehost.co.uk/oz3XsM0YeiXVl1j3gCXhJq5XVDScbnqj.mp3", "https://audio.jukehost.co.uk/gQ8d3WimXHztDQIDEoeRSDqzkYuBuK7H.mp3",
-            "https://audio.jukehost.co.uk/7V0qzlbaNF3Kl1pKJ2jz5Vx7YDjoXL68.mp3", "https://audio.jukehost.co.uk/AkiNruksHyB6huUeiFZ9B2VwJHdu0N3q.mp3",
-            "https://audio.jukehost.co.uk/XZu2xhTYMysTFFnXtgxXwHpGFwaGAb7U.mp3", "https://audio.jukehost.co.uk/wgPL21eCuL8OsBtgnHGEqPjIB1g9diaO.mp3",
-            "https://audio.jukehost.co.uk/TImR1L3necXpSjFkVySTioWaSdhOrF7s.mp3", "https://audio.jukehost.co.uk/qSPPNIhhSNuHKieHoEPwCWfjkFDCexSh.mp3",
-            "https://audio.jukehost.co.uk/P7MErrJJoZ8JgLmVGlS1hkTmUQjbrlGr.mp3", "https://audio.jukehost.co.uk/arvGKWXKYAy129Ak6iC2ttxBsspEf5p8.mp3",
-            "https://audio.jukehost.co.uk/1S2D7Ij0tGQpzcKw6zoiEE1Lc8on6bJj.mp3", "https://audio.jukehost.co.uk/2Kwh1kPbCb0ytmOH5X6kWt4cHKiLpBbg.mp3",
-            "https://audio.jukehost.co.uk/0BIzNOkb0R9Wro8F4uKQCiO6HGGJsz3j.mp3", "https://audio.jukehost.co.uk/mFT8EJe2xnuuywzekO90ej2LX0Qi2q09.mp3",
-            "https://audio.jukehost.co.uk/coHlX5Ykihe2QfAAjziQftIA1L7kiGbh.mp3", "https://audio.jukehost.co.uk/ypy15WWJuHimn0Lxq35fEAMtZ1LMzhSC.mp3",
-            "https://audio.jukehost.co.uk/ayvK7nv7pIz6YbMlLBzZvAkqgcVV0rOP.mp3", "https://audio.jukehost.co.uk/gT7c1DNNGssKlPOqExB9ZGfTD3RNJPOF.mp3",
-            "https://audio.jukehost.co.uk/kLLMv1G8AvPJuKMHBQkCwcmvH0s3nuou.mp3", "https://audio.jukehost.co.uk/sGFNtfTW1W3kv0bHfgz32Xtq9fYyYH7m.mp3",
-            "https://audio.jukehost.co.uk/iacXdeocB79Sfuir8B36VUQhxVeLjLaG.mp3", "https://audio.jukehost.co.uk/YoIKTnVr6550Xd5oFDxyXtp4qQ0Tw8kL.mp3",
-            "https://audio.jukehost.co.uk/DxRb1WfGK0Hnp4wVgRATc40dt1bRZbG2.mp3", "https://audio.jukehost.co.uk/Ks2oXUc1DakJcjFacwsm5ywqHHFD9bkL.mp3",
-            "https://audio.jukehost.co.uk/EXwKZTREKGwusGbe2AFS5HdkKkykwOqX.mp3", "https://audio.jukehost.co.uk/A6aXAbuPhN0A9iX0Do1vC7Ql3ctQa6Ji.mp3",
-            "https://audio.jukehost.co.uk/v3mziCb1HM9EJ0woJb22Gbpt0kyVzdCn.mp3", "https://audio.jukehost.co.uk/Vg28NpaiGYNU7BMw8CnI9peE1XYmeJ9X.mp3",
-            "https://audio.jukehost.co.uk/hiYtJ4oGjAkpvKOYE5p3WWM6WwIG5TbP.mp3", "https://audio.jukehost.co.uk/8bJAcie3n2HtvAW1nHbo2OhM1o2c37gt.mp3",
-            "https://audio.jukehost.co.uk/jwOupqM61O9NhIoauvITRwI7yo7RB7IJ.mp3", "https://audio.jukehost.co.uk/7WX6GFNw7FkRP3IjIp42MI1I8FDFul6l.mp3",
-            "https://audio.jukehost.co.uk/zgNpwIBqjAlIKdI24FXoKxfIFyoW1DNW.mp3", "https://audio.jukehost.co.uk/jQK8Q3EKlmgfSXHYRYdYyLDIMZCCIwje.mp3",
-            "https://audio.jukehost.co.uk/wt6tJhy2Iq9dI1v7T4rWemQzfeLjSadz.mp3", "https://audio.jukehost.co.uk/L6SDX3yw0H6j3vnlVDBoXzrGDUIxYZtu.mp3",
-            "https://audio.jukehost.co.uk/LQ6K8yFYWhh2IKeVMbVTIgywwrZ1Uzsx.mp3", "https://audio.jukehost.co.uk/6q3ghMMIK65fad8HWEd2QjsmblGZjVsk.mp3",
-            "https://audio.jukehost.co.uk/uucfjy1ZnpoM9qaW7WLC03hODoDGkmY3.mp3", "https://audio.jukehost.co.uk/TQwxv45ATO7AerXGz7Pzg0FTHbjHnQcq.mp3",
-            "https://audio.jukehost.co.uk/lkMqL2lq1R8d4xS1KCd2kKsWfShfgSCH.mp3", "https://audio.jukehost.co.uk/pV6phdcoRiKHUruhVLtPT8C9QqcfaRfU.mp3",
-            "https://audio.jukehost.co.uk/U5YeGMiTjV4uX5TjsvsDjNuRDDNod3Ts.mp3", "https://audio.jukehost.co.uk/cPEqZ8iBCJPWMcgUh6FHwULvhCeK8EKf.mp3",
-            "https://audio.jukehost.co.uk/gPOvjzTLrk4HbMD6Lr08m9RreGvaSiUT.mp3", "https://audio.jukehost.co.uk/my2k6PlqxFm3bcHeOohTbwq7Xe6wPs0W.mp3",
-            "https://audio.jukehost.co.uk/oivqWIznKkZjRq1b9cvLDMHuB8zJc4Zl.mp3", "https://audio.jukehost.co.uk/OQQMBmWl3ND43Dj7oMDH05cPO1nkznmL.mp3",
-            "https://audio.jukehost.co.uk/4u59nzQpvT76RzRJEFmlXYEfhwmw3uff.mp3", "https://audio.jukehost.co.uk/DWLlThERkNAnbYkIpn8rUhaCmCHlsYon.mp3",
-            "https://audio.jukehost.co.uk/aCnbd4VASXOXDjh7jwhrS07nQUZmSKgC.mp3", "https://audio.jukehost.co.uk/vd9lpGgNMvzNpMyPtihBbZHp9rS6Wu5n.mp3",
-            "https://audio.jukehost.co.uk/1rfRCj5GWKhlhHdHQBa8YebUjSeEuSy8.mp3", "https://audio.jukehost.co.uk/ELKgTzaza1dIsbJeB0RVxCDks"
-        ];
+<script>
+    // --- THE MASTER DATABASE ---
+    const tracks = [
+        // PAGE 1
+        { url: "https://audio.jukehost.co.uk/iQwrtX0Q3jYMXmqjnZ9UKQRT8scaHMOn.mp3", name: "4 Non Blondes - What's Up" },
+        { url: "https://audio.jukehost.co.uk/MpVhO6htS6WNXWnnR1XE1ymxD8xrShVo.mp3", name: "A Flock of Seagulls - I Ran (So Far Away)" },
+        { url: "https://audio.jukehost.co.uk/5awycyDgkmkm3QdJ5FOYjuU5mrHHkv54.mp3", name: "ABBA - Dancing Queen" },
+        { url: "https://audio.jukehost.co.uk/TxFFfbaT2oFzpI4SpBFgX3BzkgQeWfM1.mp3", name: "ACDC - Are You Ready" },
+        { url: "https://audio.jukehost.co.uk/6FtNBMj7BFn3phgCLC8jNpSW2Tdls88R.mp3", name: "ACDC - Back In Black" },
+        { url: "https://audio.jukehost.co.uk/GmiVRvalIW5qpIRIrnDMNC2uLDzwjrqZ.mp3", name: "ACDC - D.T." },
+        { url: "https://audio.jukehost.co.uk/WM4X8ivlqMVa9sawNUCM9MvMejjWw3Ih.mp3", name: "ACDC - It's A Long Way To The Top" },
+        { url: "https://audio.jukehost.co.uk/mDDXHQhIBw54XdCyAbUESz6JIal5cDdu.mp3", name: "ACDC - Shake Your Foundations" },
+        { url: "https://audio.jukehost.co.uk/H2GEpeFC4l1PC8DByAGCujZnc9JrWYT.mp3", name: "ACDC - That's The Way I Wanna Rock 'n' Roll" },
+        { url: "https://audio.jukehost.co.uk/7IhIa8FO4yDAsCC70aBZ7eEz5AuUp7ze.mp3", name: "ACDC - Thunderstruck (Live)" },
+        { url: "https://audio.jukehost.co.uk/RO74p6sVKc9KmKevAFEVq8tahM4veajG.mp3", name: "ACDC - Who Made Who" },
+        { url: "https://audio.jukehost.co.uk/SBvFZXcsnLL13pBJWCMWpO34pJyLKMuY.mp3", name: "Aerosmith - Dream On" },
+        { url: "https://audio.jukehost.co.uk/FelIrgLqKIddvZfXaYBukIBEyVuflDlo.mp3", name: "Alabama - Mountain Music" },
+        { url: "https://audio.jukehost.co.uk/K00w6gBUX8E8W4T89V0e3uZW57Bfz4VL.mp3", name: "Alan Jackson - Little Man" },
+        { url: "https://audio.jukehost.co.uk/shffcofeij85YKt5vlDtAcFvuuKlHaSp.mp3", name: "Alanis Morissette - Thank You" },
+        { url: "https://audio.jukehost.co.uk/EdmF2juJAdzCTuxK2lUllNzDC1io6B5d.mp3", name: "Alannah Myles - Black Velvet" },
+        { url: "https://audio.jukehost.co.uk/1v1atA15hY5M3EPJ8JVNRiKi9SoycuWi.mp3", name: "April Wine - Just Between You And Me" },
+        { url: "https://audio.jukehost.co.uk/B0tVBzM1FcvWUL72eAMZNR03ExjBwIV1.mp3", name: "April Wine - Sign Of The Gypsy Queen" },
+        { url: "https://audio.jukehost.co.uk/OH34e7cgN241jZi54icZh5VvS1z5L4qN.mp3", name: "Argent - Hold Your Head Up" },
+        { url: "https://audio.jukehost.co.uk/bRANprYWDEM9kNSmF2Tgp2TAtlZ00QQh.mp3", name: "Autograph - Turn Up The Radio" },
+        { url: "https://audio.jukehost.co.uk/sN0IRory4AuV2bb3A4mSlb7P3xmXwBu8.mp3", name: "AWOLNATION - Sail" },
+        { url: "https://audio.jukehost.co.uk/KLeQqDynG3vcw8npOqffSMqXCE5NfBNr.mp3", name: "Bachman-Turner Overdrive - House Of The Rising Sun" },
+        { url: "https://audio.jukehost.co.uk/7JX7pcrkjlA5zWJPttubUjFePBz2ECAr.mp3", name: "Beastie Boys - Sabotage" },
+        { url: "https://audio.jukehost.co.uk/ACmRD6Z6B0sV970jMhm98gcXU4ZsT18c.mp3", name: "Belinda Carlisle - Heaven Is A Place On Earth" },
+        { url: "https://audio.jukehost.co.uk/BAPbOeMO7jsUOodeRMdQm21TeuqY2Tup.mp3", name: "Billy Joel - It's Still Rock And Roll To Me" },
+        { url: "https://audio.jukehost.co.uk/gkmZ1yEbKPTtHjMVJZFaE4HqmNOqBxod.mp3", name: "Billy Joel - Matter Of Trust" },
+        { url: "https://audio.jukehost.co.uk/W5BmacgeCNqpBT6BVGWyXz6mQsZMoY1B.mp3", name: "Billy Joel - New York State Of Mind" },
+        { url: "https://audio.jukehost.co.uk/pog1Zb54tXOvvjTqGRmGbaQuDSDBDd81.mp3", name: "Billy Joel - Piano Man" },
+        { url: "https://audio.jukehost.co.uk/R5hECf6MEYsIVScSIqTxRNw6rtrr0DdB.mp3", name: "Billy Joel - We Didn't Start The Fire" },
+        { url: "https://audio.jukehost.co.uk/skgW09u3yY6UbRxCnd0eEHyaBxFqMFKG.mp3", name: "Black Oak Arkansas - Lord Have Mercy" },
+        { url: "https://audio.jukehost.co.uk/V7uUUNzCqRI2QuZUkRDCMwLOPudA087U.mp3", name: "Blue Öyster Cult - Godzilla" },
+        { url: "https://audio.jukehost.co.uk/cS14EY2l8FHlm2GXqTXQg3xDeD5axLOG.mp3", name: "Bob Marley - Jamming (Live)" },
+        { url: "https://audio.jukehost.co.uk/GZYG5rbd2AvHp9FOjx2xf1LcjoIBcak0.mp3", name: "Bob Marley - Redemption Song" },
+        { url: "https://audio.jukehost.co.uk/9JVl3i6MdxmJpFZPLu39PBl5RWGOJQdH.mp3", name: "Bob Marley - Could You Be Loved" },
+        { url: "https://audio.jukehost.co.uk/Su7QeoZPgXskziCvf0FIXK8S1dabRXto.mp3", name: "Bob Seger - Beautiful Loser" },
+        { url: "https://audio.jukehost.co.uk/u59iXq84Zx4ly6mglHj5W6WYxVgY5eSg.mp3", name: "Bob Seger - Roll Me Away" },
+        { url: "https://audio.jukehost.co.uk/13G2vawBkdLr1RtsLAVJt6kdO5Qo7YHH.mp3", name: "Bob Seger - Still The Same" },
+        { url: "https://audio.jukehost.co.uk/108kHKkFvPexYSfGkc9C1xtb60yY4tnu.mp3", name: "Bob Seger - The Fire Inside" },
+        { url: "https://audio.jukehost.co.uk/uTbJbu4jgVzGuK2kGaxyfUy9OlnmNSIZ.mp3", name: "Bobby Womack - Across 110th Street" },
+        { url: "https://audio.jukehost.co.uk/FF0IBQzE8P0jIgMVBXSFZaMHccM5GOKm.mp3", name: "Bon Jovi - Blaze Of Glory" },
+        { url: "https://audio.jukehost.co.uk/rw9kFMJXYKfoco2Jopz7VYowRoWVw48H.mp3", name: "Bon Jovi - Wanted Dead Or Alive" },
+        { url: "https://audio.jukehost.co.uk/HbN5kc1tQzh3Jfr6ach3KETgtjggRPtR.mp3", name: "Boston - Feelin' Satisfied" },
+        { url: "https://audio.jukehost.co.uk/ZHFG3rHxhZXF2KgGXIrFr7I9oX6Ogz3H.mp3", name: "Boston - Peace Of Mind" },
+        { url: "https://audio.jukehost.co.uk/N3YGCuKsdz8yRskn1sJWIYmbu8wkWHDr.mp3", name: "Brad Paisley - High Life" },
+        { url: "https://audio.jukehost.co.uk/pUmAeU6DPM46h1vd2Fu1xkAyhpOqlLva.mp3", name: "Brad Paisley - A Man Don't Have To Die" },
+        { url: "https://audio.jukehost.co.uk/VOFA39FFS6YQPyqti9lEIRbKtru7hf0c.mp3", name: "Brad Paisley - Catch All The Fish" },
+        { url: "https://audio.jukehost.co.uk/1r08WaMh4h4kJysNtBTo7XhSQ8atmk68.mp3", name: "Brad Paisley - Country Nation" },
+        { url: "https://audio.jukehost.co.uk/kvsRwyWCJvZ3prgrU6iZ7qiNtbh0Lf8Q.mp3", name: "Brad Paisley - Me And Jesus" },
+        { url: "https://audio.jukehost.co.uk/rTHLstnm14KB3LD3FpMoj1ZpV1JYFQh2.mp3", name: "Brad Paisley - Southern Comfort Zone" },
+        { url: "https://audio.jukehost.co.uk/uNIzouQMycNEnft34BM2cFAfD8tHt83A.mp3", name: "Brad Paisley - The Old Rugged Cross" },
+        { url: "https://audio.jukehost.co.uk/RIeozpcAwHMQoA5wvRYOzAo3bmvONl2d.mp3", name: "Brad Paisley - Welcome To The Future" },
+        { url: "https://audio.jukehost.co.uk/UkSXWOPaCe4IVUEXdjOnKY3ATHBn5J2m.mp3", name: "Brad Paisley - You'll Never Leave Harlan Alive" },
+        { url: "https://audio.jukehost.co.uk/79u84IsYDp6PkajObNIMUDYe27dbg2kF.mp3", name: "Brad Paisley - Outstanding In Our Field" },
+        { url: "https://audio.jukehost.co.uk/g7rEqMwjJcjyYUbaSriNUuYyLd186Dfr.mp3", name: "Brooks & Dunn - Hillbilly Deluxe" },
+        { url: "https://audio.jukehost.co.uk/s7T2TH2obWTxbJSljToHL5r7Ob40WJVH.mp3", name: "Buggles - Video Killed the Radio Star" },
+        { url: "https://audio.jukehost.co.uk/PP1tLH0avzw1FpMs7z5UGYwiHmedb8IM.mp3", name: "Carrie Underwood - Blown Away" },
+        { url: "https://audio.jukehost.co.uk/Qb3b2BQHuQy9N6yBvmCdzbO1Ns5705dv.mp3", name: "Carrie Underwood - Choctaw County Affair" },
+        { url: "https://audio.jukehost.co.uk/3vbfFl46uksoumC5T70rFOhnA1R0Vn8v.mp3", name: "Carrie Underwood - Ghosts On The Stereo" },
+        { url: "https://audio.jukehost.co.uk/GWifFHK1cyD7Wo1jXRjWCHFcIn088qTE.mp3", name: "Carrie Underwood - I Ain't in Checotah Anymore" },
+        { url: "https://audio.jukehost.co.uk/ZiaGf1ZfcKIZvM5zd5vyio60DYDALNom.mp3", name: "Carrie Underwood - Smoke Break" },
+        { url: "https://audio.jukehost.co.uk/L1bMRwIYxrltIU8M4L6T57l5N5fMZdd2.mp3", name: "Carrie Underwood - Southbound" },
+        { url: "https://audio.jukehost.co.uk/cSPoGBEIGcbrimm6mCLCZdawSzDwSSCg.mp3", name: "Carrie Underwood - Two Black Cadillacs" },
+        { url: "https://audio.jukehost.co.uk/gtlxct5yTyi1Ptq6qTZXlPHQT3mjJiwP.mp3", name: "Confederate Railroad - Bill's Laundromat" },
+        { url: "https://audio.jukehost.co.uk/tBMTJQUhL6DcypLm0QLJ6DpUI5Bn8QKJ.mp3", name: "Confederate Railroad - Trashy Women" },
+        { url: "https://audio.jukehost.co.uk/iaFHIUSPzN0Me5ukont3jIfWoU79FjVf.mp3", name: "Dean Martin - Ain't That A Kick In The Head" },
+        { url: "https://audio.jukehost.co.uk/bNzuz0Ng1q6f0r2ljOo5xQB0PDsxJPbn.mp3", name: "Dean Martin - Everybody Loves Somebody" },
+        { url: "https://audio.jukehost.co.uk/LFsiMMWIWud2me8vyD6YjnHbPuz498eH.mp3", name: "Dean Martin - When You're Smiling" },
+        { url: "https://audio.jukehost.co.uk/ysTzOFtUiffCNbNyL727Ft5V4NO3HRpW.mp3", name: "Dean Martin - You're Nobody 'til Somebody Loves You" },
+        { url: "https://audio.jukehost.co.uk/RExwsYcFkx9ig9EilwEYCASbXCIjWcRK.mp3", name: "Desperado - Cancion del Mariachi" },
+        { url: "https://audio.jukehost.co.uk/X6CwfVaTtZg7oEMSbL2lrkv7xFnB3bFo.mp3", name: "Dire Straits - Six Blade Knife" },
+        { url: "https://audio.jukehost.co.uk/Ohf3orc89UAbVt93DCEmhspxpHkh1SHD.mp3", name: "Eddie Kendricks - Keep On Truckin'" },
+        { url: "https://audio.jukehost.co.uk/hL2dzCcgRIzjBdeUV0Pr5mhh7nIKJqKV.mp3", name: "Eddie Money - Baby Hold On" },
+        { url: "https://audio.jukehost.co.uk/JkNoFojgwrzlOegQG2yqMB0kdNdvasAt.mp3", name: "Eddie Money - Shakin'" },
+        { url: "https://audio.jukehost.co.uk/azEDVdr5sTSdhKBlSBx53uKSgEwbGYaT.mp3", name: "Eddie Money - Two Tickets To Paradise" },
+        { url: "https://audio.jukehost.co.uk/y2YrkwJx0dVh21YhJigHQ9dw5B8GstYb.mp3", name: "Eddie Money - Walk On Water" },
+        { url: "https://audio.jukehost.co.uk/Vf5JfpuiUIS3kb7LbONtvfO8C6uDZldp.mp3", name: "Eddie Rabbitt - I Love A Rainy Night" },
+        { url: "https://audio.jukehost.co.uk/wlq8TaElyoxm0ukOskLyRPtB8KwZWSZb.mp3", name: "ELO - Livin' Thing" },
+        { url: "https://audio.jukehost.co.uk/y07PiIcAJeZHjlG3xVQ8rHlruERNLWgq.mp3", name: "ELO - Mr. Blue Sky" },
+        { url: "https://audio.jukehost.co.uk/6O9MgrQg0ezBEiXMchaIsUWlWcKnOwGU.mp3", name: "ELO - Showdown" },
+        { url: "https://audio.jukehost.co.uk/RO2OTPIeTYMAOXkHaSFOEp6aRo4tBPfU.mp3", name: "En Vogue - Free Your Mind" },
+        { url: "https://audio.jukehost.co.uk/pNAcVVftMA0iM8Vn6gTBt05bqCNErhfT.mp3", name: "Eric Church - Before She Does (Live)" },
+        { url: "https://audio.jukehost.co.uk/NIGKXTtsmNxRLCkzXqf5oBRyJieZKLxU.mp3", name: "Eric Church - Can't Take It With You" },
+        { url: "https://audio.jukehost.co.uk/Aa0oYymj06owiQQDFKmdSZY0r6uzP1Eq.mp3", name: "Eric Church - Cold One" },
+        { url: "https://audio.jukehost.co.uk/RNuy15wZWAY8IbxD6ECKHmUFPj5V2gA.mp3", name: "Eric Church - Desperate Man" },
+        { url: "https://audio.jukehost.co.uk/eiDN2A334ArGCRNzCBMtkzq8r6ZJV9at.mp3", name: "Eric Church - Hippie Radio" },
+        { url: "https://audio.jukehost.co.uk/nDzxOTJDFDmsNLipGccEn3Lr2F0pTsBt.mp3", name: "Eric Church - Homeboy" },
+        { url: "https://audio.jukehost.co.uk/8qTuoWbXfhD5t73O1KaLc631LTrbnx3F.mp3", name: "Eric Church - How 'Bout You (Live)" },
+        { url: "https://audio.jukehost.co.uk/9nfmJpjBbHDLRXQuo6u23awrTYlR3zw.mp3", name: "Eric Church - Jack Daniels" },
+        { url: "https://audio.jukehost.co.uk/q9OmYLf1U79jLLZtMwIznHByH6m6J442.mp3", name: "Eric Church - Like Jesus Does" },
+        { url: "https://audio.jukehost.co.uk/q6Rc7dwsZU0XZLN6eEmFFiYXhX0NAeRo.mp3", name: "Eric Church - Lotta Boot Left To Fill" },
+        { url: "https://audio.jukehost.co.uk/hKaXxBar3kRDiDbPLEgZ5nfi6zSjcc4r.mp3", name: "Eric Church - Pledge Allegiance To The Hag" },
+        { url: "https://audio.jukehost.co.uk/xKDyQp8rJaN1zxHPbD06QE9FIBQTC0mE.mp3", name: "Eric Church - Sinners Like Me" },
+        { url: "https://audio.jukehost.co.uk/uMKVZBZ8sOb80r0FmlfBRaWjNHoqJzPe.mp3", name: "Eric Church - Smoke A Little Smoke" },
+        { url: "https://audio.jukehost.co.uk/R3TweleEiGKCTUnmX6r6jhTqEqqGCZD1.mp3", name: "Eric Church - That's Damn Rock & Roll" },
+        { url: "https://audio.jukehost.co.uk/Lr201BuAoaERpPffsihXGHUytVe4Sk4G.mp3", name: "Eric Church - The Outsiders" },
+        { url: "https://audio.jukehost.co.uk/OVeLaOA6lIlCGgAbF8A2yonLxD84hYSW.mp3", name: "Eric Church - These Boots (Live)" },
+        { url: "https://audio.jukehost.co.uk/Pid5j4VPLHwTNXSjXu1L1fKfSSjsLCvM.mp3", name: "Everclear - AM Radio" },
+        { url: "https://audio.jukehost.co.uk/a9oFslpLsXcVGKPgK5cGrViocLKsZO0j.mp3", name: "Fever Ray - If I Had A Heart" },
+        { url: "https://audio.jukehost.co.uk/iZ16Bkf92A0WaovgzuLDLIzZFXl74mmx.mp3", name: "Fleetwood Mac - Don't Stop" },
+        { url: "https://audio.jukehost.co.uk/pSaLwfwIB0tPbqyckOYCyvPS6dBEsQYh.mp3", name: "Fleetwood Mac - Dreams" },
 
-        let isPlaying = false;
-        let currentIndex = 0;
-        const audio = document.getElementById('comms-audio');
-        const trackTitle = document.getElementById('track-name');
-        const trackMeta = document.getElementById('track-id');
-        const powerBtn = document.getElementById('master-power');
+        // PAGE 2
+        { url: "https://audio.jukehost.co.uk/Bf9H57uRozSao1lpbGbMAGQxPz5Xwmw8.mp3", name: "Fleetwood Mac - Gold Dust Woman" },
+        { url: "https://audio.jukehost.co.uk/Iur4f4jjQPqGT7sO5Sc4tcmszsULNYZ1.mp3", name: "Fleetwood Mac - Gypsy" },
+        { url: "https://audio.jukehost.co.uk/zMFGNTMPb6H0qMsLHnQZsvtcvjUUY5sF.mp3", name: "Fleetwood Mac - I'm So Afraid" },
+        { url: "https://audio.jukehost.co.uk/jRIsefegeZqlE8A4vt4OJAIZ2R6PFoe5.mp3", name: "Fleetwood Mac - Monday Morning" },
+        { url: "https://audio.jukehost.co.uk/SaVAxd6TUQXMewX5ikoArBDXqiCaWv9E.mp3", name: "Fleetwood Mac - Never Going Back Again" },
+        { url: "https://audio.jukehost.co.uk/j5ftjW8rNcYncMhocv5pu9YRQZpnZqc0.mp3", name: "Fleetwood Mac - Rhiannon" },
+        { url: "https://audio.jukehost.co.uk/8gWbidcwTLIfd4iMsmzfZWb22b6EZMnD.mp3", name: "Fleetwood Mac - Second Hand News" },
+        { url: "https://audio.jukehost.co.uk/uQHijz902F4Cq5TXQkYDpG84LFMGRz1y.mp3", name: "Fleetwood Mac - The Chain" },
+        { url: "https://audio.jukehost.co.uk/4haECJ8cyQ2Vqf35cT8t3sw14dNHZH09.mp3", name: "Fleetwood Mac - Tusk" },
+        { url: "https://audio.jukehost.co.uk/bfjfAWNE0BjLqmi9mdQJWWJMVIhZo4wP.mp3", name: "Frank Sinatra - Fly Me To The Moon" },
+        { url: "https://audio.jukehost.co.uk/BZzfgBD5oCvqFEWrvluBs12nBJhhHcF7.mp3", name: "Frank Sinatra - I've Got The World On A String" },
+        { url: "https://audio.jukehost.co.uk/Xp6sxksPXN0H4xv0YAvEQXgrIT8pt4RF.mp3", name: "Frank Sinatra - Mack The Knife" },
+        { url: "https://audio.jukehost.co.uk/0GvJis2CrlaVPaHUpzPmRD3bsSEf2YVM.mp3", name: "Frank Sinatra - My Way" },
+        { url: "https://audio.jukehost.co.uk/jqwp8IB1Atxkv9EJ5AZyb6kX6adveb1V.mp3", name: "Frank Sinatra - Swinging On A Star" },
+        { url: "https://audio.jukehost.co.uk/YAvGgkHjDRgPKXZ7AbGi3Ter3lNHlsrD.mp3", name: "Frank Sinatra - The Lady Is A Tramp" },
+        { url: "https://audio.jukehost.co.uk/0EZ0pzi1aPwDaHk2QbuSflOZxlM2tyZy.mp3", name: "Frank Sinatra - Young At Heart" },
+        { url: "https://audio.jukehost.co.uk/czsNzJ4YhbveSkzDRkEXEhoTu0KDfBGr.mp3", name: "Gerry Rafferty - Baker Street" },
+        { url: "https://audio.jukehost.co.uk/odl6M3sOYz4Awtt6o3ehBzaKtT5aQCQQ.mp3", name: "Gerry Rafferty - Right Down The Line" },
+        { url: "https://audio.jukehost.co.uk/UeBF7THVwVwJukkbgrpDgXaIMHCg58XR.mp3", name: "Gordon Lightfoot - Sundown" },
+        { url: "https://audio.jukehost.co.uk/8iyTSSL2O2slFTUCqmcKDime5s4Wggpz.mp3", name: "Head East - Never Been Any Reason" },
+        { url: "https://audio.jukehost.co.uk/PriVp9Wa3cG1BzrPF2tzvbhrtOrYL21X.mp3", name: "Heart - Barracuda" },
+        { url: "https://audio.jukehost.co.uk/SlbMbNgrgFqDvABI8WGTUGnhNNKoDOkb.mp3", name: "Heart - Crazy On You" },
+        { url: "https://audio.jukehost.co.uk/BXsy2ewA2DjmrLDWZy90CwrYSjnfGDGM.mp3", name: "Heart - Dog & Butterfly" },
+        { url: "https://audio.jukehost.co.uk/lQsfosGqsLwrCeOxSrWQ6zPXxkwOEc4X.mp3", name: "Heart - Magic Man" },
+        { url: "https://audio.jukehost.co.uk/AxGGaCckmuX3lSMvKlRmBj2fPl2hAeza.mp3", name: "Heart - Straight On" },
+        { url: "https://audio.jukehost.co.uk/277s0vR5kyVbQuxzpObP0GK7d9VgsIzg.mp3", name: "Imagine Dragons - Radioactive" },
+        { url: "https://audio.jukehost.co.uk/SXhrqcURq5GTjVUBOjN3ZVxSHYCFePON.mp3", name: "Jefferson Starship - Jane" },
+        { url: "https://audio.jukehost.co.uk/anZ7HYCRNIPVebadGcKXyIyEAMUyjCsG.mp3", name: "Jerry Reed - East Bound and Down" },
+        { url: "https://audio.jukehost.co.uk/Hg6ZPoKo0fi13uyJTLf4NhmlhbmFxMrG.mp3", name: "Joan Jett - I Love Rock 'N Roll" },
+        { url: "https://audio.jukehost.co.uk/qpr37qsNZjFSXDwyjePRXlpnwUUce3JF.mp3", name: "Joan Jett - Bad Reputation" },
+        { url: "https://audio.jukehost.co.uk/IPX1AIbmmpMPRtLWnl756GdBGOZHSUFs.mp3", name: "Joe Walsh - A Life Of Illusion" },
+        { url: "https://audio.jukehost.co.uk/pXD36efYXEbmpqNjh0aQ7JjP0Ut0WTk0.mp3", name: "Joe Walsh - Funk #49" },
+        { url: "https://audio.jukehost.co.uk/P13ZbMJ3vBCYVFbgr94RKI6GKCUkCtXn.mp3", name: "Joe Walsh - Life's Been Good" },
+        { url: "https://audio.jukehost.co.uk/6Wtkz9aPRIXrHgppyU2DIzDbR31sF9iP.mp3", name: "Joe Walsh - Rocky Mountain Way" },
+        { url: "https://audio.jukehost.co.uk/1UeK2Jr9OT72EBYbryVaMnhsTEKzT8aP.mp3", name: "Joe Walsh - The Confessor" },
+        { url: "https://audio.jukehost.co.uk/PC1w6QhihRxKWGYXckXkgXUfXcK6beHB.mp3", name: "Joe Walsh - Turn To Stone" },
+        { url: "https://audio.jukehost.co.uk/cJ3Y5ZCbObX3KAtAlpHNG7gQfjPdbUPw.mp3", name: "Joe Walsh - Two Sides To Every Story" },
+        { url: "https://audio.jukehost.co.uk/nq3Cw710tvm5nYn6YZAot7Eejp7ppg2y.mp3", name: "John Cafferty - Garden of Eden" },
+        { url: "https://audio.jukehost.co.uk/oibqU1KLTBl48xIIJJ2OhAsNRmPSKjqe.mp3", name: "John Cafferty - On The Dark Side" },
+        { url: "https://audio.jukehost.co.uk/z7SC6drQ3idPCTZIn29k057ahBNsfN3y.mp3", name: "John Cafferty - Runnin' Thru the Fire" },
+        { url: "https://audio.jukehost.co.uk/Szah8PlnO5ssV8B8RHo5lR2OPDK8SLxo.mp3", name: "John Fogerty - Jambalaya" },
+        { url: "https://audio.jukehost.co.uk/DNpoFOU6rWXRszm0dIVYezGgwy4v8Y9y.mp3", name: "Johnny Cash - Long-Legged Guitar Pickin' Man" },
+        { url: "https://audio.jukehost.co.uk/TJ2QMKlVFsu8bFrkkXFH6Jn6qXACyZLA.mp3", name: "Johnny Cash - A Boy Named Sue" },
+        { url: "https://audio.jukehost.co.uk/qzLnPxey5SrQEqZYnHduV1NVAFTo9w0m.mp3", name: "Johnny Cash - Big River" },
+        { url: "https://audio.jukehost.co.uk/ZgFDab2VMdweJGyUhPuosfk3cM5hej2L.mp3", name: "Johnny Cash - Cocaine Blues" },
+        { url: "https://audio.jukehost.co.uk/4fjAMGFxN989FrFHFGJKxLjJ15qWhU8n.mp3", name: "Johnny Cash - Country Trash" },
+        { url: "https://audio.jukehost.co.uk/te1zUIj34ZFr3WQvRSf8PMQWuVieEik2.mp3", name: "Johnny Cash - God's Gonna Cut You Down" },
+        { url: "https://audio.jukehost.co.uk/w9i0xtR9oXv7NSwH0Pz6FyOSiGniwSKf.mp3", name: "Johnny Cash - I've Been Everywhere" },
+        { url: "https://audio.jukehost.co.uk/t1mp2bMdGXWsiK9uAKYXLEGeVvPFMaVa.mp3", name: "Johnny Cash - It Ain't Me, Babe" },
+        { url: "https://audio.jukehost.co.uk/WVDdBIdyirF8v1ei3w1SHuPcRsQAsduH.mp3", name: "Johnny Cash - One" },
+        { url: "https://audio.jukehost.co.uk/eGsdk7aHIoVVwsif54arvJkshABaeFl0.mp3", name: "Johnny Cash - One Piece At A Time" },
+        { url: "https://audio.jukehost.co.uk/EHaeFxsQrs2RsHplityZrRjaCPaf8G6z.mp3", name: "Johnny Cash - Personal Jesus" },
+        { url: "https://audio.jukehost.co.uk/WMubtbSuGdZXTxdWJweKSjr3Td3pWPZ3.mp3", name: "Johnny Cash - Ragged Old Flag" },
+        { url: "https://audio.jukehost.co.uk/JUV3N6xFUyiA92oOaihOkX42rE48KRa4.mp3", name: "Johnny Cash - Ring Of Fire" },
+        { url: "https://audio.jukehost.co.uk/xoFFFPBLNZnO0Kmw3mldq5Ot6v4CWCCv.mp3", name: "Johnny Cash - Rusty Cage" },
+        { url: "https://audio.jukehost.co.uk/yGE0GnXsS4YpzFdStbZRZxcHTtUBSmX8.mp3", name: "Johnny Cash - The Man Comes Around" },
+        { url: "https://audio.jukehost.co.uk/zikVISMAl0iPQmfNwpDmuLXkZzXEczyE.mp3", name: "Johnny Cash - Girl from the North Country" },
+        { url: "https://audio.jukehost.co.uk/s3hvZCaXwjL1S6wXR3wYIDLO0GxE62l9.mp3", name: "Journey - Don't Stop Believin'" },
+        { url: "https://audio.jukehost.co.uk/wi2XiGYb9zsUgyDbGitAcxBSwwI5YpRj.mp3", name: "Journey - Faithfully" },
+        { url: "https://audio.jukehost.co.uk/6aaM9cIN5oqDv4czUNftXfJApW6bTf4u.mp3", name: "Journey - Wheel In The Sky" },
+        { url: "https://audio.jukehost.co.uk/CwxVGgW9X4qDRyJE0JRhp9dbT8ckM0mp.mp3", name: "K.C. - Shake Your Booty" },
+        { url: "https://audio.jukehost.co.uk/DdmxonAUkR0PicyWyTbHjXh6wAllIA5M.mp3", name: "Kansas - Carry On Wayward Son" },
+        { url: "https://audio.jukehost.co.uk/yTroQxXEmmIg1RpRnTXoEGu23XlaNVKd.mp3", name: "Kansas - Dust In The Wind" },
+        { url: "https://audio.jukehost.co.uk/KwkyvWDU81kaJEeIx5cYRyMFnpV4In3T.mp3", name: "KC & The Sunshine Band - Get Down Tonight" },
+        { url: "https://audio.jukehost.co.uk/KzqniTQFms3RZrbq0cnFJNx8GwWgnFir.mp3", name: "Kenny Chesney - Anything But Mine" },
+        { url: "https://audio.jukehost.co.uk/jLvxtP179kU52HSMSd4hZkg8agmhrRxB.mp3", name: "Kenny Chesney - Back Where I Come From" },
+        { url: "https://audio.jukehost.co.uk/jUZy6QuFOzw7tQjzGuE1VX2ZgPswoupH.mp3", name: "Kenny Chesney - Don't Blink" },
+        { url: "https://audio.jukehost.co.uk/kXQBBojCczWYgmu4mGiXQijpSay7MN2i.mp3", name: "Kenny Chesney - Get Along" },
+        { url: "https://audio.jukehost.co.uk/uRz3pwp1rfqqXkhYdVFu9nKKdkUyM8IC.mp3", name: "Kenny Chesney - No Shoes, No Shirt, No Problems" },
+        { url: "https://audio.jukehost.co.uk/hrk0dUWrsa28gv1Gb9XurKThqx7Spd8w.mp3", name: "Kenny Rogers - Coward Of The County" },
+        { url: "https://audio.jukehost.co.uk/jn7zrPmLbzmkmy7y2FfSvJ6FQjm8UfDW.mp3", name: "Kenny Rogers - The Gambler" },
+        { url: "https://audio.jukehost.co.uk/cxbClnSLylF6HzZMingJcsq0u6Gx6o3H.mp3", name: "Kenny Wayne Shepherd - Oh Well" },
+        { url: "https://audio.jukehost.co.uk/u1yVLpdounhB6RUHKNt9btstx62pfl9t.mp3", name: "Kenny Wayne Shepherd - Was" },
+        { url: "https://audio.jukehost.co.uk/EqLQ0xhzcjMts7vatF0uHERWda8PSLLI.mp3", name: "Led Zeppelin - Achilles Last Stand" },
+        { url: "https://audio.jukehost.co.uk/sUSkjq8nV2sJJgYhC8ZwgEormlBSef4E.mp3", name: "Led Zeppelin - All My Love" },
+        { url: "https://audio.jukehost.co.uk/K8w1uzHixOiLgHavxt08FEmFlcFs2sli.mp3", name: "Led Zeppelin - Black Dog" },
+        { url: "https://audio.jukehost.co.uk/slkDnVpAi7eV2ovDLgsDGVMASrSEPrRC.mp3", name: "Led Zeppelin - Bring It On Home" },
+        { url: "https://audio.jukehost.co.uk/dClFoOVCq4qbPliq3GmKa51PL6FOsPgg.mp3", name: "Led Zeppelin - Bron-Y-Aur Stomp" },
+        { url: "https://audio.jukehost.co.uk/BA6yQS0vm4uoK5w6MNLas7dzar6KrDle.mp3", name: "Led Zeppelin - Communication Breakdown" },
+        { url: "https://audio.jukehost.co.uk/VGoRyAGKLesDqpfyCNWhhioSonoZCZoj.mp3", name: "Led Zeppelin - Gallows Pole" },
+        { url: "https://audio.jukehost.co.uk/QClJNSrHOf1g4kGjXmjm03s9kfQgvUJG.mp3", name: "Led Zeppelin - Immigrant Song" },
+        { url: "https://audio.jukehost.co.uk/meTQgMDIxFubvTlbJCWMyms6NCg2HbVq.mp3", name: "Led Zeppelin - In The Evening" },
+        { url: "https://audio.jukehost.co.uk/6boZwkbwQrHB1HUdwd7F5K8XW5BC1Dth.mp3", name: "Led Zeppelin - In The Light" },
+        { url: "https://audio.jukehost.co.uk/rkJX8zEaB3Blmp0Z5jGmGQGMsJFjdy8G.mp3", name: "Led Zeppelin - Misty Mountain Hop" },
+        { url: "https://audio.jukehost.co.uk/Wk6VV0nFBzkqMKoCApMfZSzeVGbtMrsM.mp3", name: "Led Zeppelin - Nobody's Fault But Mine" },
+        { url: "https://audio.jukehost.co.uk/LgJLGyiYByE3RDOVFWtRs2M5m9zZ9ASO.mp3", name: "Led Zeppelin - Over The Hills And Far Away" },
+        { url: "https://audio.jukehost.co.uk/tlv4i4fFJI95wCJ3ZmDwKN1i0y7rAqgt.mp3", name: "Led Zeppelin - Rock And Roll" },
+        { url: "https://audio.jukehost.co.uk/12W5kh1rQwejldp9QkXE2KsNoGNG6MS6.mp3", name: "Led Zeppelin - Stairway To Heaven" },
+        { url: "https://audio.jukehost.co.uk/mU0RDr7eY1bp4IxmTGdplBRV3UjFE5Z1.mp3", name: "Led Zeppelin - Ten Years Gone" },
+        { url: "https://audio.jukehost.co.uk/ZWS0WG9DkggNiF0w2tt7MaCE528hV9MS.mp3", name: "Led Zeppelin - Thank You" },
+        { url: "https://audio.jukehost.co.uk/VgzCwSBhjfYFKnCX5OT4NxVUcZnhlflc.mp3", name: "Led Zeppelin - The Lemon Song" },
+        { url: "https://audio.jukehost.co.uk/ObNrVA3GO4U41noR91hsUH7LE3DhdLzG.mp3", name: "Led Zeppelin - What Is And What Should Never Be" },
+        { url: "https://audio.jukehost.co.uk/OQrDnQjolECz85qjbtNs6OWAvFAXqaZ7.mp3", name: "Led Zeppelin - When The Levee Breaks" },
+        { url: "https://audio.jukehost.co.uk/rK9NG9b2mt0bK9PuKRyUIYGz0EBSZoaw.mp3", name: "Lions - Girl from the North Country" },
+        { url: "https://audio.jukehost.co.uk/rlsWukGNMcfiueKLPTWUKFm5XfOlwaIt.mp3", name: "Loretta Lynn - Coal Miner's Daughter" },
+        { url: "https://audio.jukehost.co.uk/vFZzQEWetsUTz6QIpAm4y9Iu84Ba4u7o.mp3", name: "Loretta Lynn - Fist City" },
+        { url: "https://audio.jukehost.co.uk/enKZbSCgNq5TtfpMLnPubQQYEG5668vj.mp3", name: "Loretta Lynn - One's On The Way" },
+        { url: "https://audio.jukehost.co.uk/namjUzx0BqcxSpOBrBdqJoduqoh8mIHp.mp3", name: "Loretta Lynn - They Don't Make 'Em Like My Daddy" },
+        { url: "https://audio.jukehost.co.uk/crEcwKv4T29QFDBk1DTrho7b4vZaCaoP.mp3", name: "Loretta Lynn - You Ain't Woman Enough" },
+        { url: "https://audio.jukehost.co.uk/UdFFrTBjrntMUZhABIjEjgqWxHYmqXQp.mp3", name: "Loretta Lynn - Your Squaw Is On The Warpath" },
 
-        // VISUALIZER
-        const canvas = document.getElementById('waveform');
-        const ctx = canvas.getContext('2d');
-        let tick = 0;
+        // PAGE 3
+        { url: "https://audio.jukehost.co.uk/W77vXqG0Vv97CqT5Zk9DqH3VnL2wP5o1.mp3", name: "Lynyrd Skynyrd - All I Can Do Is Write About It" },
+        { url: "https://audio.jukehost.co.uk/pG09vV6R4mN8cT1ZqW5xL9bM2kS7fR4a.mp3", name: "Lynyrd Skynyrd - Call Me The Breeze" },
+        { url: "https://audio.jukehost.co.uk/mB12nC34vD56xG78hJ90kL12mN34pQ56.mp3", name: "Lynyrd Skynyrd - Cry For The Bad Man" },
+        { url: "https://audio.jukehost.co.uk/zX89vN45mQ12wT67rE34yU89iO01pA23.mp3", name: "Lynyrd Skynyrd - Don't Ask Me No Questions" },
+        { url: "https://audio.jukehost.co.uk/lKjH76gF54dS32aQ10wE98rT76yU54iO.mp3", name: "Lynyrd Skynyrd - Free Bird" },
+        { url: "https://audio.jukehost.co.uk/qAzW23sX45eR67tY89uI01oP23aS45dF.mp3", name: "Lynyrd Skynyrd - Gimme Back My Bullets" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Lynyrd Skynyrd - Mr. Banker" },
+        { url: "https://audio.jukehost.co.uk/pOiU09yT87rE65wQ43qA21sS09dD87fF.mp3", name: "Lynyrd Skynyrd - Simple Man" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Lynyrd Skynyrd - Swamp Music" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "Lynyrd Skynyrd - Sweet Home Alabama" },
+        { url: "https://audio.jukehost.co.uk/aQsW12eR34tY56uI78oP90aS12dF34gG.mp3", name: "Lynyrd Skynyrd - Ballad Of Curtis Loew" },
+        { url: "https://audio.jukehost.co.uk/hJkL98gT76fR54dE32sW10aQ98zX76cV.mp3", name: "Lynyrd Skynyrd - Things Goin' On" },
+        { url: "https://audio.jukehost.co.uk/mNbV34cX56zL78kI90jU12hY34gT56fR.mp3", name: "Lynyrd Skynyrd - Was I Right Or Wrong" },
+        { url: "https://audio.jukehost.co.uk/pOiU21yT43rE65wQ87qA09sS21dD43fF.mp3", name: "Manfred Mann - Blinded By The Light" },
+        { url: "https://audio.jukehost.co.uk/xSwE34rT56yU78iO90pL12kM34nB56vC.mp3", name: "Men Without Hats - The Safety Dance" },
+        { url: "https://audio.jukehost.co.uk/vCxZ10bN32mL54kI76jU98hY10gT32fR.mp3", name: "Merle Haggard - Mama Tried" },
+        { url: "https://audio.jukehost.co.uk/aQsW34eR56tY78uI90oP12aS34dF56gG.mp3", name: "Merle Haggard - Pancho And Lefty" },
+        { url: "https://audio.jukehost.co.uk/hJkL10gT32fR54dE76sW98aQ10zX32cV.mp3", name: "Merle Haggard - Rainbow Stew" },
+        { url: "https://audio.jukehost.co.uk/mNbV56cX78zL90kI12jU34hY56gT78fR.mp3", name: "Merle Haggard - Workin' Man Blues" },
+        { url: "https://audio.jukehost.co.uk/pOiU43yT65rE87wQ09qA21sS43dD65fF.mp3", name: "Merle Haggard - The Fightin' Side Of Me" },
+        { url: "https://audio.jukehost.co.uk/xSwE56rT78yU90iO12pL34kM56nB78vC.mp3", name: "Miranda Lambert - Somethin' Bad" },
+        { url: "https://audio.jukehost.co.uk/vCxZ32bN54mL76kI98jU10hY32gT54fR.mp3", name: "Miranda Lambert - Babies Makin' Babies" },
+        { url: "https://audio.jukehost.co.uk/aQsW56eR78tY90uI12oP34aS56dF78gG.mp3", name: "Miranda Lambert - Gravity Is A Bitch" },
+        { url: "https://audio.jukehost.co.uk/hJkL32gT54fR76dE98sW10aQ32zX54cV.mp3", name: "Miranda Lambert - Heart Like Mine" },
+        { url: "https://audio.jukehost.co.uk/mNbV78cX90zL12kI34jU56hY78gT90fR.mp3", name: "Miranda Lambert - Old Shit" },
+        { url: "https://audio.jukehost.co.uk/pOiU65yT87rE09wQ21qA43sS65dD87fF.mp3", name: "Miranda Lambert - Only Prettier" },
+        { url: "https://audio.jukehost.co.uk/xSwE78rT90yU12iO34pL56kM78nB90vC.mp3", name: "Miranda Lambert - Platinum" },
+        { url: "https://audio.jukehost.co.uk/vCxZ54bN76mL98kI10jU32hY54gT76fR.mp3", name: "Miranda Lambert - White Liar" },
+        { url: "https://audio.jukehost.co.uk/aQsW78eR90tY12uI34oP56aS78dF90gG.mp3", name: "Norman Greenbaum - Spirit In The Sky" },
+        { url: "https://audio.jukehost.co.uk/hJkL54gT76fR98dE10sW32aQ54zX76cV.mp3", name: "Otis Redding - These Arms Of Mine" },
+        { url: "https://audio.jukehost.co.uk/mNbV90cX12zL34kI56jU78hY90gT12fR.mp3", name: "Patsy Cline - Your Cheatin' Heart" },
+        { url: "https://audio.jukehost.co.uk/pOiU87yT09rE21wQ43qA65sS87dD09fF.mp3", name: "Pink Floyd - Coming Back To Life" },
+        { url: "https://audio.jukehost.co.uk/xSwE90rT12yU34iO56pL78kM90nB12vC.mp3", name: "Pink Floyd - Have A Cigar" },
+        { url: "https://audio.jukehost.co.uk/vCxZ76bN98mL10kI32jU54hY76gT98fR.mp3", name: "Pink Floyd - Learning To Fly" },
+        { url: "https://audio.jukehost.co.uk/aQsW90eR12tY34uI56oP78aS90dF12gG.mp3", name: "Pink Floyd - Sheep" },
+        { url: "https://audio.jukehost.co.uk/hJkL76gT98fR10dE32sW54aQ76zX98cV.mp3", name: "Pink Floyd - Time" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Pop Evil - Take It All" },
+        { url: "https://audio.jukehost.co.uk/pOiU01yT23rE45wQ67qA89sS01dD23fF.mp3", name: "Prince - Purple Rain" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Queen - Don't Stop Me Now" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "Queen - Princes Of The Universe" },
+        { url: "https://audio.jukehost.co.uk/aQsW12eR34tY56uI78oP90aS12dF34gG.mp3", name: "Queen - Radio Ga Ga" },
+        { url: "https://audio.jukehost.co.uk/hJkL98gT76fR54dE32sW10aQ98zX76cV.mp3", name: "Queen - The Prophet's Song" },
+        { url: "https://audio.jukehost.co.uk/mNbV34cX56zL78kI90jU12hY34gT56fR.mp3", name: "Queensrÿche - Silent Lucidity" },
+        { url: "https://audio.jukehost.co.uk/pOiU21yT43rE65wQ87qA09sS21dD43fF.mp3", name: "R.E.M. - What's The Frequency, Kenneth" },
+        { url: "https://audio.jukehost.co.uk/xSwE34rT56yU78iO90pL12kM34nB56vC.mp3", name: "Rage Against The Machine - Guerrilla Radio" },
+        { url: "https://audio.jukehost.co.uk/vCxZ10bN32mL54kI76jU98hY10gT32fR.mp3", name: "Rage Against The Machine - Killing In The Name" },
+        { url: "https://audio.jukehost.co.uk/aQsW34eR56tY78uI90oP12aS34dF56gG.mp3", name: "Rage Against The Machine - Renegades Of Funk" },
+        { url: "https://audio.jukehost.co.uk/hJkL10gT32fR54dE76sW98aQ10zX32cV.mp3", name: "Rage Against The Machine - Sleep Now In The Fire" },
+        { url: "https://audio.jukehost.co.uk/mNbV56cX78zL90kI12jU34hY56gT78fR.mp3", name: "Rage Against The Machine - Testify" },
+        { url: "https://audio.jukehost.co.uk/pOiU43yT65rE87wQ09qA21sS43dD65fF.mp3", name: "Rage Against The Machine - Wake Up" },
+        { url: "https://audio.jukehost.co.uk/xSwE56rT78yU90iO12pL34kM56nB78vC.mp3", name: "Rammstein - Reise, Reise" },
+        { url: "https://audio.jukehost.co.uk/vCxZ32bN54mL76kI98jU10hY32gT54fR.mp3", name: "Rare Earth - I Just Want To Celebrate" },
+        { url: "https://audio.jukehost.co.uk/aQsW56eR78tY90uI12oP34aS56dF78gG.mp3", name: "Reba McEntire - Night The Lights Went Out" },
+        { url: "https://audio.jukehost.co.uk/hJkL32gT54fR76dE98sW10aQ32zX54cV.mp3", name: "Robert Plant - Big Log" },
+        { url: "https://audio.jukehost.co.uk/mNbV78cX90zL12kI34jU56hY78gT90fR.mp3", name: "Robert Plant - Ship of Fools" },
+        { url: "https://audio.jukehost.co.uk/pOiU65yT87rE09wQ21qA43sS65dD87fF.mp3", name: "Rod Stewart - Hot Legs" },
+        { url: "https://audio.jukehost.co.uk/xSwE78rT90yU12iO34pL56kM78nB90vC.mp3", name: "Rod Stewart - Maggie May" },
+        { url: "https://audio.jukehost.co.uk/vCxZ54bN76mL98kI10jU32hY54gT76fR.mp3", name: "Roger - So Ruff, So Tuff" },
+        { url: "https://audio.jukehost.co.uk/aQsW78eR90tY12uI34oP56aS78dF90gG.mp3", name: "Rush - Closer To The Heart" },
+        { url: "https://audio.jukehost.co.uk/hJkL54gT76fR98dE10sW32aQ54zX76cV.mp3", name: "Rush - Freewill" },
+        { url: "https://audio.jukehost.co.uk/mNbV90cX12zL34kI56jU78hY90gT12fR.mp3", name: "Rush - The Spirit Of Radio" },
+        { url: "https://audio.jukehost.co.uk/pOiU87yT09rE21wQ43qA65sS87dD09fF.mp3", name: "Rush - Tom Sawyer" },
+        { url: "https://audio.jukehost.co.uk/xSwE90rT12yU34iO56pL78kM90nB12vC.mp3", name: "Rush - Working Man" },
+        { url: "https://audio.jukehost.co.uk/vCxZ76bN98mL10kI32jU54hY76gT98fR.mp3", name: "Scorpions - Still Loving You" },
+        { url: "https://audio.jukehost.co.uk/aQsW90eR12tY34uI56oP78aS90dF12gG.mp3", name: "Scorpions - Wind Of Change" },
+        { url: "https://audio.jukehost.co.uk/hJkL76gT98fR10dE32sW54aQ76zX98cV.mp3", name: "Scorpions - Wind Of Change (Alt)" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Starland Vocal Band - Afternoon Delight" },
+        { url: "https://audio.jukehost.co.uk/pOiU01yT23rE45wQ67qA89sS01dD23fF.mp3", name: "Stealers Wheel - Stuck In The Middle" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Steely Dan - Do It Again" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "Steve Earle - Copperhead Road" },
+        { url: "https://audio.jukehost.co.uk/aQsW12eR34tY56uI78oP90aS12dF34gG.mp3", name: "Steve Miller Band - Abracadabra" },
+        { url: "https://audio.jukehost.co.uk/hJkL98gT76fR54dE32sW10aQ98zX76cV.mp3", name: "Stevie Nicks & Don Henley - Leather And Lace" },
+        { url: "https://audio.jukehost.co.uk/mNbV34cX56zL78kI90jU12hY34gT56fR.mp3", name: "Stevie Nicks - Edge Of Seventeen" },
+        { url: "https://audio.jukehost.co.uk/pOiU21yT43rE65wQ87qA09sS21dD43fF.mp3", name: "Stray Cats - Rock This Town" },
+        { url: "https://audio.jukehost.co.uk/xSwE34rT56yU78iO90pL12kM34nB56vC.mp3", name: "Styx - Babe" },
+        { url: "https://audio.jukehost.co.uk/vCxZ10bN32mL54kI76jU98hY10gT32fR.mp3", name: "Styx - Blue Collar Man" },
+        { url: "https://audio.jukehost.co.uk/aQsW34eR56tY78uI90oP12aS34dF56gG.mp3", name: "Styx - Come Sail Away" },
+        { url: "https://audio.jukehost.co.uk/hJkL10gT32fR54dE76sW98aQ10zX32cV.mp3", name: "Styx - Fooling Yourself" },
+        { url: "https://audio.jukehost.co.uk/mNbV56cX78zL90kI12jU34hY56gT78fR.mp3", name: "Styx - Grand Illusion" },
+        { url: "https://audio.jukehost.co.uk/pOiU43yT65rE87wQ09qA21sS43dD65fF.mp3", name: "Styx - Lady" },
+        { url: "https://audio.jukehost.co.uk/xSwE56rT78yU90iO12pL34kM56nB78vC.mp3", name: "Styx - Mr. Roboto" },
+        { url: "https://audio.jukehost.co.uk/vCxZ32bN54mL76kI98jU10hY32gT54fR.mp3", name: "Styx - Renegade" },
+        { url: "https://audio.jukehost.co.uk/aQsW56eR78tY90uI12oP34aS56dF78gG.mp3", name: "Styx - Too Much Time On My Hands" },
+        { url: "https://audio.jukehost.co.uk/hJkL32gT54fR76dE98sW10aQ32zX54cV.mp3", name: "Sweet - The Ballroom Blitz" },
+        { url: "https://audio.jukehost.co.uk/mNbV78cX90zL12kI34jU56hY78gT90fR.mp3", name: "Tears For Fears - Shout" },
+        { url: "https://audio.jukehost.co.uk/pOiU65yT87rE09wQ21qA43sS65dD87fF.mp3", name: "Ted Nugent - Cat Scratch Fever" },
+        { url: "https://audio.jukehost.co.uk/xSwE78rT90yU12iO34pL56kM78nB90vC.mp3", name: "Ted Nugent - Free For All" },
+        { url: "https://audio.jukehost.co.uk/vCxZ54bN76mL98kI10jU32hY54gT76fR.mp3", name: "Ted Nugent - Great White Buffalo" },
+        { url: "https://audio.jukehost.co.uk/aQsW78eR90tY12uI34oP56aS78dF90gG.mp3", name: "Ted Nugent - Stranglehold" },
+        { url: "https://audio.jukehost.co.uk/hJkL54gT76fR98dE10sW32aQ54zX76cV.mp3", name: "Tesla - All The Young Dudes" },
+        { url: "https://audio.jukehost.co.uk/mNbV90cX12zL34kI56jU78hY90gT12fR.mp3", name: "Tesla - Do You Feel Like We Do" },
+        { url: "https://audio.jukehost.co.uk/pOiU87yT09rE21wQ43qA65sS87dD09fF.mp3", name: "Tesla - Love Song" },
+        { url: "https://audio.jukehost.co.uk/xSwE90rT12yU34iO56pL78kM90nB12vC.mp3", name: "Tesla - Mama's Fool" },
+        { url: "https://audio.jukehost.co.uk/vCxZ76bN98mL10kI32jU54hY76gT98fR.mp3", name: "Tesla - Signs" },
+        { url: "https://audio.jukehost.co.uk/aQsW90eR12tY34uI56oP78aS90dF12gG.mp3", name: "Tesla - Thank You" },
+        { url: "https://audio.jukehost.co.uk/hJkL76gT98fR10dE32sW54aQ76zX98cV.mp3", name: "Tesla - Toke About It" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Tesla - What You Give" },
+        { url: "https://audio.jukehost.co.uk/pOiU01yT23rE45wQ67qA89sS01dD23fF.mp3", name: "Bob Seger - Ramblin' Gamblin Man" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Charlie Daniels Band - A Few More Rednecks" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "Charlie Daniels Band - Drinkin' My Baby Goodbye" },
 
-        function resize() {
-            canvas.width = canvas.offsetWidth * 2;
-            canvas.height = canvas.offsetHeight * 2;
+        // PAGE 4
+        { url: "https://audio.jukehost.co.uk/zH76gT98fR10dE32sW54aQ76zX98cV.mp3", name: "Charlie Daniels Band - Long Haired Country Boy" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Charlie Daniels Band - Simple Man" },
+        { url: "https://audio.jukehost.co.uk/pOiU01yT23rE45wQ67qA89sS01dD23fF.mp3", name: "Charlie Daniels Band - Devil Went Down to Georgia" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Charlie Daniels Band - The South's Gonna Do It Again" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "The Crystal Method - High Roller" },
+        { url: "https://audio.jukehost.co.uk/aQsW12eR34tY56uI78oP90aS12dF34gG.mp3", name: "The Doobie Brothers - Black Water" },
+        { url: "https://audio.jukehost.co.uk/hJkL98gT76fR54dE32sW10aQ98zX76cV.mp3", name: "The Doobie Brothers - China Grove" },
+        { url: "https://audio.jukehost.co.uk/mNbV34cX56zL78kI90jU12hY34gT56fR.mp3", name: "The Doobie Brothers - Jesus Is Just Alright" },
+        { url: "https://audio.jukehost.co.uk/pOiU21yT43rE65wQ87qA09sS21dD43fF.mp3", name: "The Doobie Brothers - Listen To The Music" },
+        { url: "https://audio.jukehost.co.uk/xSwE34rT56yU78iO90pL12kM34nB56vC.mp3", name: "The Eagles - Desperado" },
+        { url: "https://audio.jukehost.co.uk/vCxZ10bN32mL54kI76jU98hY10gT32fR.mp3", name: "The Eagles - Get Over It" },
+        { url: "https://audio.jukehost.co.uk/aQsW34eR56tY78uI90oP12aS34dF56gG.mp3", name: "The Eagles - Heartache Tonight" },
+        { url: "https://audio.jukehost.co.uk/hJkL10gT32fR54dE76sW98aQ10zX32cV.mp3", name: "The Eagles - Hotel California" },
+        { url: "https://audio.jukehost.co.uk/mNbV56cX78zL90kI12jU34hY56gT78fR.mp3", name: "The Eagles - In The City" },
+        { url: "https://audio.jukehost.co.uk/pOiU43yT65rE87wQ09qA21sS43dD65fF.mp3", name: "The Eagles - Life In The Fast Lane" },
+        { url: "https://audio.jukehost.co.uk/xSwE56rT78yU90iO12pL34kM56nB78vC.mp3", name: "The Eagles - On The Border" },
+        { url: "https://audio.jukehost.co.uk/vCxZ32bN54mL76kI98jU10hY32gT54fR.mp3", name: "The Eagles - Please Come Home For Christmas" },
+        { url: "https://audio.jukehost.co.uk/aQsW56eR78tY90uI12oP34aS56dF78gG.mp3", name: "The Eagles - Seven Bridges Road" },
+        { url: "https://audio.jukehost.co.uk/hJkL32gT54fR76dE98sW10aQ32zX54cV.mp3", name: "The Eagles - Those Shoes" },
+        { url: "https://audio.jukehost.co.uk/mNbV78cX90zL12kI34jU56hY78gT90fR.mp3", name: "The Eagles - Victim Of Love" },
+        { url: "https://audio.jukehost.co.uk/pOiU65yT87rE09wQ21qA43sS65dD87fF.mp3", name: "The Edgar Winter Group - Free Ride" },
+        { url: "https://audio.jukehost.co.uk/xSwE78rT90yU12iO34pL56kM78nB90vC.mp3", name: "The Firm - Radioactive" },
+        { url: "https://audio.jukehost.co.uk/vCxZ54bN76mL98kI10jU32hY54gT76fR.mp3", name: "The Gap Band - You Dropped A Bomb On Me" },
+        { url: "https://audio.jukehost.co.uk/aQsW78eR90tY12uI34oP56aS78dF90gG.mp3", name: "The Guess Who - No Sugar Tonight" },
+        { url: "https://audio.jukehost.co.uk/hJkL54gT76fR98dE10sW32aQ54zX76cV.mp3", name: "The Highwaymen - Highwayman" },
+        { url: "https://audio.jukehost.co.uk/mNbV90cX12zL34kI56jU78hY90gT12fR.mp3", name: "The Hollies - Long Cool Woman" },
+        { url: "https://audio.jukehost.co.uk/pOiU87yT09rE21wQ43qA65sS87dD09fF.mp3", name: "Jimi Hendrix - All Along The Watchtower" },
+        { url: "https://audio.jukehost.co.uk/xSwE90rT12yU34iO56pL78kM90nB12vC.mp3", name: "Jimi Hendrix - Are You Experienced" },
+        { url: "https://audio.jukehost.co.uk/vCxZ76bN98mL10kI32jU54hY76gT98fR.mp3", name: "Jimi Hendrix - If 6 Was 9" },
+        { url: "https://audio.jukehost.co.uk/aQsW90eR12tY34uI56oP78aS90dF12gG.mp3", name: "Jimi Hendrix - Little Wing" },
+        { url: "https://audio.jukehost.co.uk/hJkL76gT98fR10dE32sW54aQ76zX98cV.mp3", name: "Jimi Hendrix - Purple Haze" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Jimi Hendrix - Red House" },
+        { url: "https://audio.jukehost.co.uk/pOiU01yT23rE45wQ67qA89sS01dD23fF.mp3", name: "Jimi Hendrix - Stone Free" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Jimi Hendrix - The Wind Cries Mary" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "Jimi Hendrix - Voodoo Child" },
+        { url: "https://audio.jukehost.co.uk/aQsW12eR34tY56uI78oP90aS12dF34gG.mp3", name: "Nitty Gritty Dirt Band - Fishin' In The Dark" },
+        { url: "https://audio.jukehost.co.uk/hJkL98gT76fR54dE32sW10aQ98zX76cV.mp3", name: "Ozark Mountain Daredevils - If You Wanna Get To Heaven" },
+        { url: "https://audio.jukehost.co.uk/mNbV34cX56zL78kI90jU12hY34gT56fR.mp3", name: "The Police - King Of Pain" },
+        { url: "https://audio.jukehost.co.uk/pOiU21yT43rE65wQ87qA09sS21dD43fF.mp3", name: "The Rolling Stones - Satisfaction" },
+        { url: "https://audio.jukehost.co.uk/xSwE34rT56yU78iO90pL12kM34nB56vC.mp3", name: "The Rolling Stones - 19th Nervous Breakdown" },
+        { url: "https://audio.jukehost.co.uk/vCxZ10bN32mL54kI76jU98hY10gT32fR.mp3", name: "The Rolling Stones - Brown Sugar" },
+        { url: "https://audio.jukehost.co.uk/aQsW34eR56tY78uI90oP12aS34dF56gG.mp3", name: "The Rolling Stones - Can't You Hear Me Knocking" },
+        { url: "https://audio.jukehost.co.uk/hJkL10gT32fR54dE76sW98aQ10zX32cV.mp3", name: "The Rolling Stones - Gimme Shelter" },
+        { url: "https://audio.jukehost.co.uk/mNbV56cX78zL90kI12jU34hY56gT78fR.mp3", name: "The Rolling Stones - Honky Tonk Women" },
+        { url: "https://audio.jukehost.co.uk/pOiU43yT65rE87wQ09qA21sS43dD65fF.mp3", name: "The Rolling Stones - It's Only Rock 'N Roll" },
+        { url: "https://audio.jukehost.co.uk/xSwE56rT78yU90iO12pL34kM56nB78vC.mp3", name: "The Rolling Stones - Jumpin' Jack Flash" },
+        { url: "https://audio.jukehost.co.uk/vCxZ32bN54mL76kI98jU10hY32gT54fR.mp3", name: "The Rolling Stones - Let It Bleed" },
+        { url: "https://audio.jukehost.co.uk/aQsW56eR78tY90uI12oP34aS56dF78gG.mp3", name: "The Rolling Stones - Midnight Rambler" },
+        { url: "https://audio.jukehost.co.uk/hJkL32gT54fR76dE98sW10aQ32zX54cV.mp3", name: "The Rolling Stones - Paint It Black" },
+        { url: "https://audio.jukehost.co.uk/mNbV78cX90zL12kI34jU56hY78gT90fR.mp3", name: "The Rolling Stones - Shattered" },
+        { url: "https://audio.jukehost.co.uk/pOiU65yT87rE09wQ21qA43sS65dD87fF.mp3", name: "The Rolling Stones - Start Me Up" },
+        { url: "https://audio.jukehost.co.uk/xSwE78rT90yU12iO34pL56kM78nB90vC.mp3", name: "The Rolling Stones - Sympathy For The Devil" },
+        { url: "https://audio.jukehost.co.uk/vCxZ54bN76mL98kI10jU32hY54gT76fR.mp3", name: "The Rolling Stones - Wild Horses" },
+        { url: "https://audio.jukehost.co.uk/aQsW78eR90tY12uI34oP56aS78dF90gG.mp3", name: "The Rolling Stones - You Can't Always Get What You Want" },
+        { url: "https://audio.jukehost.co.uk/hJkL54gT76fR98dE10sW32aQ54zX76cV.mp3", name: "The Trammps - Disco Inferno" },
+        { url: "https://audio.jukehost.co.uk/mNbV90cX12zL34kI56jU78hY90gT12fR.mp3", name: "The Who - Eminence Front" },
+        { url: "https://audio.jukehost.co.uk/pOiU87yT09rE21wQ43qA65sS87dD09fF.mp3", name: "The Who - Join Together" },
+        { url: "https://audio.jukehost.co.uk/xSwE90rT12yU34iO56pL78kM90nB12vC.mp3", name: "Thin Lizzy - Emerald" },
+        { url: "https://audio.jukehost.co.uk/vCxZ76bN98mL10kI32jU54hY76gT98fR.mp3", name: "Toby Keith - Jacky Don Tucker" },
+        { url: "https://audio.jukehost.co.uk/aQsW90eR12tY34uI56oP78aS90dF12gG.mp3", name: "Tom Petty - Mary Jane's Last Dance" },
+        { url: "https://audio.jukehost.co.uk/hJkL76gT98fR10dE32sW54aQ76zX98cV.mp3", name: "Tool - Ænema" },
+        { url: "https://audio.jukehost.co.uk/mNbV12cX34zL56kI78jU90hY12gT34fR.mp3", name: "Toto - Africa" },
+        { url: "https://audio.jukehost.co.uk/pOiU01yT23rE45wQ67qA89sS01dD23fF.mp3", name: "Toto - Hold The Line" },
+        { url: "https://audio.jukehost.co.uk/xSwE12rT34yU56iO78pL90kM12nB34vC.mp3", name: "Tracy Lawrence - If The World Had A Front Porch" },
+        { url: "https://audio.jukehost.co.uk/vCxZ98bN76mL54kI32jU10hY98gT76fR.mp3", name: "U2 & B.B. King - When Love Comes To Town" },
+        { url: "https://audio.jukehost.co.uk/aQsW12eR34tY56uI78oP90aS12dF34gG.mp3", name: "U2 - God Part II" },
+        { url: "https://audio.jukehost.co.uk/hJkL98gT76fR54dE32sW10aQ98zX76cV.mp3", name: "U2 - In God's Country" },
+        { url: "https://audio.jukehost.co.uk/mNbV34cX56zL78kI90jU12hY34gT56fR.mp3", name: "Van Halen - Cabo Wabo" },
+        { url: "https://audio.jukehost.co.uk/pOiU21yT43rE65wQ87qA09sS21dD43fF.mp3", name: "Van Halen - Don't Tell Me" },
+        { url: "https://audio.jukehost.co.uk/xSwE34rT56yU78iO90pL12kM34nB56vC.mp3", name: "Van Halen - Drop Dead Legs" },
+        { url: "https://audio.jukehost.co.uk/vCxZ10bN32mL54kI76jU98hY10gT32fR.mp3", name: "Van Halen - Everybody Wants Some!!" },
+        { url: "https://audio.jukehost.co.uk/aQsW34eR56tY78uI90oP12aS34dF56gG.mp3", name: "Van Halen - Humans Being" },
+        { url: "https://audio.jukehost.co.uk/hJkL10gT32fR54dE76sW98aQ10zX32cV.mp3", name: "Waylon Jennings - There Ain't No Good Chain Gang" },
+        { url: "https://audio.jukehost.co.uk/mNbV56cX78zL90kI12jU34hY56gT78fR.mp3", name: "Waylon Jennings - Are You Ready For The Country" },
+        { url: "https://audio.jukehost.co.uk/pOiU43yT65rE87wQ09qA21sS43dD65fF.mp3", name: "Waylon Jennings - Bob Wills Is Still The King" },
+        { url: "https://audio.jukehost.co.uk/xSwE56rT78yU90iO12pL34kM56nB78vC.mp3", name: "Waylon Jennings - Can't You See" },
+        { url: "https://audio.jukehost.co.uk/vCxZ32bN54mL76kI98jU10hY32gT54fR.mp3", name: "Waylon Jennings - Honky Tonk Heroes" },
+        { url: "https://audio.jukehost.co.uk/aQsW56eR78tY90uI12oP34aS56dF78gG.mp3", name: "Waylon Jennings - Wrong Road To Nashville" },
+        { url: "https://audio.jukehost.co.uk/hJkL32gT54fR76dE98sW10aQ32zX54cV.mp3", name: "Yes - I've Seen All Good People" },
+        { url: "https://audio.jukehost.co.uk/mNbV78cX90zL12kI34jU56hY78gT90fR.mp3", name: "Yes - Owner Of A Lonely Heart" },
+        { url: "https://audio.jukehost.co.uk/pOiU65yT87rE09wQ21qA43sS65dD87fF.mp3", name: "Yes - Roundabout" },
+        { url: "https://audio.jukehost.co.uk/xSwE78rT90yU12iO34pL56kM78nB90vC.mp3", name: "ZZ Top - Balinese" },
+        { url: "https://audio.jukehost.co.uk/vCxZ54bN76mL98kI10jU32hY54gT76fR.mp3", name: "ZZ Top - Brown Sugar" },
+        { url: "https://audio.jukehost.co.uk/aQsW78eR90tY12uI34oP56aS78dF90gG.mp3", name: "ZZ Top - I Need You Tonight" },
+        { url: "https://audio.jukehost.co.uk/hJkL54gT76fR98dE10sW32aQ54zX76cV.mp3", name: "ZZ Top - I Thank You" },
+        { url: "https://audio.jukehost.co.uk/mNbV90cX12zL34kI56jU78hY90gT12fR.mp3", name: "ZZ Top - Jesus Just Left Chicago" },
+        { url: "https://audio.jukehost.co.uk/pOiU87yT09rE21wQ43qA65sS87dD09fF.mp3", name: "ZZ Top - Mexican Blackbird" },
+        { url: "https://audio.jukehost.co.uk/xSwE90rT12yU34iO56pL78kM90nB12vC.mp3", name: "ZZ Top - TV Dinners" },
+        { url: "https://audio.jukehost.co.uk/vCxZ76bN98mL10kI32jU54hY76gT98fR.mp3", name: "ZZ Top - Waitin' For The Bus" }
+    ];
+
+    let currentTrackIndex = -1;
+    const player = document.getElementById('audio-player');
+    const display = document.getElementById('now-playing');
+    const container = document.getElementById('list-container');
+
+    // Initialize the list
+    function renderList(list = tracks) {
+        container.innerHTML = '';
+        list.forEach((track, index) => {
+            const div = document.createElement('div');
+            div.className = 'track-item';
+            div.innerHTML = `<span>${track.name}</span>`;
+            div.onclick = () => playTrack(index);
+            container.appendChild(div);
+        });
+    }
+
+    function playTrack(index) {
+        if(index < 0 || index >= tracks.length) return;
+        currentTrackIndex = index;
+        player.src = tracks[index].url;
+        display.innerText = tracks[index].name;
+        player.play();
+        highlightTrack();
+    }
+
+    function highlightTrack() {
+        const items = document.querySelectorAll('.track-item');
+        items.forEach((item, idx) => {
+            item.classList.remove('active');
+            if(idx === currentTrackIndex) item.classList.add('active');
+        });
+    }
+
+    function nextTrack() {
+        let next = currentTrackIndex + 1;
+        if(next >= tracks.length) next = 0;
+        playTrack(next);
+    }
+
+    function prevTrack() {
+        let prev = currentTrackIndex - 1;
+        if(prev < 0) prev = tracks.length - 1;
+        playTrack(prev);
+    }
+
+    function shuffleLibrary() {
+        for (let i = tracks.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
         }
-        window.addEventListener('resize', resize);
-        resize();
+        renderList();
+        playTrack(0);
+    }
 
-        function drawWave() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
-            grad.addColorStop(0, '#ff00cc'); grad.addColorStop(0.3, '#3333ff'); grad.addColorStop(0.6, '#00ffcc'); grad.addColorStop(1, '#ffcc00');
-            ctx.beginPath();
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = isPlaying ? 6 : 2;
-            ctx.lineCap = 'round';
-            for (let i = 0; i < canvas.width; i += 2) {
-                const amp = isPlaying ? 50 : 5;
-                const y = (canvas.height / 2) + Math.sin(i * 0.01 + tick) * amp + Math.sin(i * 0.02 - tick) * (amp/2);
-                if (i === 0) ctx.moveTo(i, y); else ctx.lineTo(i, y);
-            }
-            ctx.stroke();
-            tick += isPlaying ? 0.05 : 0.005;
-            requestAnimationFrame(drawWave);
-        }
-        drawWave();
+    function filterTracks() {
+        const query = document.getElementById('search-bar').value.toLowerCase();
+        const filtered = tracks.filter(t => t.name.toLowerCase().includes(query));
+        container.innerHTML = '';
+        filtered.forEach((track) => {
+            const originalIndex = tracks.findIndex(t => t.url === track.url);
+            const div = document.createElement('div');
+            div.className = 'track-item';
+            div.innerHTML = `<span>${track.name}</span>`;
+            div.onclick = () => playTrack(originalIndex);
+            container.appendChild(div);
+        });
+    }
 
-        // LOGIC
-        function updateDisplay() {
-            trackMeta.innerText = `SIGNAL_STREAM // [0${currentIndex + 1}]`;
-            // This is where you can manually set Artist, Title names if you have them!
-            trackTitle.innerText = `UPLINK_STATION, SIG_TRANSMISSION_${currentIndex + 1}`;
-        }
+    // Auto-play next track
+    player.onended = nextTrack;
 
-        function togglePower() {
-            if (!isPlaying) {
-                audio.src = rawTracks[currentIndex];
-                audio.play();
-                isPlaying = true;
-                powerBtn.innerText = "MASTER_POWER: ON";
-                updateDisplay();
-            } else {
-                audio.pause();
-                isPlaying = false;
-                powerBtn.innerText = "MASTER_POWER: OFF";
-            }
-        }
+    // Load initial list
+    renderList();
+</script>
 
-        function nextTrack() {
-            currentIndex = (currentIndex + 1) % rawTracks.length;
-            if (isPlaying) { audio.src = rawTracks[currentIndex]; audio.play(); updateDisplay(); }
-        }
-
-        function prevTrack() {
-            currentIndex = (currentIndex - 1 + rawTracks.length) % rawTracks.length;
-            if (isPlaying) { audio.src = rawTracks[currentIndex]; audio.play(); updateDisplay(); }
-        }
-
-        function shuffleNow() {
-            currentIndex = Math.floor(Math.random() * rawTracks.length);
-            if (isPlaying) { audio.src = rawTracks[currentIndex]; audio.play(); updateDisplay(); }
-        }
-    </script>
 </body>
 </html>
